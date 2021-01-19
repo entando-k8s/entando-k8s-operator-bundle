@@ -1,0 +1,465 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: ClusterServiceVersion
+metadata:
+  name: entando-operator.v0.3.9
+  namespace: placeholder
+  annotations:
+    alm-examples: >-
+      [{"apiVersion":"entando.org/v1","kind":"EntandoKeycloakServer","metadata":{"name":"my-keycloak","namespace":"my-namespace"},"spec":{"standardImage":"redhat-sso", "dbms":"postgresql","replicas":1,"isDefault":true,"environmentVariables":[]}}]
+    categories: Developer Tools
+    certified: 'false'
+    createdAt: ''
+    description: >-
+      Processes EntandoKeycloakServer, EntandoApp and EntandoPlugin custom
+      resources and deploys the relevant containers in the Kubernetes cluster.
+    containerImage: ''
+    support: ''
+    capabilities: Basic Install
+    repository: ''
+spec:
+  displayName: Entando Operator
+  description: >
+    ## Entando
+
+
+    Entando is a micro frontend platform for Kubernetes that helps enterprises
+    innovate faster with parallel development teams that have end-to-end
+    autonomy across the entire stack.
+
+
+    With native support for Javascript app development, a micro frontend and
+    microservices architecture, deployment of apps in containers that can be
+    individually scaled up and down, and automated management of containers with
+    Kubernetes, we simplify the move for enterprises looking to modernize across
+    on-prem and cloud infrastructures.
+
+    ## About this Operator
+
+    The Entando Operator processes the various custom resource in Kubernetes
+    that represent the different component of an Entando application.
+
+    EntandoKeycloakServers are used to deploy Keycloak, or in certified
+    environments, Red Hat SSO servers that can then be used by subsequent
+    deployments as an OIDC provider,
+
+    EntandoApps are used to deploy the appropriate Wildfly or JBoss EAP
+    containers hosting an Entando App, or potentially also custom containers.
+
+    EntandoPlugins can be used to deploy Entando microservice plugins in the
+    cluster and then link them to one or more EntandoApps.
+
+    ## Prerequisites for enabling this Operator
+
+    ### entando-pull-secret
+
+    The secret to be used to pull Entando images from the Red Hat container
+    registry
+
+    ### entando-ca-cert-secret
+
+    This an opaque secret in the Entando Operator's namespace that contains the
+    certificates of all trusted certificate authorities 
+
+    in your environment. This is generally used mainly for self signed
+    certificates. As is generally the case for opaque
+
+    secrets, there are no constraints on the keys in this secret. However, limit
+    the files to only contain a single
+
+    certificate. Certificate chains are therefore not supported and should
+    ideally be split into single files for each
+
+    certificate. the Entando Operator will load all of these files into a Java
+    keystore that it then configures as the 
+
+    trust store for each container that uses Java.
+
+  maturity: beta
+  version: 0.3.9
+  replaces: ""
+  skips: []
+  minKubeVersion: 1.19.0
+  keywords:
+    - MFE
+  maintainers:
+    - name: support
+      email: dev@entando.com
+    - name: author
+      email: a.barnard@entando.com
+  provider:
+    name: 'Entando, Inc'
+  labels: {}
+  selector:
+    matchLabels: {}
+  links:
+    - name: Documentation
+      url: 'https://dev.entando.org/v6.3/docs/'
+    - name: Support
+      url: 'https://www.entando.com/'
+  icon:
+    - base64data: >-
+        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
+      mediatype: image/png
+  customresourcedefinitions:
+    owned:
+      - name: entandokeycloakservers.entando.org
+        displayName: EntandoKeycloakServer
+        kind: EntandoKeycloakServer
+        version: v1
+        description: Entando Keycloak Server
+        resources:
+          - version: v1
+            kind: Deployment
+          - version: v1
+            kind: Service
+          - version: v1
+            kind: Pod
+          - version: v1
+            kind: Secret
+          - version: v1
+            kind: ConfigMap
+          - version: v1
+            kind: Ingress
+          - version: v1
+            kind: PersistentVolumeClaim
+        specDescriptors: []
+        statusDescriptors: []
+      - name: entandodatabaseservices.entando.org
+        displayName: EntandoDatabaseService
+        kind: EntandoDatabaseService
+        version: v1
+        description: Entando Database Service
+        resources:
+          - version: v1
+            kind: Deployment
+          - version: v1
+            kind: Service
+          - version: v1
+            kind: Pod
+          - version: v1
+            kind: Secret
+          - version: v1
+            kind: PersistentVolumeClaim
+        specDescriptors: []
+        statusDescriptors: []
+    required: []
+  relatedImages:
+    - name: rhel8-mysql-80
+      image: registry.redhat.io/rhel8/mysql-80@sha256:162662b43ebc94e30f9ac66a57b143b192aebd65bb96cf44b1d54dd140563cd6
+    - name: rhel8-postgresql-12
+      image: registry.redhat.io/rhel8/postgresql-12@sha256:c6b6da4f762c2f68bfe558efe954739438ffa2e9aae1c617b50011fb0eed8347
+    - name: entando-redhat-sso
+      image: entando/entando-redhat-sso@sha256:a67ca13039479dbc13cd68380e4e33fa316397df20e96375c9b77e6022bd442e
+    - name: entando-k8s-dbjob
+      image: entando/entando-k8s-dbjob@sha256:660d3af5b44fb3d443b36f58515b880210517fa4e3061925a41c46ea552d61d2
+    - name: entando-k8s-keycloak-controller
+      image: entando/entando-k8s-keycloak-controller@sha256:98070aec165a236ae63330f91aae3c67ac1395f68643b30afd6578eb120b6d73
+  install:
+    strategy: deployment
+    spec:
+      permissions:
+        - serviceAccountName: entando-operator
+          rules:
+            - apiGroups:
+                - entando.org
+              resources:
+                - '*'
+              verbs:
+                - '*'
+            - apiGroups:
+                - ''
+              resources:
+                - secrets
+              verbs:
+                - create
+                - get
+                - delete
+                - update
+            - apiGroups:
+                - ''
+              resources:
+                - pods/exec
+              verbs:
+                - get
+            - apiGroups:
+                - ''
+              resources:
+                - pods
+                - endpoints
+                - services
+                - configmaps
+                - persistentvolumeclaims
+                - serviceaccounts
+              verbs:
+                - create
+                - get
+                - update
+                - delete
+            - apiGroups:
+                - apps
+              resources:
+                - deployments
+              verbs:
+                - '*'
+            - apiGroups:
+                - extensions
+              resources:
+                - ingresses
+                - deployments
+              verbs:
+                - '*'
+            - apiGroups:
+                - route.openshift.io
+              resources:
+                - routes
+                - routes/custom-host
+              verbs:
+                - '*'
+            - apiGroups:
+                - ''
+              resources:
+                - namespaces
+              verbs:
+                - get
+            - apiGroups:
+                - rbac.authorization.k8s.io
+              resources:
+                - roles
+              verbs:
+                - get
+            - apiGroups:
+                - rbac.authorization.k8s.io
+              resources:
+                - rolebindings
+              verbs:
+                - get
+                - create
+      clusterPermissions:
+        - serviceAccountName: entando-operator
+          rules:
+            - apiGroups:
+                - entando.org
+              resources:
+                - '*'
+              verbs:
+                - '*'
+            - apiGroups:
+                - ''
+              resources:
+                - secrets
+              verbs:
+                - create
+            - apiGroups:
+                - ''
+              resources:
+                - pods/exec
+              verbs:
+                - get
+            - apiGroups:
+                - ''
+              resources:
+                - configmaps
+                - endpoints
+                - pods
+                - services
+                - serviceaccounts
+                - persistentvolumeclaims
+              verbs:
+                - '*'
+            - apiGroups:
+                - apps
+              resources:
+                - deployments
+              verbs:
+                - '*'
+            - apiGroups:
+                - 'extensions'
+              resources:
+                - deployments
+                - ingresses
+              verbs:
+                - '*'
+            - apiGroups:
+                - route.openshift.io
+              resources:
+                - routes
+                - routes/custom-host
+              verbs:
+                - '*'
+            - apiGroups:
+                - ''
+              resources:
+                - namespaces
+              verbs:
+                - get
+            - apiGroups:
+                - rbac.authorization.k8s.io
+              resources:
+                - roles
+              verbs:
+                - get
+            - apiGroups:
+                - rbac.authorization.k8s.io
+              resources:
+                - rolebindings
+              verbs:
+                - get
+                - create
+        - serviceAccountName: pod-viewer
+          rules:
+            - apiGroups:
+                - ''
+              resources:
+                - pods
+              verbs:
+                - get
+                - list
+                - watch
+        - serviceAccountName: entando-editor
+          rules:
+            - apiGroups:
+                - entando.org
+              resources:
+                - '*'
+              verbs:
+                - '*'
+      deployments:
+        - name: entando-operator
+          spec:
+            replicas: 1
+            selector:
+              matchLabels:
+                k8s-app: entando-operator
+            template:
+              metadata:
+                labels:
+                  k8s-app: entando-operator
+              spec:
+                volumes:
+                  - name: ca-cert-secret-volume
+                    secret:
+                      secretName: entando-ca-cert-secret
+                containers:
+                  - image: 'entando/entando-k8s-controller-coordinator@sha256:12a5afed4a74884b70a01b27dfb3b7b118c98e19cf9aea83defe10f078323a18'
+                    imagePullPolicy: Always
+                    name: entando-operator
+                    resources:
+                      limits:
+                        cpu: 200m
+                        memory: 100Mi
+                      requests:
+                        cpu: 100m
+                        memory: 50Mi
+                    env:
+                      - name: ENTANDO_NAMESPACES_TO_OBSERVE
+                        valueFrom:
+                          fieldRef:
+                            fieldPath: 'metadata.annotations[''olm.targetNamespaces'']'
+                      - name: POD_NAME
+                        valueFrom:
+                          fieldRef:
+                            fieldPath: metadata.name
+                      - name: ENTANDO_DEFAULT_ROUTING_SUFFIX
+                        valueFrom:
+                          configMapKeyRef:
+                            name: entando-k8s-operator-config
+                            key: default.routing.suffix
+                      - name: ENTANDO_POD_READINESS_TIMEOUT_SECONDS
+                        valueFrom:
+                          configMapKeyRef:
+                            name: entando-k8s-operator-config
+                            key: pod.readiness.timeout.seconds
+                      - name: ENTANDO_POD_COMPLETION_TIMEOUT_SECONDS
+                        valueFrom:
+                          configMapKeyRef:
+                            name: entando-k8s-operator-config
+                            key: pod.completion.timeout.seconds
+                      - name: ENTANDO_POD_SHUTDOWN_TIMEOUT_SECONDS
+                        valueFrom:
+                          configMapKeyRef:
+                            name: entando-k8s-operator-config
+                            key: pod.shutdown.timeout.seconds
+                      - name: ENTANDO_DISABLE_KEYCLOAK_SSL_REQUIREMENT
+                        valueFrom:
+                          configMapKeyRef:
+                            name: entando-k8s-operator-config
+                            key: disable.keycloak.ssl.requirement
+                      - name: ENTANDO_K8S_OPERATOR_FORCE_DB_PASSWORD_RESET
+                        valueFrom:
+                          configMapKeyRef:
+                            name: entando-k8s-operator-config
+                            key: force.db.password.reset
+                      - name: ENTANDO_K8S_OPERATOR_DISABLE_PVC_GARBAGE_COLLECTION
+                        valueFrom:
+                          configMapKeyRef:
+                            name: entando-k8s-operator-config
+                            key: disable.pvc.garbage.collection
+                      - name: ENTANDO_K8S_OPERATOR_IMAGE_PULL_SECRETS
+                        valueFrom:
+                          configMapKeyRef:
+                            name: entando-k8s-operator-config
+                            key: image.pull.secrets
+                      - name: ENTANDO_USE_AUTO_CERT_GENERATION
+                        valueFrom:
+                          configMapKeyRef:
+                            name: entando-k8s-operator-config
+                            key: use.auto.cert.generation
+                      - name: OPERATOR_NAME
+                        value: entando-operator
+                      - name: ENTANDO_PATH_TO_TLS_KEYPAIR
+                        value: /etc/entando/tls
+                      - name: ENTANDO_CA_CERT_ROOT_FOLDER
+                        value: /etc/entando/ca
+                      - name: ENTANDO_K8S_OPERATOR_SECURITY_MODE
+                        value: strict
+                      - name: ENTANDO_K8S_OPERATOR_COMPLIANCE_MODE
+                        value: redhat
+                      - name: ENTANDO_K8S_OPERATOR_SERVICEACCOUNT
+                        valueFrom:
+                          fieldRef:
+                            fieldPath: spec.serviceAccountName
+                      - name: RELATED_IMAGE_RHEL8_MYSQL_80
+                        value: registry.redhat.io/rhel8/mysql-80@sha256:162662b43ebc94e30f9ac66a57b143b192aebd65bb96cf44b1d54dd140563cd6
+                      - name: RELATED_IMAGE_RHEL8_POSTGRESQL_12
+                        value: registry.redhat.io/rhel8/postgresql-12@sha256:c6b6da4f762c2f68bfe558efe954739438ffa2e9aae1c617b50011fb0eed8347
+                      - name: RELATED_IMAGE_ENTANDO_K8S_DBJOB
+                        value: entando/entando-k8s-dbjob@sha256:660d3af5b44fb3d443b36f58515b880210517fa4e3061925a41c46ea552d61d2
+                      - name: RELATED_IMAGE_ENTANDO_K8S_KEYCLOAK_CONTROLLER
+                        value: entando/entando-k8s-keycloak-controller@sha256:98070aec165a236ae63330f91aae3c67ac1395f68643b30afd6578eb120b6d73
+                      - name: RELATED_IMAGE_ENTANDO_REDHAT_SSO
+                        value: entando/entando-redhat-sso@sha256:a67ca13039479dbc13cd68380e4e33fa316397df20e96375c9b77e6022bd442e
+                    volumeMounts:
+                      - name: ca-cert-secret-volume
+                        mountPath: /etc/entando/ca
+                    livenessProbe:
+                      exec:
+                        command:
+                          - cat
+                          - /tmp/EntandoControllerCoordinator.ready
+                      initialDelaySeconds: 60
+                      periodSeconds: 10
+                      successThreshold: 1
+                      timeoutSeconds: 1
+                    readinessProbe:
+                      exec:
+                        command:
+                          - cat
+                          - /tmp/EntandoControllerCoordinator.ready
+                      initialDelaySeconds: 60
+                      periodSeconds: 10
+                      successThreshold: 10
+                      timeoutSeconds: 1
+                    imagePullSecrets:
+                      - name: entando-pull-secret
+                nodeSelector:
+                  beta.kubernetes.io/os: linux
+                serviceAccountName: entando-operator
+  installModes:
+    - type: OwnNamespace
+      supported: true
+    - type: SingleNamespace
+      supported: true
+    - type: MultiNamespace
+      supported: true
+    - type: AllNamespaces
+      supported: true
