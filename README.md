@@ -27,7 +27,7 @@ watch oc get pods -n openshift-marketplace
 ```
 
 3. When the new catalog Pod is ready, go to your Openshift web console's Operator Hub and search for the keyword 'Entando'. 
-The latest available version should be 0.3.14. Click on the 'Install' button. Use the default 'openshift-operators' namespace
+The latest available version should be 0.3.16. Click on the 'Install' button. Use the default 'openshift-operators' namespace
    
 4. Confirm that the Entando Operator pod is up and running:
 ```

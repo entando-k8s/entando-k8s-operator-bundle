@@ -54,6 +54,14 @@ spec:
                     for the Entando Custom Resource created to persist its data.
                   type: string
                   pattern: ^(mysql|oracle|postgresql)$
+                createDeployment:
+                  description: >
+                    When this property is 'true', the Entando Operator will create a Kubernetes Deployment using
+                    the standard Docker image for the DBMS specified. It will also create a Kubernetes Service
+                    to allow other Pods to connect to the resulting database service. When this property is 'false',
+                    the Entando Operator will only create a Kubernetes Service that is then configured to point to
+                    the external database service as specified in the 'host' and 'port' properties.
+                  type: boolean
                 host:
                   description: >
                     When 'spec.createDeployment' is false, this field is required to
@@ -220,8 +228,8 @@ spec:
             status:
               type: object
               properties:
-                replicas:
-                  type: integer
+                observedGeneration:
+                  type: number
                 entandoDeploymentPhase:
                   type: string
                 serverStatuses:
