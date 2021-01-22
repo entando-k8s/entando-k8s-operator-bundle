@@ -1,0 +1,108 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: entandocompositeapps.entando.org
+spec:
+  group: entando.org
+  additionalPrinterColumns:
+    - name: Phase
+      type: string
+      JSONPath: .status.entandoDeploymentPhase
+    - name: Age
+      type: date
+      JSONPath: .metadata.creationTimestamp
+  names:
+    kind: EntandoCompositeApp
+    plural: entandocompositeapps
+    shortNames:
+      - ecapps
+  scope: Namespaced
+  version: v1
+  versions:
+    - name: v1
+      served: true
+      storage: true
+      subresources:
+        status: {}
+      additionalPrinterColumns:
+        - name: Phase
+          type: string
+          jsonPath: .status.entandoDeploymentPhase
+        - name: Observed Generation
+          type: number
+          jsonPath: .status.observedGeneration
+        - name: Age
+          type: date
+          jsonPath: .metadata.creationTimestamp
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                components:
+                  description: >
+                    A list of Entando custom resources that need to be deployed in the sequence specified. Each entry in
+                    this list can either be an inline declaration of an Entando custom resource (e.g. EntandoKeycloakServer,
+                    EntandoApp), or it can be a reference to an Entando custom resource that is created separately.
+
+                    When the Entando custom resource is created separately, it will typically be annotated with annotation value
+                    'entando.org/processing-instruction=defer'. This instructs the Entando Operator not to process
+                    this item when it is updated, but only when the EntandoCompositeApp it is referenced from is updated.
+                    This is useful for scenarios where the first deployment of a set of Entando custom resource manifests
+                    needs to be processed in a specific sequence, but subsequent updates need to be applied individually.
+                    By removing the 'entando.org/processing-instruction' instruction, the deployer will allow the
+                    Entando Operator to process the referenced resources directly.
+                  type: array
+                  items:
+                    type: object
+                    description: >
+
+                    properties:
+                      kind:
+                        description: >
+                          Can be one of EntandoKeycloakServer, EntandoClusterInfrastructure, EntandoApp, EntandoPlugin
+                          EntandoDatabaseService, EntandoAppPluginLink or EntandoCustomResourceReference. This field
+                          is used to determine the structure of the 'spec' object to follow.
+                        type: string
+                      spec:
+                        x-kubernetes-preserve-unknown-fields: true
+                        description: >
+                          For items of kind EntandoKeycloakServer, EntandoClusterInfrastructure, EntandoApp,
+                          EntandoPlugin, EntandoDatabaseService and EntandoAppPluginLink, please refer to the
+                          CRD associated with each of these resource kinds as guidance how to populate the spec.
+                          For the EntandoCustomResourceReference, the structure is as follows:
+                          targetKind:string   The kind of Entando custom resource being referenced
+                          targetNamespace:string  The namespace of the Entando custom resource being referenced
+                          targetName:string The name of the Entando custom resource being referenced
+                        type: object
+                      metadata:
+                        x-kubernetes-preserve-unknown-fields: true
+                        description: >
+                          This is an object containing the standard Kubernetes metadata associated with the Entando
+                          custom resource.
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            description: The name to use for the inline Entando custom resource
+                          namespace:
+                            type: string
+                            description: >
+                              The namespace where  the inline Entando custom resource will be created. If this field
+                              is omitted, the inline Entando custom resource will be created in the same namespace
+                              as this EntandoCompositeApp.
+            status:
+              type: object
+              properties:
+                observedGeneration:
+                  type: number
+                entandoDeploymentPhase:
+                  type: string
+                serverStatuses:
+                  type: object
+                  x-kubernetes-preserve-unknown-fields: true
+  subresources:
+    status: {}
+
