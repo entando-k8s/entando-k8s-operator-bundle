@@ -7,7 +7,7 @@ data:
   pod.readiness.timeout.seconds: "600"
   pod.completion.timeout.seconds: "600"
   pod.shutdown.timeout.seconds: "600"
-  image.pull.secrets: redhat-registry
+  image.pull.secrets: entando-pull-secret
   disable.keycloak.ssl.requirement: "true"
   force.db.password.reset: "false"
   disable.pvc.garbage.collection: "false"

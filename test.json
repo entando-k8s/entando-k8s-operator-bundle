@@ -1,194 +1,97 @@
-[
-  {
-    "apiVersion": "entando.org/v1",
-    "kind": "EntandoDatabaseService",
-    "metadata": {
-      "name": "my-entando-database-service",
-      "namespace": "my-namespace"
-    },
-    "spec": {
-      "dbms": "postgresql",
-      "databaseName": "my_database",
-      "createDeployment": true
-    }
+{
+  "apiVersion": "entando.org/v1",
+  "kind": "EntandoCompositeApp",
+  "metadata": {
+    "name": "my-entando-composite-app",
+    "namespace": "my-namespace"
   },
-  {
-    "apiVersion": "entando.org/v1",
-    "kind": "EntandoKeycloakServer",
-    "metadata": {
-      "name": "my-keycloak",
-      "namespace": "my-namespace"
-    },
-    "spec": {
-      "standardImage": "redhat-sso",
-      "dbms": "postgresql",
-      "replicas": 1,
-      "isDefault": true,
-      "environmentVariables": []
-    }
-  },
-  {
-    "apiVersion": "entando.org/v1",
-    "kind": "EntandoClusterInfrastructure",
-    "metadata": {
-      "name": "my-entando-cluster-infrastructure",
-      "namespace": "my-namespace"
-    },
-    "spec": {
-      "replicas": 1,
-      "isDefault": true,
-      "environmentVariables": []
-    }
-  },
-  {
-    "apiVersion": "entando.org/v1",
-    "kind": "EntandoPlugin",
-    "metadata": {
-      "name": "my-entando-plugin",
-      "namespace": "my-namespace"
-    },
-    "spec": {
-      "dbms": "postgresql",
-      "healthCheckPath": "/management/health",
-      "image": "entando/entando-avatar-plugin:6.0.5",
-      "ingressHostName": "my-plugin.apps-crc.testing",
-      "ingressPath": "/avatarPlugin",
-      "replicas": 1,
-      "roles": [
-        {
-          "code": "admin",
-          "name": "user"
+  "spec": {
+    "components": [
+      {
+        "kind": "EntandoDatabaseService",
+        "metadata": {
+          "name": "inline-entando-database-service"
         },
-        {
-          "code": "user",
-          "name": "user"
+        "spec": {
+          "dbms": "postgresql",
+          "databaseName": "my_database",
+          "createDeployment": true
         }
-      ],
-      "securityLevel": "strict"
-    }
-  },
-  {
-    "apiVersion": "entando.org/v1",
-    "kind": "EntandoApp",
-    "metadata": {
-      "name": "my-app",
-      "namespace": "my-namespace"
-    },
-    "spec": {
-      "dbms": "postgresql",
-      "environmentVariables": [],
-      "ingressHostName": "my-app.apps-crc.testing",
-      "replicas": 1,
-      "standardServerImage": "eap"
-    }
-  },
-  {
-    "apiVersion": "entando.org/v1",
-    "kind": "EntandoAppPluginLink",
-    "metadata": {
-      "name": "my-link",
-      "namespace": "my-namespace"
-    },
-    "spec": {
-      "entandoAppName": "my-app",
-      "entandoPluginName": "my-plugin"
-    }
-  },
-  {
-    "apiVersion": "entando.org/v1",
-    "kind": "EntandoCompositeApp",
-    "metadata": {
-      "name": "my-entando-composite-app",
-      "namespace": "my-namespace"
-    },
-    "spec": {
-      "components": [
-        {
-          "kind": "EntandoDatabaseService",
-          "metadata": {
-            "name": "inline-entando-database-service"
-          },
-          "spec": {
-            "dbms": "postgresql",
-            "databaseName": "my_database",
-            "createDeployment": true
-          }
+      },
+      {
+        "kind": "EntandoKeycloakServer",
+        "metadata": {
+          "name": "inline-keycloak"
         },
-        {
-          "kind": "EntandoKeycloakServer",
-          "metadata": {
-            "name": "inline-keycloak"
-          },
-          "spec": {
-            "standardImage": "redhat-sso",
-            "dbms": "postgresql",
-            "replicas": 1,
-            "isDefault": true,
-            "environmentVariables": []
-          }
-        },
-        {
-          "kind": "EntandoClusterInfrastructure",
-          "metadata": {
-            "name": "inline-entando-cluster-infrastructure"
-          },
-          "spec": {
-            "replicas": 1,
-            "isDefault": true,
-            "environmentVariables": []
-          }
-        },
-        {
-          "apiVersion": "entando.org/v1",
-          "kind": "EntandoApp",
-          "metadata": {
-            "name": "inline-app"
-          },
-          "spec": {
-            "dbms": "postgresql",
-            "environmentVariables": [],
-            "ingressHostName": "my-app.apps-crc.testing",
-            "replicas": 1,
-            "standardServerImage": "eap"
-          }
-        },
-        {
-          "kind": "EntandoPlugin",
-          "metadata": {
-            "name": "inline-entando-plugin"
-          },
-          "spec": {
-            "dbms": "postgresql",
-            "healthCheckPath": "/management/health",
-            "image": "entando/entando-avatar-plugin:6.0.5",
-            "ingressHostName": "my-plugin.apps-crc.testing",
-            "ingressPath": "/avatarPlugin",
-            "replicas": 1,
-            "roles": [
-              {
-                "code": "admin",
-                "name": "admin"
-              },
-              {
-                "code": "user",
-                "name": "user"
-              }
-            ],
-            "securityLevel": "strict"
-          }
-        },
-        {
-          "apiVersion": "entando.org/v1",
-          "kind": "EntandoAppPluginLink",
-          "metadata": {
-            "name": "inline-link"
-          },
-          "spec": {
-            "entandoAppName": "inline-app",
-            "entandoPluginName": "inline-plugin"
-          }
+        "spec": {
+          "ingressHostName": "apps-crc.testing",
+          "standardImage": "redhat-sso",
+          "dbms": "postgresql",
+          "replicas": 1,
+          "environmentVariables": []
         }
-      ]
-    }
+      },
+      {
+        "kind": "EntandoClusterInfrastructure",
+        "metadata": {
+          "name": "inline-entando-cluster-infrastructure"
+        },
+        "spec": {
+          "ingressHostName": "apps-crc.testing",
+          "replicas": 1,
+          "environmentVariables": []
+        }
+      },
+      {
+        "apiVersion": "entando.org/v1",
+        "kind": "EntandoApp",
+        "metadata": {
+          "name": "inline-app"
+        },
+        "spec": {
+          "dbms": "postgresql",
+          "environmentVariables": [],
+          "ingressHostName": "apps-crc.testing",
+          "replicas": 1,
+          "standardServerImage": "eap"
+        }
+      },
+      {
+        "kind": "EntandoPlugin",
+        "metadata": {
+          "name": "inline-plugin"
+        },
+        "spec": {
+          "dbms": "postgresql",
+          "healthCheckPath": "/management/health",
+          "image": "entando/entando-avatar-plugin:6.0.5",
+          "ingressHostName": "apps-crc.testing",
+          "ingressPath": "/avatarPlugin",
+          "replicas": 1,
+          "roles": [
+            {
+              "code": "admin",
+              "name": "admin"
+            },
+            {
+              "code": "user",
+              "name": "user"
+            }
+          ],
+          "securityLevel": "strict"
+        }
+      },
+      {
+        "apiVersion": "entando.org/v1",
+        "kind": "EntandoAppPluginLink",
+        "metadata": {
+          "name": "inline-link"
+        },
+        "spec": {
+          "entandoAppName": "inline-app",
+          "entandoPluginName": "inline-plugin"
+        }
+      }
+    ]
   }
-]
+}
