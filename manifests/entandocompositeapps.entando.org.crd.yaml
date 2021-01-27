@@ -7,10 +7,10 @@ spec:
   additionalPrinterColumns:
     - name: Phase
       type: string
-      JSONPath: .status.entandoDeploymentPhase
+      jsonPath: .status.entandoDeploymentPhase
     - name: Age
       type: date
-      JSONPath: .metadata.creationTimestamp
+      jsonPath: .metadata.creationTimestamp
   names:
     kind: EntandoCompositeApp
     plural: entandocompositeapps
