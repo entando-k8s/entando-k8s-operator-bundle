@@ -1,7 +1,7 @@
 apiVersion: operators.coreos.com/v1alpha1
 kind: ClusterServiceVersion
 metadata:
-  name: entando-operator.v0.3.17
+  name: entando-operator.v0.3.24
   namespace: placeholder
   annotations:
     alm-examples: >-
@@ -12,7 +12,7 @@ metadata:
         {"apiVersion":"entando.org/v1","kind":"EntandoPlugin","metadata":{"name":"my-entando-plugin","namespace":"my-namespace"},"spec": {"dbms": "postgresql","healthCheckPath": "/management/health","image": "entando/entando-avatar-plugin:6.0.5","ingressHostName": "my-plugin.apps-crc.testing","ingressPath": "/avatarPlugin","replicas": 1,"roles": [{"code": "admin","name": "user"},{"code": "user","name": "user"}],"securityLevel": "strict"}},
         {"apiVersion":"entando.org/v1","kind":"EntandoApp","metadata":{"name":"my-app","namespace":"my-namespace"},"spec":{"dbms":"postgresql","environmentVariables":[],"ingressHostName":"my-app.apps-crc.testing","replicas":1,"standardServerImage":"eap"}},
         {"apiVersion":"entando.org/v1","kind":"EntandoAppPluginLink","metadata":{"name":"my-link","namespace":"my-namespace"},"spec":{"entandoAppName":"my-app","entandoPluginName":"my-plugin"}},
-        {"apiVersion":"entando.org/v1","kind":"EntandoCompositeApp","metadata":{"name":"my-entando-composite-app","namespace":"my-namespace"},"spec":{"components":[{"kind":"EntandoDatabaseService","metadata":{"name":"inline-entando-database-service"},"spec":{"dbms":"postgresql","databaseName":"my_database","createDeployment":true}},{"kind":"EntandoKeycloakServer","metadata":{"name":"inline-keycloak"},"spec":{"standardImage":"redhat-sso","dbms":"postgresql","replicas":1,"isDefault":true,"environmentVariables":[]}},{"kind":"EntandoClusterInfrastructure","metadata":{"name":"inline-entando-cluster-infrastructure"},"spec":{"replicas":1,"isDefault":true,"environmentVariables":[]}},{"apiVersion":"entando.org/v1","kind":"EntandoApp","metadata":{"name":"inline-app"},"spec":{"dbms":"postgresql","environmentVariables":[],"ingressHostName":"my-app.apps-crc.testing","replicas":1,"standardServerImage":"eap"}},{"apiVersion":"entando.org/v1","kind":"EntandoAppPluginLink","metadata":{"name":"my-link","namespace":"my-namespace"},"spec":{"entandoAppName":"my-app","entandoPluginName":"my-plugin"}},{"kind":"EntandoPlugin","metadata":{"name":"inline-entando-plugin"},"spec":{"dbms":"postgresql","healthCheckPath":"/management/health","image":"entando/entando-avatar-plugin:6.0.5","ingressHostName":"my-plugin.apps-crc.testing","ingressPath":"/avatarPlugin","replicas":1,"roles":[{"code":"admin","name":"admin"},{"code":"user","name":"user"}],"securityLevel":"strict"}},{"apiVersion":"entando.org/v1","kind":"EntandoAppPluginLink","metadata":{"name":"inline-link"},"spec":{"entandoAppName":"inline-app","entandoPluginName":"inline-plugin"}}]}}
+        {"apiVersion":"entando.org/v1","kind":"EntandoCompositeApp","metadata":{"name":"my-entando-composite-app","namespace":"my-namespace"},"spec":{"components":[{"kind":"EntandoDatabaseService","metadata":{"name":"inline-entando-database-service"},"spec":{"dbms":"postgresql","databaseName":"my_database","createDeployment":true}},{"kind":"EntandoKeycloakServer","metadata":{"name":"inline-keycloak"},"spec":{"standardImage":"redhat-sso","dbms":"postgresql","replicas":1,"isDefault":true,"environmentVariables":[]}},{"kind":"EntandoClusterInfrastructure","metadata":{"name":"inline-entando-cluster-infrastructure"},"spec":{"replicas":1,"isDefault":true,"environmentVariables":[]}},{"apiVersion":"entando.org/v1","kind":"EntandoApp","metadata":{"name":"inline-app"},"spec":{"dbms":"postgresql","environmentVariables":[],"ingressHostName":"my-app.apps-crc.testing","replicas":1,"standardServerImage":"eap"}},{"kind":"EntandoPlugin","metadata":{"name":"inline-plugin"},"spec":{"dbms":"postgresql","healthCheckPath":"/management/health","image":"entando/entando-avatar-plugin:6.0.5","ingressHostName":"my-plugin.apps-crc.testing","ingressPath":"/avatarPlugin","replicas":1,"roles":[{"code":"admin","name":"admin"},{"code":"user","name":"user"}],"securityLevel":"strict"}},{"apiVersion":"entando.org/v1","kind":"EntandoAppPluginLink","metadata":{"name":"inline-link"},"spec":{"entandoAppName":"inline-app","entandoPluginName":"inline-plugin"}}]}}
       ]
     categories: Developer Tools
     certified: 'false'
@@ -83,7 +83,7 @@ spec:
     trust store for each container that uses Java.
 
   maturity: beta
-  version: 0.3.17
+  version: 0.3.24
   replaces: ""
   skips: []
   minKubeVersion: 1.19.0
@@ -269,9 +269,9 @@ spec:
     - name: entando-k8s-service
       image: entando/entando-k8s-service@sha256:f0280ee845571eac1f5b673a67ba757b87e5eac7ca743daab7f3e4f1ac54a1b6
     - name: entando-de-app-eap
-      image: entando/entando-de-app-eap@sha256:8e033592595306d8a21655ffa3432d932df5adc032472e3b61663b91245d7c63?context=repo
+      image: entando/entando-de-app-eap@sha256:8e033592595306d8a21655ffa3432d932df5adc032472e3b61663b91245d7c63
     - name: entando-app-builder
-      image: entando/app-builder@sha256:1c62fb2506c2469f412a547ac42988c8fc58b80cb9a002f84047691c158f9d35?context=repo
+      image: entando/app-builder@sha256:1c62fb2506c2469f412a547ac42988c8fc58b80cb9a002f84047691c158f9d35
     - name: entando-component-manager
       image: entando/entando-component-manager@sha256:dc90604af5f40d53860d15f325175068af002f9749fdd07a5716c8b0232ecc08
     - name: entando-k8s-dbjob
@@ -476,7 +476,7 @@ spec:
                     secret:
                       secretName: entando-ca-cert-secret
                 containers:
-                  - image: 'entando/entando-k8s-controller-coordinator@sha256:89072261ae3e88c7054e10e1808bd706499c805585aa27f54f7f353efcf9c2f6 '
+                  - image: entando/entando-k8s-controller-coordinator@sha256:89072261ae3e88c7054e10e1808bd706499c805585aa27f54f7f353efcf9c2f6
                     imagePullPolicy: Always
                     name: entando-operator
                     resources:
@@ -563,9 +563,9 @@ spec:
                       - name: RELATED_IMAGE_ENTANDO_K8S_SERVICE
                         value: entando/entando-k8s-service@sha256:f0280ee845571eac1f5b673a67ba757b87e5eac7ca743daab7f3e4f1ac54a1b6
                       - name: RELATED_IMAGE_ENTANDO_DE_APP_EAP
-                        value: entando/entando-de-app-eap@sha256:8e033592595306d8a21655ffa3432d932df5adc032472e3b61663b91245d7c63?context=repo
+                        value: entando/entando-de-app-eap@sha256:8e033592595306d8a21655ffa3432d932df5adc032472e3b61663b91245d7c63
                       - name: REALATED_IMAGE_APP_BUILDER
-                        value: entando/app-builder@sha256:1c62fb2506c2469f412a547ac42988c8fc58b80cb9a002f84047691c158f9d35?context=repo
+                        value: entando/app-builder@sha256:1c62fb2506c2469f412a547ac42988c8fc58b80cb9a002f84047691c158f9d35
                       - name: RELATED_IMAGE_ENTANDO_COMPONENT_MANAGER
                         value: entando/entando-component-manager@sha256:dc90604af5f40d53860d15f325175068af002f9749fdd07a5716c8b0232ecc08
                       - name: RELATED_IMAGE_ENTANDO_REDHAT_SSO
