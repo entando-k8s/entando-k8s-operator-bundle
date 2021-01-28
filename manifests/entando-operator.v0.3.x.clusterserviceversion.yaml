@@ -1,7 +1,7 @@
 apiVersion: operators.coreos.com/v1alpha1
 kind: ClusterServiceVersion
 metadata:
-  name: entando-operator.v0.3.32
+  name: entando-operator.v0.3.33
   namespace: placeholder
   annotations:
     alm-examples: >-
@@ -27,8 +27,8 @@ metadata:
 spec:
   displayName: Entando Operator
   maturity: beta
-  version: 0.3.32
-  replaces: entando-operator.v0.3.31
+  version: 0.3.33
+#  replaces: entando-operator.v0.3.31
   skips: []
   description: >
     ## Entando
