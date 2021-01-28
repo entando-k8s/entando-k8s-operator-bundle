@@ -1,7 +1,7 @@
 apiVersion: operators.coreos.com/v1alpha1
 kind: ClusterServiceVersion
 metadata:
-  name: entando-operator.v0.3.31
+  name: entando-operator.v0.3.32
   namespace: placeholder
   annotations:
     alm-examples: >-
@@ -26,6 +26,10 @@ metadata:
     repository: ''
 spec:
   displayName: Entando Operator
+  maturity: beta
+  version: 0.3.32
+  replaces: entando-operator.v0.3.31
+  skips: []
   description: >
     ## Entando
 
@@ -82,10 +86,6 @@ spec:
 
     trust store for each container that uses Java.
 
-  maturity: beta
-  version: 0.3.31
-  replaces: entando-operator.v0.3.30
-  skips: []
   minKubeVersion: 1.19.0
   keywords:
     - MFE
@@ -271,7 +271,7 @@ spec:
     - name: entando-de-app-eap
       image: entando/entando-de-app-eap@sha256:d3e421c39af3c5ef641f7882bd158bc727b689595611c7176afab9231db94871
     - name: entando-app-builder
-      image: entando/app-builder@sha256:2cb0b5677ec02ac788591f6afb8e3fcb8d6e25331453373318e38feb29924005
+      image: entando/app-builder@sha256:bf650ceb0136daaa1a58c3862d1dae93db59cd00a651ede2a1680dc89aaf31c0?
     - name: entando-component-manager
       image: entando/entando-component-manager@sha256:8eacc548248494d71b5bc801b92a993f398196f0cf584891718b8d56ea811691
     - name: entando-k8s-dbjob
@@ -567,7 +567,7 @@ spec:
                       - name: RELATED_IMAGE_ENTANDO_DE_APP_EAP
                         value: entando/entando-de-app-eap@sha256:d3e421c39af3c5ef641f7882bd158bc727b689595611c7176afab9231db94871
                       - name: REALATED_IMAGE_APP_BUILDER
-                        value: entando/app-builder@sha256:2cb0b5677ec02ac788591f6afb8e3fcb8d6e25331453373318e38feb29924005
+                        value: entando/app-builder@sha256:bf650ceb0136daaa1a58c3862d1dae93db59cd00a651ede2a1680dc89aaf31c0?
                       - name: RELATED_IMAGE_ENTANDO_COMPONENT_MANAGER
                         value: entando/entando-component-manager@sha256:8eacc548248494d71b5bc801b92a993f398196f0cf584891718b8d56ea811691
                       - name: RELATED_IMAGE_ENTANDO_REDHAT_SSO

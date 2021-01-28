@@ -24,7 +24,7 @@
           "name": "inline-keycloak"
         },
         "spec": {
-          "ingressHostName": "apps-crc.testing",
+          "ingressHostName": "entando.apps-crc.testing",
           "standardImage": "redhat-sso",
           "dbms": "postgresql",
           "replicas": 1,
@@ -37,7 +37,7 @@
           "name": "inline-entando-cluster-infrastructure"
         },
         "spec": {
-          "ingressHostName": "apps-crc.testing",
+          "ingressHostName": "entando.apps-crc.testing",
           "replicas": 1,
           "environmentVariables": []
         }
@@ -51,7 +51,7 @@
         "spec": {
           "dbms": "postgresql",
           "environmentVariables": [],
-          "ingressHostName": "apps-crc.testing",
+          "ingressHostName": "entando.apps-crc.testing",
           "replicas": 1,
           "standardServerImage": "eap"
         }
@@ -65,7 +65,7 @@
           "dbms": "postgresql",
           "healthCheckPath": "/management/health",
           "image": "entando/entando-avatar-plugin:6.0.5",
-          "ingressHostName": "apps-crc.testing",
+          "ingressHostName": "entando.apps-crc.testing",
           "ingressPath": "/avatarPlugin",
           "replicas": 1,
           "roles": [
