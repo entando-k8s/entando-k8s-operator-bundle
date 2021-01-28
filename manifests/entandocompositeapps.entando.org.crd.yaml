@@ -41,6 +41,31 @@ spec:
             spec:
               type: object
               properties:
+                dbmsOverride:
+                  description: >
+                    The database management system (DBMS) to use for persistence for every component deployed in
+                    this EntandoCompositeApp. Can be any of mysql, oracle, postgresql or embedded. Each component
+                    deployed in the EntandoCompositeApp will be evaluated and if it supports the standard 'spec.dbms'
+                    property, the value of this property will be given to the component's 'spec.dbms'. Please consult
+                    the documentation for each component's CRD to determine the exact semantics of this value.
+                  type: string
+                  pattern: '^(mysql|oracle|postgresql|embedded|none)$'
+                ingressHostNameOverride:
+                  description: >
+                    The hostname that will be used to access every component deployed in this EntandoCompositeApp.
+                    This is intended for scenarios where all the components need to be accessed from the same hostname,
+                    such as when installing Kubernetes or Openshift locally on a laptop or desktop.Please consult
+                    the documentation for each component's CRD for more information on the exact semantics of this value.
+                  type: string
+                  pattern: '^([A-Za-z0-9-]{1,63}\.)*[[A-Za-z0-9-]{1,63}$'
+                tlsSecretNameOverride:
+                  description: >
+                    The name of a Kubernetes TLS Secret that will be used to enable TLS on the the hostname specified
+                    in the property spec.ingressHostnameOverride. This TLS Secret  will be used for TLS on
+                    every component deployed in this EntandoCompositeApp.Please consult
+                    the documentation for each component's CRD for more information on the exact semantics of this value.
+                  type: string
+                  pattern: '^([A-Za-z0-9-]{1,63}\.)*[[A-Za-z0-9-]{1,63}$'
                 components:
                   description: >
                     A list of Entando custom resources that need to be deployed in the sequence specified. Each entry in
@@ -58,7 +83,6 @@ spec:
                   items:
                     type: object
                     description: >
-
                     properties:
                       kind:
                         description: >
