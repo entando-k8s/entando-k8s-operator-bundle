@@ -1,11 +1,12 @@
 apiVersion: operators.coreos.com/v1alpha1
 kind: ClusterServiceVersion
 metadata:
-  name: entando-operator.v0.3.33
+  name: entando-operator.v0.3.34
   namespace: placeholder
   annotations:
     alm-examples: >-
       [
+        {"apiVersion":"entando.org/v1","kind":"EntandoDeBundle","metadata":{"name":"my-bundle","namespace":"my-namespace"},"spec":{"details":{"name":"my-bundle"}}},
         {"apiVersion":"entando.org/v1","kind":"EntandoDatabaseService","metadata":{"name":"my-entando-database-service","namespace":"my-namespace"},"spec":{"dbms":"postgresql","databaseName":"my_database","createDeployment":true}},
         {"apiVersion":"entando.org/v1","kind":"EntandoKeycloakServer","metadata":{"name":"my-keycloak","namespace":"my-namespace"},"spec":{"standardImage":"redhat-sso", "dbms":"postgresql","replicas":1,"environmentVariables":[]}},
         {"apiVersion":"entando.org/v1","kind":"EntandoClusterInfrastructure","metadata":{"name":"my-entando-cluster-infrastructure","namespace":"my-namespace"},"spec":{"replicas":1,"environmentVariables":[]}},
@@ -27,7 +28,7 @@ metadata:
 spec:
   displayName: Entando Operator
   maturity: beta
-  version: 0.3.33
+  version: 0.3.34
 #  replaces: entando-operator.v0.3.31
   skips: []
   description: >
@@ -271,7 +272,7 @@ spec:
     - name: entando-de-app-eap
       image: entando/entando-de-app-eap@sha256:d3e421c39af3c5ef641f7882bd158bc727b689595611c7176afab9231db94871
     - name: entando-app-builder
-      image: entando/app-builder@sha256:bf650ceb0136daaa1a58c3862d1dae93db59cd00a651ede2a1680dc89aaf31c0?
+      image: entando/app-builder@sha256:189275378d47763e739f46a1b0feed61934f0fc97ab251236389b04db1b9971d
     - name: entando-component-manager
       image: entando/entando-component-manager@sha256:8eacc548248494d71b5bc801b92a993f398196f0cf584891718b8d56ea811691
     - name: entando-k8s-dbjob
@@ -558,36 +559,6 @@ spec:
                         valueFrom:
                           fieldRef:
                             fieldPath: spec.serviceAccountName
-                      - name: RELATED_IMAGE_RHEL8_MYSQL_80
-                        value: registry.redhat.io/rhel8/mysql-80@sha256:162662b43ebc94e30f9ac66a57b143b192aebd65bb96cf44b1d54dd140563cd6
-                      - name: RELATED_IMAGE_RHEL8_POSTGRESQL_12
-                        value: registry.redhat.io/rhel8/postgresql-12@sha256:c6b6da4f762c2f68bfe558efe954739438ffa2e9aae1c617b50011fb0eed8347
-                      - name: RELATED_IMAGE_ENTANDO_K8S_SERVICE
-                        value: entando/entando-k8s-service@sha256:318de20c2d04108261d86074aec3c8b38b32f588b007d5a56942efb40592f442
-                      - name: RELATED_IMAGE_ENTANDO_DE_APP_EAP
-                        value: entando/entando-de-app-eap@sha256:d3e421c39af3c5ef641f7882bd158bc727b689595611c7176afab9231db94871
-                      - name: REALATED_IMAGE_APP_BUILDER
-                        value: entando/app-builder@sha256:bf650ceb0136daaa1a58c3862d1dae93db59cd00a651ede2a1680dc89aaf31c0?
-                      - name: RELATED_IMAGE_ENTANDO_COMPONENT_MANAGER
-                        value: entando/entando-component-manager@sha256:8eacc548248494d71b5bc801b92a993f398196f0cf584891718b8d56ea811691
-                      - name: RELATED_IMAGE_ENTANDO_REDHAT_SSO
-                        value: entando/entando-redhat-sso@sha256:a67ca13039479dbc13cd68380e4e33fa316397df20e96375c9b77e6022bd442e
-                      - name: RELATED_IMAGE_ENTANDO_K8S_DBJOB
-                        value: entando/entando-k8s-dbjob@sha256:c272afb5fe137729466aec6b275f681af47f2ba6f29070ed3e647eb06f8932e4
-                      - name: RELATED_IMAGE_ENTANDO_K8S_KEYCLOAK_CONTROLLER
-                        value: entando/entando-k8s-keycloak-controller@sha256:d96d50d9e7abb84b3f4b1e8c007553a7d7abd17ef1d7d78b5c939da57d537100
-                      - name: RELATED_IMAGE_ENTANDO_K8S_PLUGIN_CONTROLLER
-                        value: entando/entando-k8s-plugin-controller@sha256:56261256b117efe755e1088b14ee157d491daa84acf060597aef27859027d648
-                      - name: RELATED_IMAGE_ENTANDO_K8S_CLUSTER_INFRASTRUCTURE_CONTROLLER
-                        value: entando/entando-k8s-cluster-infrastructure-controller@sha256:e35a40e92d8d50350fec3266f1b397a6aa020087530baaa4c907d9f9fd7d5169
-                      - name: RELATED_IMAGE_ENTANDO_K8S_COMPOSITE_APP_CONTROLLER
-                        value: entando/entando-k8s-composite-app-controller@sha256:032765d99134a10f0b190d847ae5fed57c536cb2165f3a1af7f0349c9822876e
-                      - name: RELATED_IMAGE_ENTANDO_K8S_DATABASE_SERVICE_CONTROLLER
-                        value: entando/entando-k8s-database-service-controller@sha256:0071f62590067e2ec8e11002b1b5ff3b1decfc1293a6305ca35241b1c5c489b9
-                      - name: RELATED_IMAGE_ENTANDO_K8S_APP_CONTROLLER
-                        value:  entando/entando-k8s-app-controller@sha256:f5cb61d046ace2d25baa100f0a0f19ef3a980f7f67202478da091547f4848618
-                      - name: RELATED_IMAGE_ENTANDO_K8S_APP_PLUGIN_LINK_CONTROLLER
-                        value:  entando/entando-k8s-app-plugin-link-controller@sha256:e7614d9d7b84620531ff21f34fdc77751b450023b801035ccd91c19911071f5b
                     volumeMounts:
                       - name: ca-cert-secret-volume
                         mountPath: /etc/entando/ca
