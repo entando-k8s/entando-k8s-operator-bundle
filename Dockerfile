@@ -14,7 +14,7 @@ LABEL operators.operatorframework.io.test.mediatype.v1=scorecard+v1
 #Add these labels
 LABEL com.redhat.openshift.versions="v4.6"
 LABEL com.redhat.delivery.operator.bundle=true
-LABEL com.redhat.delivery.backport=true
+LABEL com.redhat.delivery.backport=false
 
 COPY manifests /manifests/
 COPY metadata /metadata/
