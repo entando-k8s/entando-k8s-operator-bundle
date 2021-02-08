@@ -6,6 +6,7 @@ metadata:
   annotations:
     alm-examples: >-
       [
+        {"apiVersion":"entando.org/v1","kind":"EntandoDeBundle","metadata":{"name":"my-bundle","namespace":"my-namespace"},"spec":{"details":{"name":"my-bundle"}}},
         {"apiVersion":"entando.org/v1","kind":"EntandoDatabaseService","metadata":{"name":"my-entando-database-service","namespace":"my-namespace"},"spec":{"dbms":"postgresql","databaseName":"my_database","createDeployment":true}},
         {"apiVersion":"entando.org/v1","kind":"EntandoKeycloakServer","metadata":{"name":"my-keycloak","namespace":"my-namespace"},"spec":{"standardImage":"redhat-sso", "dbms":"postgresql","replicas":1,"environmentVariables":[]}},
         {"apiVersion":"entando.org/v1","kind":"EntandoClusterInfrastructure","metadata":{"name":"my-entando-cluster-infrastructure","namespace":"my-namespace"},"spec":{"replicas":1,"environmentVariables":[]}},
