@@ -1,7 +1,7 @@
 apiVersion: operators.coreos.com/v1alpha1
 kind: ClusterServiceVersion
 metadata:
-  name: entando-operator.v0.3.44
+  name: entando-k8s-operator.v0.3.46
   namespace: placeholder
   annotations:
     alm-examples: >-
@@ -28,8 +28,8 @@ metadata:
 spec:
   displayName: Entando Operator
   maturity: beta
-  version: 0.3.44
-  replaces: entando-operator.v0.3.43
+  version: 0.3.46
+#  replaces: entando-k8s-operator.v0.3.45
   skips: [ ]
   description: >
     ## Entando
@@ -515,16 +515,16 @@ spec:
                     secret:
                       secretName: entando-ca-cert-secret
                 containers:
-                  - image: entando/entando-k8s-controller-coordinator@sha256:5b090396e3b05e17988e862932bd8d977dd39f291eba27c7bc0c6695927ce167
-                    imagePullPolicy: Always
+                  - image: entando/entando-k8s-controller-coordinator@sha256:b3303c38c02c15d0e23c77f74d03211b9bf21b21c117991307a8beabbe47674c
+                    imagePullPolicy: IfNotPresent
                     name: entando-operator
                     resources:
                       limits:
-                        cpu: 200m
-                        memory: 100Mi
+                        cpu: 1000m
+                        memory: 1024Mi
                       requests:
-                        cpu: 100m
-                        memory: 50Mi
+                        cpu: 250m
+                        memory: 128Mi
                     env:
                       - name: ENTANDO_NAMESPACES_TO_OBSERVE
                         valueFrom:
@@ -580,9 +580,9 @@ spec:
                             name: entando-k8s-operator-config
                             key: use.auto.cert.generation
                       - name: ENTANDO_K8S_OPERATOR_VERSION
-                        value: 0.3.44
+                        value: 0.3.46
                       - name: ENTANDO_K8S_OPERATOR_VERSION_TO_REPLACE
-                        value: 0.3.43
+                        value: 0.3.45
                       - name: ENTANDO_K8S_OPERATOR_DEPLOYMENT_TYPE
                         value: olm
                       - name: OPERATOR_NAME
@@ -632,23 +632,22 @@ spec:
                     volumeMounts:
                       - name: ca-cert-secret-volume
                         mountPath: /etc/entando/ca
+                    startupProbe:
+                      exec:
+                        command:
+                          - cat
+                          - /tmp/EntandoControllerCoordinator.ready
+                      periodSeconds: 3
+                      failureThreshold: 50
+                      successThreshold: 1
+                      timeoutSeconds: 1
                     livenessProbe:
                       exec:
                         command:
                           - cat
                           - /tmp/EntandoControllerCoordinator.ready
-                      initialDelaySeconds: 60
-                      periodSeconds: 10
-                      successThreshold: 1
-                      timeoutSeconds: 1
-                    readinessProbe:
-                      exec:
-                        command:
-                          - cat
-                          - /tmp/EntandoControllerCoordinator.ready
-                      initialDelaySeconds: 60
-                      periodSeconds: 10
-                      successThreshold: 10
+                      periodSeconds: 5
+                      failureThreshold: 1
                       timeoutSeconds: 1
                 nodeSelector:
                   beta.kubernetes.io/os: linux

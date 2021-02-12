@@ -1,6 +1,6 @@
-export MY_VERSION=$(yq eval '.spec.version' manifests/entando-operator.v0.3.x.clusterserviceversion.yaml)
+export MY_VERSION=$(yq eval '.spec.version' manifests/entando-k8s-operator.v0.3.x.clusterserviceversion.yaml)
 echo $MY_VERSION
-export PREVIOUS_VERSIONS=("0.3.40" "0.3.42" "0.3.43")
+export PREVIOUS_VERSIONS=()
 for V in ${PREVIOUS_VERSIONS[@]}; do
   BUNDLES="${BUNDLES}docker.io/ampie/entando-k8s-operator-bundle:${V},"
 done
