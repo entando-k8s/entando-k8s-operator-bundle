@@ -6,6 +6,8 @@
     "namespace": "my-namespace"
   },
   "spec": {
+    "dbmsOverride": "postgresql",
+    "ingressHostNameOverride": "entando.apps-crc.testing",
     "components": [
       {
         "kind": "EntandoDatabaseService",
@@ -13,8 +15,6 @@
           "name": "inline-entando-database-service"
         },
         "spec": {
-          "dbms": "postgresql",
-          "databaseName": "my_database",
           "createDeployment": true
         }
       },
@@ -24,11 +24,7 @@
           "name": "inline-keycloak"
         },
         "spec": {
-          "ingressHostName": "entando.apps-crc.testing",
-          "standardImage": "redhat-sso",
-          "dbms": "postgresql",
-          "replicas": 1,
-          "environmentVariables": []
+          "standardImage": "redhat-sso"
         }
       },
       {
@@ -36,23 +32,14 @@
         "metadata": {
           "name": "inline-entando-cluster-infrastructure"
         },
-        "spec": {
-          "ingressHostName": "entando.apps-crc.testing",
-          "replicas": 1,
-          "environmentVariables": []
-        }
+        "spec": {}
       },
       {
-        "apiVersion": "entando.org/v1",
         "kind": "EntandoApp",
         "metadata": {
           "name": "inline-app"
         },
         "spec": {
-          "dbms": "postgresql",
-          "environmentVariables": [],
-          "ingressHostName": "entando.apps-crc.testing",
-          "replicas": 1,
           "standardServerImage": "eap"
         }
       },
@@ -62,12 +49,9 @@
           "name": "inline-plugin"
         },
         "spec": {
-          "dbms": "postgresql",
           "healthCheckPath": "/management/health",
           "image": "entando/entando-avatar-plugin:6.0.5",
-          "ingressHostName": "entando.apps-crc.testing",
           "ingressPath": "/avatarPlugin",
-          "replicas": 1,
           "roles": [
             {
               "code": "admin",
@@ -77,12 +61,10 @@
               "code": "user",
               "name": "user"
             }
-          ],
-          "securityLevel": "strict"
+          ]
         }
       },
       {
-        "apiVersion": "entando.org/v1",
         "kind": "EntandoAppPluginLink",
         "metadata": {
           "name": "inline-link"
