@@ -1,7 +1,7 @@
 apiVersion: operators.coreos.com/v1alpha1
 kind: ClusterServiceVersion
 metadata:
-  name: entando-k8s-operator.v0.3.46
+  name: entando-k8s-operator.v0.3.49
   namespace: placeholder
   annotations:
     alm-examples: >-
@@ -28,8 +28,8 @@ metadata:
 spec:
   displayName: Entando Operator
   maturity: beta
-  version: 0.3.46
-#  replaces: entando-k8s-operator.v0.3.45
+  version: 0.3.49
+  replaces: entando-k8s-operator.v0.3.48
   skips: [ ]
   description: >
     ## Entando
@@ -294,7 +294,7 @@ spec:
     - name: entando-de-app-eap #6.3.30
       image: docker.io/entando/entando-de-app-eap@sha256:14a786ea3e8a12e060ed6f231b1a591a219a2a08feb3d11f26ee17dccb256f04
     - name: entando-k8s-app-controller #6.3.1
-      image: docker.io/entando/entando-k8s-app-controller@sha256:c6351fadeaaafc2dc052a706555d06a771bd2d759519036f7b4802aa49fe608a
+      image: docker.io/entando/entando-k8s-app-controller@sha256:40fecb462867ed3a783d16e60870ca2645345bb4edfb0705034c974f5fc0beab
     - name: entando-k8s-app-plugin-link-controller #6.3.1
       image: docker.io/entando/entando-k8s-app-plugin-link-controller@sha256:426fdabaf5ed8aebd83b53595a4aa3bd53d97b53a7b7344d7e770e3207869f81
     - name: entando-k8s-cluster-infrastructure-controller #6.3.0
@@ -580,9 +580,9 @@ spec:
                             name: entando-k8s-operator-config
                             key: use.auto.cert.generation
                       - name: ENTANDO_K8S_OPERATOR_VERSION
-                        value: 0.3.46
+                        value: 0.3.49
                       - name: ENTANDO_K8S_OPERATOR_VERSION_TO_REPLACE
-                        value: 0.3.45
+                        value: 0.3.48
                       - name: ENTANDO_K8S_OPERATOR_DEPLOYMENT_TYPE
                         value: olm
                       - name: OPERATOR_NAME
@@ -610,7 +610,7 @@ spec:
                       - name: RELATED_IMAGE_ENTANDO_DE_APP_EAP #6.3.30
                         value: docker.io/entando/entando-de-app-eap@sha256:14a786ea3e8a12e060ed6f231b1a591a219a2a08feb3d11f26ee17dccb256f04
                       - name: RELATED_IMAGE_ENTANDO_K8S_APP_CONTROLLER #6.3.1
-                        value: docker.io/entando/entando-k8s-app-controller@sha256:c6351fadeaaafc2dc052a706555d06a771bd2d759519036f7b4802aa49fe608a
+                        value: docker.io/entando/entando-k8s-app-controller@sha256:40fecb462867ed3a783d16e60870ca2645345bb4edfb0705034c974f5fc0beab
                       - name: RELATED_IMAGE_ENTANDO_K8S_APP_PLUGIN_LINK_CONTROLLER #6.3.1
                         value: docker.io/entando/entando-k8s-app-plugin-link-controller@sha256:426fdabaf5ed8aebd83b53595a4aa3bd53d97b53a7b7344d7e770e3207869f81
                       - name: RELATED_IMAGE_ENTANDO_K8S_CLUSTER_INFRASTRUCTURE_CONTROLLER #6.3.0

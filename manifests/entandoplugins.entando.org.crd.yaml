@@ -4,7 +4,6 @@ metadata:
   name: entandoplugins.entando.org
 spec:
   group: entando.org
-  version: v1
   versions:
     - name: v1
       served: true
@@ -340,5 +339,3 @@ spec:
     shortNames:
       - eps
   scope: Namespaced
-  subresources:
-    status: {}

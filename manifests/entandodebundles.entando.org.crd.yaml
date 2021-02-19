@@ -4,7 +4,6 @@ metadata:
   name: entandodebundles.entando.org
 spec:
   group: entando.org
-  version: v1
   scope: Namespaced
   names:
     kind: EntandoDeBundle
@@ -66,5 +65,3 @@ spec:
                 serverStatuses:
                   type: object
                   x-kubernetes-preserve-unknown-fields: true
-  subresources:
-    status: {}
