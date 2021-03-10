@@ -1,7 +1,7 @@
 apiVersion: operators.coreos.com/v1alpha1
 kind: ClusterServiceVersion
 metadata:
-  name: entando-k8s-operator.v0.3.49
+  name: entando-k8s-operator.v0.3.60
   namespace: placeholder
   annotations:
     alm-examples: >-
@@ -28,8 +28,8 @@ metadata:
 spec:
   displayName: Entando Operator
   maturity: beta
-  version: 0.3.49
-#  replaces: entando-operator.v0.3.31
+  version: 0.3.60
+#  replaces: entando-k8s-operator.v0.3.56
   skips: []
   description: >
     ## Entando
@@ -63,28 +63,52 @@ spec:
 
     ## Prerequisites for enabling this Operator
 
+    This Operator can be deployed and will function using default settings without any prerequisite configuration. However,
+    once deployed, the Entando Operator's configuration can be further customized by providing the following configmap and
+    a secrets
+
+    ### ConfigMap: entando-operator-config
+
+    The 'entando-operator-config' ConfigMap can be added after deployment and any changes to it will be picked
+    up by the operator on subsequent event processing. It supports the following keys:
+
+        entando.k8s.operator.gc.controller.pods: set this to "false" to keep controller pods after completion.
+        entando.k8s.operator.compliance.mode: set this to "community" if there is no requirement for Red Hat compliance
+        entando.k8s.operator.image.pull.secrets: a comma separated list containing the names of pull secrets that will be linked to all service accounts
+        entando.k8s.operator.disable.pvc.garbage.collection: set this to "false" if you want PVCs to be deleted with the custom resources they are associated with
+        entando.k8s.operator.impose.default.limits: set this to "false" if there is no need to limit the resource consumption of pods on your cluster
+        entando.k8s.operator.request.to.limit.ratio: a decimal number that default limits will be multiplied by to calculate default requests for resources
+        entando.k8s.operator.force.db.password.reset: set this to "true" if you plan to delete Secrets from your namespace but you want to retain the Database they point to
+        entando.k8s.operator.pull.policy.override: specify your preferred pullPolicy for images. The default is Always.
+        entando.tls.secret.name: The name of a standard TLS secret to use for HTTPS Ingresses. See the section entando-tls-secret
+        entando.ca.secret.name: The name of a secret containing CA certificates. See the section entando-ca-cert-secret
+        entando.assume.external.https.provider: Set this to "true" if your cloud provider handles HTTPS for you
+        entando.use.auto.cert.generation: Set this to "true" if you would prefer Openshift using its internal CA to generate certificates for your Routes
+        entando.default.routing.suffix: A domain name that can be suffixed to deployment names where the ingressHostName is omitted. Needs to be preconfigured on your DNS provider.
+        entando.pod.completion.timeout.seconds: The time it will take before Entando fails a run-to-completion Pod
+        entando.pod.readiness.timeout.seconds: The it will take before Entando fails a Service Pod
+        entando.pod.shutdown.timeout.seconds: The time Entando will give a Pod to shutdown gracefully.
+
+
     ### entando-pull-secret
 
     The secret to be used to pull Entando images from the Red Hat container
-    registry
+    registry. The name of this secret is hard coded as it is required for the ClusterServiceVersion of this Operator
+
+    ### entando-tls-secret
+
+    A standard Kubernetes TLS secret that will be used on all deployments where no custom TLS secret name is specified.
 
     ### entando-ca-cert-secret
 
     This an opaque secret in the Entando Operator's namespace that contains the
-    certificates of all trusted certificate authorities 
-
+    certificates of all trusted certificate authorities
     in your environment. This is generally used mainly for self signed
     certificates. As is generally the case for opaque
-
     secrets, there are no constraints on the keys in this secret. However, limit
-    the files to only contain a single
-
-    certificate. Certificate chains are therefore not supported and should
-    ideally be split into single files for each
-
-    certificate. the Entando Operator will load all of these files into a Java
-    keystore that it then configures as the 
-
+    the files inside the secret should contain X509 certificates or certificate chains.
+    The Entando Operator will load all of these files into a Java
+    keystore that it then configures as the
     trust store for each container that uses Java.
 
   minKubeVersion: 1.19.0
@@ -243,7 +267,12 @@ spec:
         displayName: EntandoApp
         kind: EntandoApp
         version: v1
-        description: Entando App
+        description: >-
+          An Entando App deploys the typical components required to host a typical Entando App. The core server side
+          components that are deployed include the Entando Engine, the Portal, and the Entando CMS components. These
+          are accessed through the Entando App Builder browser application. The Entando Component Manager is the third
+          component deployed for an Entando App and it enables the basic integration between the Entando App Engine
+          and the Entando Kubernetes Infrastructure.
         resources:
           - version: v1
             kind: Deployment
@@ -287,22 +316,32 @@ spec:
       image: registry.redhat.io/rhel8/mysql-80@sha256:162662b43ebc94e30f9ac66a57b143b192aebd65bb96cf44b1d54dd140563cd6
     - name: rhel8-postgresql-12
       image: registry.redhat.io/rhel8/postgresql-12@sha256:c6b6da4f762c2f68bfe558efe954739438ffa2e9aae1c617b50011fb0eed8347
-    - name: app-builder #6.3.20
-      image: docker.io/entando/app-builder@sha256:08a0a9846c0f0e08cc58edc0a0c05f43eac3c2b7e39bffff02e3f61ef99a0cc4
-    - name: entando-component-manager #6.3.2
-      image: docker.io/entando/entando-component-manager@sha256:b9c2e075b95254bde5a4dfbcf21ddbd48a711b85ce8c1c12fe329cbc4b1de756
-    - name: entando-de-app-eap #6.3.42
-      image: docker.io/entando/entando-de-app-eap@sha256:975348597b575636a2e111dea403e0226dd9fed6ba5ce52466c6755a63244062
-    - name: entando-k8s-app-controller #6.3.2
-      image: docker.io/entando/entando-k8s-app-controller@sha256:af00db3483e69aa26620fbe49055ab926191b5163c576b06fdbb859e493d15d5
-    - name: entando-k8s-app-plugin-link-controller #6.3.2
-      image: docker.io/entando/entando-k8s-app-plugin-link-controller@sha256:678f8bdd2f7c91eab779bd701e04ab72b590bdc601ad71f74c7b4d0e17db9873
-    - name: entando-k8s-cluster-infrastructure-controller #6.3.0
-      image: docker.io/entando/entando-k8s-cluster-infrastructure-controller@sha256:3b118f0e0b31b9922fe45bff32643f7097f659559d622ae7baa5e9fd506685e4
-    - name: entando-k8s-composite-app-controller #6.3.2
-      image: docker.io/entando/entando-k8s-composite-app-controller@sha256:e28e49cb9b92c17b45013924b63df84891e2f6aee3b1b7bc78979d9e3c666ea1
-    - name: entando-k8s-controller-coordinator #6.3.1
-      image: docker.io/entando/entando-k8s-controller-coordinator@sha256:b3303c38c02c15d0e23c77f74d03211b9bf21b21c117991307a8beabbe47674c
+    - name: app-builder #6.3.44
+      image: docker.io/entando/app-builder@sha256:55228066b17dc2bbef6c20651ed6f0b61755407da61be8655c536953c4b7e43e
+    - name: entando-component-manager #6.3.8
+      image: docker.io/entando/entando-component-manager@sha256:5bca03eefa1eea5e1c8af9831981c2b9338e8c316684b3f029d87fa18e833411
+    - name: entando-de-app-eap #6.3.50
+      image: docker.io/entando/entando-de-app-eap@sha256:50257d3c1a0ed4da53f6c77acccb8cb8d1b15ecb3de8a40609443016d1e0f9d9
+    - name: entando-k8s-app-controller #6.3.5
+      image: docker.io/entando/entando-k8s-app-controller@sha256:2360de53d9a8e3ddbf2cf4e9ba386576570b532a439d5f34a56bf226bdf8c678
+    - name: entando-k8s-app-plugin-link-controller #6.3.3
+      image: docker.io/entando/entando-k8s-app-plugin-link-controller@sha256:7412f114e653479b27499cc2d1c366745e5d307e09d637f7967a67ab769654b7
+    - name: entando-k8s-cluster-infrastructure-controller #6.3.2
+      image: docker.io/entando/entando-k8s-cluster-infrastructure-controller@sha256:8a109e31ab0f1e42dd4ab2f3239d2ef87d6964d5529f35cd03379574bc3cf967
+    - name: entando-k8s-composite-app-controller #6.3.3
+      image: docker.io/entando/entando-k8s-composite-app-controller@sha256:5393e8d039631401a0138f748edcdc2fe95a8a1cd7fd23d845f4561692780d15
+    - name: entando-k8s-database-service-controller #6.3.7
+      image: docker.io/entando/entando-k8s-database-service-controller@sha256:061cd86df694e2475c19d408e25da66c6feb26a1876e41030ab5c6d6ae9b558e
+    - name: entando-k8s-dbjob #6.3.1
+      image: docker.io/entando/entando-k8s-dbjob@sha256:a953072b663edeb3081c6f1a720079bdad2bdcc65e8ecca215363b3b2cd0e2f3
+    - name: entando-k8s-keycloak-controller #6.3.4
+      image: docker.io/entando/entando-k8s-keycloak-controller@sha256:58fc8bda7b68fc4e6311598739ec5b9b0271ef106d2e9bb116d19df4507b16b0
+    - name: entando-k8s-plugin-controller #6.3.3
+      image: docker.io/entando/entando-k8s-plugin-controller@sha256:0ee92f85a37a5274014b2f956a4c2c3b39686708070e8c746ee3b2be0d0a668c
+    - name: entando-k8s-service #6.3.2
+      image: docker.io/entando/entando-k8s-service@sha256:3d5e53ab17a1ff213dc9f6bb23052bec0b0f085a2fba7bd28d753c431c7dadb0
+    - name: entando-redhat-sso #6.3.5
+      image: docker.io/entando/entando-redhat-sso@sha256:9b807937577a85de830cceaeedf73bf4bbfcabfbc8c246a21c2af06f02ef06c7
   install:
     strategy: deployment
     spec:
@@ -500,12 +539,8 @@ spec:
               spec:
                 imagePullSecrets:
                   - name: entando-pull-secret
-                volumes:
-                  - name: ca-cert-secret-volume
-                    secret:
-                      secretName: entando-ca-cert-secret
                 containers:
-                  - image: entando/entando-k8s-controller-coordinator@sha256:b3303c38c02c15d0e23c77f74d03211b9bf21b21c117991307a8beabbe47674c
+                  - image: entando/entando-k8s-controller-coordinator@sha256:e8c9ed2e2b546d972ab405edcef12aed7e112159d05f8cb22be3b6d0a660bdd8
                     imagePullPolicy: IfNotPresent
                     name: entando-operator
                     resources:
@@ -524,63 +559,22 @@ spec:
                         valueFrom:
                           fieldRef:
                             fieldPath: metadata.name
-                      - name: ENTANDO_DEFAULT_ROUTING_SUFFIX
-                        valueFrom:
-                          configMapKeyRef:
-                            name: entando-k8s-operator-config
-                            key: default.routing.suffix
                       - name: ENTANDO_POD_READINESS_TIMEOUT_SECONDS
-                        valueFrom:
-                          configMapKeyRef:
-                            name: entando-k8s-operator-config
-                            key: pod.readiness.timeout.seconds
+                        value: "1000"
                       - name: ENTANDO_POD_COMPLETION_TIMEOUT_SECONDS
-                        valueFrom:
-                          configMapKeyRef:
-                            name: entando-k8s-operator-config
-                            key: pod.completion.timeout.seconds
-                      - name: ENTANDO_POD_SHUTDOWN_TIMEOUT_SECONDS
-                        valueFrom:
-                          configMapKeyRef:
-                            name: entando-k8s-operator-config
-                            key: pod.shutdown.timeout.seconds
+                        value: "1000"
                       - name: ENTANDO_DISABLE_KEYCLOAK_SSL_REQUIREMENT
-                        valueFrom:
-                          configMapKeyRef:
-                            name: entando-k8s-operator-config
-                            key: disable.keycloak.ssl.requirement
-                      - name: ENTANDO_K8S_OPERATOR_FORCE_DB_PASSWORD_RESET
-                        valueFrom:
-                          configMapKeyRef:
-                            name: entando-k8s-operator-config
-                            key: force.db.password.reset
-                      - name: ENTANDO_K8S_OPERATOR_DISABLE_PVC_GARBAGE_COLLECTION
-                        valueFrom:
-                          configMapKeyRef:
-                            name: entando-k8s-operator-config
-                            key: disable.pvc.garbage.collection
-                      - name: ENTANDO_K8S_OPERATOR_IMAGE_PULL_SECRETS
-                        valueFrom:
-                          configMapKeyRef:
-                            name: entando-k8s-operator-config
-                            key: image.pull.secrets
-                      - name: ENTANDO_USE_AUTO_CERT_GENERATION
-                        valueFrom:
-                          configMapKeyRef:
-                            name: entando-k8s-operator-config
-                            key: use.auto.cert.generation
+                        value: "true"
                       - name: ENTANDO_K8S_OPERATOR_VERSION
-                        value: 0.3.49
+                        value: 0.3.60
                       - name: ENTANDO_K8S_OPERATOR_VERSION_TO_REPLACE
-                        value: 0.3.48
+                        value: 0.3.56
                       - name: ENTANDO_K8S_OPERATOR_DEPLOYMENT_TYPE
                         value: olm
                       - name: OPERATOR_NAME
                         value: entando-operator
-                      - name: ENTANDO_PATH_TO_TLS_KEYPAIR
-                        value: /etc/entando/tls
-                      - name: ENTANDO_CA_CERT_ROOT_FOLDER
-                        value: /etc/entando/ca
+                      - name: ENTANDO_K8S_OPERATOR_GC_CONTROLLER_PODS
+                        value: "true"
                       - name: ENTANDO_K8S_OPERATOR_SECURITY_MODE
                         value: strict
                       - name: ENTANDO_K8S_OPERATOR_COMPLIANCE_MODE
@@ -589,9 +583,36 @@ spec:
                         valueFrom:
                           fieldRef:
                             fieldPath: spec.serviceAccountName
-                    volumeMounts:
-                      - name: ca-cert-secret-volume
-                        mountPath: /etc/entando/ca
+                      - name: RELATED_IMAGE_RHEL8_MYSQL_80
+                        value: registry.redhat.io/rhel8/mysql-80@sha256:162662b43ebc94e30f9ac66a57b143b192aebd65bb96cf44b1d54dd140563cd6
+                      - name: RELATED_IMAGE_RHEL8_POSTGRESQL_12
+                        value: registry.redhat.io/rhel8/postgresql-12@sha256:c6b6da4f762c2f68bfe558efe954739438ffa2e9aae1c617b50011fb0eed8347
+                      - name: RELATED_IMAGE_APP_BUILDER #6.3.44
+                        value: docker.io/entando/app-builder@sha256:55228066b17dc2bbef6c20651ed6f0b61755407da61be8655c536953c4b7e43e
+                      - name: RELATED_IMAGE_ENTANDO_COMPONENT_MANAGER #6.3.8
+                        value: docker.io/entando/entando-component-manager@sha256:5bca03eefa1eea5e1c8af9831981c2b9338e8c316684b3f029d87fa18e833411
+                      - name: RELATED_IMAGE_ENTANDO_DE_APP_EAP #6.3.50
+                        value: docker.io/entando/entando-de-app-eap@sha256:50257d3c1a0ed4da53f6c77acccb8cb8d1b15ecb3de8a40609443016d1e0f9d9
+                      - name: RELATED_IMAGE_ENTANDO_K8S_APP_CONTROLLER #6.3.5
+                        value: docker.io/entando/entando-k8s-app-controller@sha256:2360de53d9a8e3ddbf2cf4e9ba386576570b532a439d5f34a56bf226bdf8c678
+                      - name: RELATED_IMAGE_ENTANDO_K8S_APP_PLUGIN_LINK_CONTROLLER #6.3.3
+                        value: docker.io/entando/entando-k8s-app-plugin-link-controller@sha256:7412f114e653479b27499cc2d1c366745e5d307e09d637f7967a67ab769654b7
+                      - name: RELATED_IMAGE_ENTANDO_K8S_CLUSTER_INFRASTRUCTURE_CONTROLLER #6.3.2
+                        value: docker.io/entando/entando-k8s-cluster-infrastructure-controller@sha256:8a109e31ab0f1e42dd4ab2f3239d2ef87d6964d5529f35cd03379574bc3cf967
+                      - name: RELATED_IMAGE_ENTANDO_K8S_COMPOSITE_APP_CONTROLLER #6.3.3
+                        value: docker.io/entando/entando-k8s-composite-app-controller@sha256:5393e8d039631401a0138f748edcdc2fe95a8a1cd7fd23d845f4561692780d15
+                      - name: RELATED_IMAGE_ENTANDO_K8S_DATABASE_SERVICE_CONTROLLER #6.3.7
+                        value: docker.io/entando/entando-k8s-database-service-controller@sha256:061cd86df694e2475c19d408e25da66c6feb26a1876e41030ab5c6d6ae9b558e
+                      - name: RELATED_IMAGE_ENTANDO_K8S_DBJOB #6.3.1
+                        value: docker.io/entando/entando-k8s-dbjob@sha256:a953072b663edeb3081c6f1a720079bdad2bdcc65e8ecca215363b3b2cd0e2f3
+                      - name: RELATED_IMAGE_ENTANDO_K8S_KEYCLOAK_CONTROLLER #6.3.4
+                        value: docker.io/entando/entando-k8s-keycloak-controller@sha256:58fc8bda7b68fc4e6311598739ec5b9b0271ef106d2e9bb116d19df4507b16b0
+                      - name: RELATED_IMAGE_ENTANDO_K8S_PLUGIN_CONTROLLER #6.3.3
+                        value: docker.io/entando/entando-k8s-plugin-controller@sha256:0ee92f85a37a5274014b2f956a4c2c3b39686708070e8c746ee3b2be0d0a668c
+                      - name: RELATED_IMAGE_ENTANDO_K8S_SERVICE #6.3.2
+                        value: docker.io/entando/entando-k8s-service@sha256:3d5e53ab17a1ff213dc9f6bb23052bec0b0f085a2fba7bd28d753c431c7dadb0
+                      - name: RELATED_IMAGE_ENTANDO_REDHAT_SSO #6.3.5
+                        value: docker.io/entando/entando-redhat-sso@sha256:9b807937577a85de830cceaeedf73bf4bbfcabfbc8c246a21c2af06f02ef06c7
                     startupProbe:
                       exec:
                         command:
