@@ -17,7 +17,7 @@ spec:
       subresources:
         status: {}
       additionalPrinterColumns:
-        - name: Phase
+        - name: Status
           type: string
           jsonPath: .status.entandoDeploymentPhase
         - name: Observed Generation
