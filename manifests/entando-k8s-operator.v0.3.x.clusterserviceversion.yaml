@@ -55,7 +55,7 @@ spec:
     EntandoApp containers.
 
     **EntandoPlugins** for deploying microservices to customize or enhance your
-    EntandoApp. Entando microservice plugins can be deployed to your cluster, and 
+    EntandoApp. Entando microservice plugins are deployed to your cluster, and 
     then linked to one or more EntandoApps.
 
     ## Prerequisites for enabling this Operator
