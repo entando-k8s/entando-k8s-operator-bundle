@@ -35,31 +35,28 @@ spec:
     ## Entando
 
 
-    Entando is a micro frontend platform for Kubernetes that helps enterprises
-    innovate faster with parallel development teams that have end-to-end
-    autonomy across the entire stack.
+    The Entando platform accelerates the development and lifecycle 
+    management of fully modularized applications on Kubernetes. It 
+    provides tools to help developers create and manage applications 
+    using modular frontend and backend components.
+    
+    The Entando Operator automates the installation, provisioning, and 
+    configuration management of the components that make up an Entando 
+    application. Specifically, the operator manages the following custom 
+    resources:
 
+    **EntandoKeycloakServers** for centralized authentication of frontend 
+    and backend components. The operator can deploy Keycloak, or in certified 
+    environments, Red Hat SSO servers that can then be used by subsequent 
+    deployments as an OpenID Connect provider.
 
-    With native support for Javascript app development, a micro frontend and
-    microservices architecture, deployment of apps in containers that can be
-    individually scaled up and down, and automated management of containers with
-    Kubernetes, we simplify the move for enterprises looking to modernize across
-    on-prem and cloud infrastructures.
+    **EntandoApps** for hosting an Entando application. EntandoApps are hosted
+    on Wildfly or JBoss EAP containers, and can also be used to deploy custom 
+    EntandoApp containers.
 
-    ## About this Operator
-
-    The Entando Operator processes the various custom resource in Kubernetes
-    that represent the different component of an Entando application.
-
-    EntandoKeycloakServers are used to deploy Keycloak, or in certified
-    environments, Red Hat SSO servers that can then be used by subsequent
-    deployments as an OIDC provider,
-
-    EntandoApps are used to deploy the appropriate Wildfly or JBoss EAP
-    containers hosting an Entando App, or potentially also custom containers.
-
-    EntandoPlugins can be used to deploy Entando microservice plugins in the
-    cluster and then link them to one or more EntandoApps.
+    **EntandoPlugins** for deploying microservices to customize or enhance your
+    EntandoApp. Entando microservice plugins can be deployed to your cluster, and 
+    then linked to one or more EntandoApps.
 
     ## Prerequisites for enabling this Operator
 
