@@ -2,7 +2,7 @@ apiVersion: skaffold/v1beta2
 kind: Config
 build:
   artifacts:
-  - image: entando/entando-keycloak
+  - image: entando/entando-k8s-operator-bundle
     context: .
     docker: {}
   tagPolicy:

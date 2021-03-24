@@ -4,9 +4,7 @@ pipelineConfig:
     image: entando-jx-maven
   env:
     - name: PIPELINE_CODE
-      value: ek
-    - name: ENTANDO_DOCKER_IMAGE_INFO_CONFIGMAP
-      value: "entando-docker-image-info-v6.3"
+      value: eob
   pipelines:
     pullRequest:
       build:
