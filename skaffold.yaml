@@ -12,19 +12,18 @@ build:
 deploy:
   kubectl: {}
 profiles:
-  - name: keycloak
-    build:
-      artifacts:
-        - image: entando/entando-keycloak
-          docker:
-            dockerfile: Dockerfile.keycloak
-            buildArgs:
-              VERSION: '{{.VERSION}}'
-  - name: redhat-sso
-    build:
-      artifacts:
-        - image: entando/entando-redhat-sso
-          docker:
-            dockerfile: Dockerfile.redhat-sso
-            buildArgs:
-              VERSION: '{{.VERSION}}'
+- name: dev
+  build:
+    tagPolicy:
+      envTemplate:
+        template: '{{.DOCKER_REGISTRY}}/{{.IMAGE_NAME}}:{{.DIGEST_HEX}}'
+    local: {}
+  deploy:
+    helm:
+      releases:
+      - name: entando-k8s-operator-bundle
+        chartPath: charts/entando-k8s-operator-bundle
+        setValueTemplates:
+          image.repository: '{{.DOCKER_REGISTRY}}/{{.IMAGE_NAME}}'
+          image.tag: '{{.DIGEST_HEX}}'
+

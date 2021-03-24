@@ -1,5 +1,4 @@
 buildPack: docker
-
 pipelineConfig:
   agent:
     image: entando-jx-maven
