@@ -20,9 +20,7 @@ pipelineConfig:
       setVersion:
         replace: true
         steps:
-          - sh: jx step next-version --use-git-tag-only
-            name: calc-version
-          - sh: ./set-csv-version.sh
+          - sh: jx step next-version --use-git-tag-only && ./set-csv-version.sh
             name: set-csv-version
           - sh: jx step next-version --use-git-tag-only --tag
             name: tag-version
