@@ -1,1 +1,26 @@
 buildPack: docker
+pipelineConfig:
+  agent:
+    image: entando-jx-maven
+  env:
+    - name: PIPELINE_CODE
+      value: eob
+  pipelines:
+    pullRequest:
+      build:
+        replace: true
+        steps:
+          - sh: echo "This avoids unwanted kaniko command substitution"  &&  skaffold build -f skaffold.yaml
+            name: container-build
+          - sh: operator-sdk bundle validate "${DOCKER_REGISTRY}/entando/${APP_NAME}:$(cat VERSION)"
+            name: verify-bundle
+    release:
+      build:
+        replace: true
+        steps:
+          - sh: echo "This avoids unwanted kaniko command substitution"  &&  skaffold build  -f skaffold.yaml
+            name: container-build
+          - sh: operator-sdk bundle validate "${DOCKER_REGISTRY}/entando/${APP_NAME}:$(cat VERSION)"
+            name: verify-bundle
+          - sh: jx step post build --image "${DOCKER_REGISTRY}/entando/${APP_NAME}:$(cat VERSION)"
+            name: post-build
