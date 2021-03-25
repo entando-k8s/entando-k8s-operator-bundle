@@ -10,11 +10,17 @@ pipelineConfig:
       build:
         replace: true
         steps:
+          - sh: export VERSION=$PREVIEW_VERSION ./set-csv-version.sh
+            name: set-csv-version
           - sh: echo "This avoids unwanted kaniko command substitution"  &&  skaffold build -f skaffold.yaml
             name: container-build
           - sh: operator-sdk bundle validate "${DOCKER_REGISTRY}/entando/${APP_NAME}:$(cat VERSION)"
             name: verify-bundle
     release:
+      setVersion:
+        steps:
+          - sh: ./set-csv-version.sh
+            name: set-csv-version
       build:
         replace: true
         steps:
