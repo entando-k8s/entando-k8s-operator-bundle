@@ -20,7 +20,7 @@ pipelineConfig:
       setVersion:
         replace: true
         steps:
-          - sh:  ./set-csv-version.sh $(jx-release-version)
+          - sh: echo $(jx-release-version) > VERSION && ./set-csv-version.sh
             name: set-csv-version
           - sh: jx step next-version --use-git-tag-only --tag
             name: tag-version
