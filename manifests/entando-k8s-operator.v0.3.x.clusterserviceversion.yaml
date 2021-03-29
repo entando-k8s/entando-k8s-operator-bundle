@@ -1,7 +1,7 @@
 apiVersion: operators.coreos.com/v1alpha1
 kind: ClusterServiceVersion
 metadata:
-  name: entando-k8s-operator.v0.3.64
+  name: entando-k8s-operator.v0.3.76
   namespace: placeholder
   annotations:
     alm-examples: >-
@@ -28,7 +28,7 @@ metadata:
 spec:
   displayName: Entando Operator
   maturity: beta
-  version: 0.3.64
+  version: 0.3.76
 #  replaces: entando-k8s-operator.v0.3.56
   skips: []
   description: >
@@ -159,7 +159,10 @@ spec:
           - version: v1
             kind: PersistentVolumeClaim
         specDescriptors: [ ]
-        statusDescriptors: [ ]
+        statusDescriptors:
+          - description: Status
+            displayName: Status
+            path: entandoDeploymentPhase
       - name: entandodatabaseservices.entando.org
         displayName: Entando Database Service
         kind: EntandoDatabaseService
@@ -329,32 +332,32 @@ spec:
       image: registry.redhat.io/rhel8/mysql-80@sha256:162662b43ebc94e30f9ac66a57b143b192aebd65bb96cf44b1d54dd140563cd6
     - name: rhel8-postgresql-12
       image: registry.redhat.io/rhel8/postgresql-12@sha256:c6b6da4f762c2f68bfe558efe954739438ffa2e9aae1c617b50011fb0eed8347
-    - name: app-builder #6.3.44
-      image: docker.io/entando/app-builder@sha256:55228066b17dc2bbef6c20651ed6f0b61755407da61be8655c536953c4b7e43e
-    - name: entando-component-manager #6.3.8
-      image: docker.io/entando/entando-component-manager@sha256:5bca03eefa1eea5e1c8af9831981c2b9338e8c316684b3f029d87fa18e833411
-    - name: entando-de-app-eap #6.3.50
-      image: docker.io/entando/entando-de-app-eap@sha256:50257d3c1a0ed4da53f6c77acccb8cb8d1b15ecb3de8a40609443016d1e0f9d9
-    - name: entando-k8s-app-controller #6.3.5
-      image: docker.io/entando/entando-k8s-app-controller@sha256:2360de53d9a8e3ddbf2cf4e9ba386576570b532a439d5f34a56bf226bdf8c678
+    - name: app-builder #6.3.51
+      image: docker.io/entando/app-builder@sha256:5d0c9ae1fa83f78a2648601bd1c7c2d8b4bd76082471e68b7369885386f0f02b
+    - name: entando-component-manager #6.3.13
+      image: docker.io/entando/entando-component-manager@sha256:99fa92c45da03e368b552dae98b1eea39a36b2245acd530f3c9ac984e77742d6
+    - name: entando-de-app-eap #6.3.56
+      image: docker.io/entando/entando-de-app-eap@sha256:e4e78f9b6e95750938cb56e933250f320d832ce1670a1543e0c36e4d34e307a2
+    - name: entando-k8s-app-controller #6.3.6
+      image: docker.io/entando/entando-k8s-app-controller@sha256:d7f055578f3ed74de9da264d3022f1c9eadc3e585f43ce36ca167607bd964fce
     - name: entando-k8s-app-plugin-link-controller #6.3.3
       image: docker.io/entando/entando-k8s-app-plugin-link-controller@sha256:7412f114e653479b27499cc2d1c366745e5d307e09d637f7967a67ab769654b7
-    - name: entando-k8s-cluster-infrastructure-controller #6.3.2
-      image: docker.io/entando/entando-k8s-cluster-infrastructure-controller@sha256:8a109e31ab0f1e42dd4ab2f3239d2ef87d6964d5529f35cd03379574bc3cf967
-    - name: entando-k8s-composite-app-controller #6.3.3
-      image: docker.io/entando/entando-k8s-composite-app-controller@sha256:5393e8d039631401a0138f748edcdc2fe95a8a1cd7fd23d845f4561692780d15
-    - name: entando-k8s-database-service-controller #6.3.7
-      image: docker.io/entando/entando-k8s-database-service-controller@sha256:061cd86df694e2475c19d408e25da66c6feb26a1876e41030ab5c6d6ae9b558e
-    - name: entando-k8s-dbjob #6.3.1
-      image: docker.io/entando/entando-k8s-dbjob@sha256:a953072b663edeb3081c6f1a720079bdad2bdcc65e8ecca215363b3b2cd0e2f3
-    - name: entando-k8s-keycloak-controller #6.3.4
-      image: docker.io/entando/entando-k8s-keycloak-controller@sha256:58fc8bda7b68fc4e6311598739ec5b9b0271ef106d2e9bb116d19df4507b16b0
-    - name: entando-k8s-plugin-controller #6.3.3
-      image: docker.io/entando/entando-k8s-plugin-controller@sha256:0ee92f85a37a5274014b2f956a4c2c3b39686708070e8c746ee3b2be0d0a668c
-    - name: entando-k8s-service #6.3.2
-      image: docker.io/entando/entando-k8s-service@sha256:3d5e53ab17a1ff213dc9f6bb23052bec0b0f085a2fba7bd28d753c431c7dadb0
-    - name: entando-redhat-sso #6.3.5
-      image: docker.io/entando/entando-redhat-sso@sha256:9b807937577a85de830cceaeedf73bf4bbfcabfbc8c246a21c2af06f02ef06c7
+    - name: entando-k8s-cluster-infrastructure-controller #6.3.6
+      image: docker.io/entando/entando-k8s-cluster-infrastructure-controller@sha256:ccabcb8959047df6b11e4d027178ab404e777a304c3efc4ee4da319cf605008d
+    - name: entando-k8s-composite-app-controller #6.3.5
+      image: docker.io/entando/entando-k8s-composite-app-controller@sha256:dd3b6755021de23b9567b3bd9ecdc3adaf409b6cb3c0f25b979807ceddc7773c
+    - name: entando-k8s-database-service-controller #6.3.8
+      image: docker.io/entando/entando-k8s-database-service-controller@sha256:6295bf890d1d39cab2d4f07f1a2f3fedc7def273d4f56ce8463e6f5654172175
+    - name: entando-k8s-dbjob #6.3.7
+      image: docker.io/entando/entando-k8s-dbjob@sha256:ac64a3ce1d1c43271ad79f40777c5feb2586563a7409b74b91cf6a8b74a0fa39
+    - name: entando-k8s-keycloak-controller #6.3.5
+      image: docker.io/entando/entando-k8s-keycloak-controller@sha256:e48a91fe3b217f5c02df3f3b174d9f4781ca41c77e1d78d43adaacdb08e7ee3b
+    - name: entando-k8s-plugin-controller #6.3.4
+      image: docker.io/entando/entando-k8s-plugin-controller@sha256:1bb2e9be2c2c61ac30b64ae561213321f23592bcaad190b811baae47f1582a26
+    - name: entando-k8s-service #6.3.3 
+      image: docker.io/entando/entando-k8s-service@sha256:6aaadf8b8515c433fea21b14df55f6e7cb8aa81e71ae46efab1e8ad3afc3bfd3
+    - name: entando-redhat-sso #6.3.6 
+      image: docker.io/entando/entando-redhat-sso@sha256:098a68b16a7adb1b5ec91038f9b52a517f1b868a8dcf39150484096b55ad0227
   install:
     strategy: deployment
     spec:
@@ -434,7 +437,7 @@ spec:
               resources:
                 - roles
               verbs:
-                - get
+                - '*'
             - apiGroups:
                 - rbac.authorization.k8s.io
               resources:
@@ -512,7 +515,7 @@ spec:
               resources:
                 - roles
               verbs:
-                - get
+                - '*'
             - apiGroups:
                 - rbac.authorization.k8s.io
               resources:
@@ -553,7 +556,7 @@ spec:
                 imagePullSecrets:
                   - name: entando-pull-secret
                 containers:
-                  - image: ampie/entando-k8s-controller-coordinator@sha256:04e0720e075f5657dcc40dcffd618cdc28fcf9221187e46b5e66ecac06688df4
+                  - image: entando/entando-k8s-controller-coordinator@sha256:de44bde6b8228dbfc9af0d599d0448586a2980b088502f37900a3613926a4bd2
                     imagePullPolicy: IfNotPresent
                     name: entando-operator
                     resources:
@@ -579,7 +582,7 @@ spec:
                       - name: ENTANDO_DISABLE_KEYCLOAK_SSL_REQUIREMENT
                         value: "true"
                       - name: ENTANDO_K8S_OPERATOR_VERSION
-                        value: 0.3.64
+                        value: 0.3.76
                       - name: ENTANDO_K8S_OPERATOR_VERSION_TO_REPLACE
                         value: 0.3.56
                       - name: ENTANDO_K8S_OPERATOR_DEPLOYMENT_TYPE
@@ -589,9 +592,11 @@ spec:
                       - name: ENTANDO_K8S_OPERATOR_GC_CONTROLLER_PODS
                         value: "true"
                       - name: ENTANDO_K8S_OPERATOR_SECURITY_MODE
-                        value: strict
+                        value: lenient
                       - name: ENTANDO_K8S_OPERATOR_COMPLIANCE_MODE
                         value: redhat
+                      - name: ENTANDO_K8S_OPERATOR_FORCE_DB_PASSWORD_RESET
+                        value: "true"
                       - name: ENTANDO_K8S_OPERATOR_SERVICEACCOUNT
                         valueFrom:
                           fieldRef:
@@ -600,32 +605,32 @@ spec:
                         value: registry.redhat.io/rhel8/mysql-80@sha256:162662b43ebc94e30f9ac66a57b143b192aebd65bb96cf44b1d54dd140563cd6
                       - name: RELATED_IMAGE_RHEL8_POSTGRESQL_12
                         value: registry.redhat.io/rhel8/postgresql-12@sha256:c6b6da4f762c2f68bfe558efe954739438ffa2e9aae1c617b50011fb0eed8347
-                      - name: RELATED_IMAGE_APP_BUILDER #6.3.44
-                        value: docker.io/entando/app-builder@sha256:55228066b17dc2bbef6c20651ed6f0b61755407da61be8655c536953c4b7e43e
-                      - name: RELATED_IMAGE_ENTANDO_COMPONENT_MANAGER #6.3.8
-                        value: docker.io/entando/entando-component-manager@sha256:5bca03eefa1eea5e1c8af9831981c2b9338e8c316684b3f029d87fa18e833411
-                      - name: RELATED_IMAGE_ENTANDO_DE_APP_EAP #6.3.50
-                        value: docker.io/entando/entando-de-app-eap@sha256:50257d3c1a0ed4da53f6c77acccb8cb8d1b15ecb3de8a40609443016d1e0f9d9
-                      - name: RELATED_IMAGE_ENTANDO_K8S_APP_CONTROLLER #6.3.5
-                        value: docker.io/entando/entando-k8s-app-controller@sha256:2360de53d9a8e3ddbf2cf4e9ba386576570b532a439d5f34a56bf226bdf8c678
+                      - name: RELATED_IMAGE_APP_BUILDER #6.3.51
+                        value: docker.io/entando/app-builder@sha256:5d0c9ae1fa83f78a2648601bd1c7c2d8b4bd76082471e68b7369885386f0f02b
+                      - name: RELATED_IMAGE_ENTANDO_COMPONENT_MANAGER #6.3.13
+                        value: docker.io/entando/entando-component-manager@sha256:99fa92c45da03e368b552dae98b1eea39a36b2245acd530f3c9ac984e77742d6
+                      - name: RELATED_IMAGE_ENTANDO_DE_APP_EAP #6.3.56
+                        value: docker.io/entando/entando-de-app-eap@sha256:e4e78f9b6e95750938cb56e933250f320d832ce1670a1543e0c36e4d34e307a2
+                      - name: RELATED_IMAGE_ENTANDO_K8S_APP_CONTROLLER #6.3.6
+                        value: docker.io/entando/entando-k8s-app-controller@sha256:d7f055578f3ed74de9da264d3022f1c9eadc3e585f43ce36ca167607bd964fce
                       - name: RELATED_IMAGE_ENTANDO_K8S_APP_PLUGIN_LINK_CONTROLLER #6.3.3
                         value: docker.io/entando/entando-k8s-app-plugin-link-controller@sha256:7412f114e653479b27499cc2d1c366745e5d307e09d637f7967a67ab769654b7
-                      - name: RELATED_IMAGE_ENTANDO_K8S_CLUSTER_INFRASTRUCTURE_CONTROLLER #6.3.2
-                        value: docker.io/entando/entando-k8s-cluster-infrastructure-controller@sha256:8a109e31ab0f1e42dd4ab2f3239d2ef87d6964d5529f35cd03379574bc3cf967
-                      - name: RELATED_IMAGE_ENTANDO_K8S_COMPOSITE_APP_CONTROLLER #6.3.3
-                        value: docker.io/entando/entando-k8s-composite-app-controller@sha256:5393e8d039631401a0138f748edcdc2fe95a8a1cd7fd23d845f4561692780d15
-                      - name: RELATED_IMAGE_ENTANDO_K8S_DATABASE_SERVICE_CONTROLLER #6.3.7
-                        value: docker.io/entando/entando-k8s-database-service-controller@sha256:061cd86df694e2475c19d408e25da66c6feb26a1876e41030ab5c6d6ae9b558e
-                      - name: RELATED_IMAGE_ENTANDO_K8S_DBJOB #6.3.1
-                        value: docker.io/entando/entando-k8s-dbjob@sha256:a953072b663edeb3081c6f1a720079bdad2bdcc65e8ecca215363b3b2cd0e2f3
-                      - name: RELATED_IMAGE_ENTANDO_K8S_KEYCLOAK_CONTROLLER #6.3.4
-                        value: docker.io/entando/entando-k8s-keycloak-controller@sha256:58fc8bda7b68fc4e6311598739ec5b9b0271ef106d2e9bb116d19df4507b16b0
-                      - name: RELATED_IMAGE_ENTANDO_K8S_PLUGIN_CONTROLLER #6.3.3
-                        value: docker.io/entando/entando-k8s-plugin-controller@sha256:0ee92f85a37a5274014b2f956a4c2c3b39686708070e8c746ee3b2be0d0a668c
-                      - name: RELATED_IMAGE_ENTANDO_K8S_SERVICE #6.3.2
-                        value: docker.io/entando/entando-k8s-service@sha256:3d5e53ab17a1ff213dc9f6bb23052bec0b0f085a2fba7bd28d753c431c7dadb0
-                      - name: RELATED_IMAGE_ENTANDO_REDHAT_SSO #6.3.5
-                        value: docker.io/entando/entando-redhat-sso@sha256:9b807937577a85de830cceaeedf73bf4bbfcabfbc8c246a21c2af06f02ef06c7
+                      - name: RELATED_IMAGE_ENTANDO_K8S_CLUSTER_INFRASTRUCTURE_CONTROLLER #6.3.6
+                        value: docker.io/entando/entando-k8s-cluster-infrastructure-controller@sha256:ccabcb8959047df6b11e4d027178ab404e777a304c3efc4ee4da319cf605008d
+                      - name: RELATED_IMAGE_ENTANDO_K8S_COMPOSITE_APP_CONTROLLER #6.3.5
+                        value: docker.io/entando/entando-k8s-composite-app-controller@sha256:dd3b6755021de23b9567b3bd9ecdc3adaf409b6cb3c0f25b979807ceddc7773c
+                      - name: RELATED_IMAGE_ENTANDO_K8S_DATABASE_SERVICE_CONTROLLER #6.3.8
+                        value: docker.io/entando/entando-k8s-database-service-controller@sha256:6295bf890d1d39cab2d4f07f1a2f3fedc7def273d4f56ce8463e6f5654172175
+                      - name: RELATED_IMAGE_ENTANDO_K8S_DBJOB #6.3.7
+                        value: docker.io/entando/entando-k8s-dbjob@sha256:ac64a3ce1d1c43271ad79f40777c5feb2586563a7409b74b91cf6a8b74a0fa39
+                      - name: RELATED_IMAGE_ENTANDO_K8S_KEYCLOAK_CONTROLLER #6.3.5
+                        value: docker.io/entando/entando-k8s-keycloak-controller@sha256:e48a91fe3b217f5c02df3f3b174d9f4781ca41c77e1d78d43adaacdb08e7ee3b
+                      - name: RELATED_IMAGE_ENTANDO_K8S_PLUGIN_CONTROLLER #6.3.4
+                        value: docker.io/entando/entando-k8s-plugin-controller@sha256:1bb2e9be2c2c61ac30b64ae561213321f23592bcaad190b811baae47f1582a26
+                      - name: RELATED_IMAGE_ENTANDO_K8S_SERVICE #6.3.3
+                        value: docker.io/entando/entando-k8s-service@sha256:6aaadf8b8515c433fea21b14df55f6e7cb8aa81e71ae46efab1e8ad3afc3bfd3
+                      - name: RELATED_IMAGE_ENTANDO_REDHAT_SSO #6.3.6
+                        value: docker.io/entando/entando-redhat-sso@sha256:098a68b16a7adb1b5ec91038f9b52a517f1b868a8dcf39150484096b55ad0227
                     startupProbe:
                       exec:
                         command:
