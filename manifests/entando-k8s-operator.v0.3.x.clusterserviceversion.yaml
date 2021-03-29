@@ -558,7 +558,7 @@ spec:
                 imagePullSecrets:
                   - name: entando-pull-secret
                 containers:
-                  - image: entando/entando-k8s-controller-coordinator@sha256:dc0c66a454872e9dd1e980239343e1978a2f3e87bf54ccc9718d2614f5d60fae
+                  - image: entando/entando-k8s-controller-coordinator@sha256:de44bde6b8228dbfc9af0d599d0448586a2980b088502f37900a3613926a4bd2
                     imagePullPolicy: IfNotPresent
                     name: entando-operator
                     resources:
