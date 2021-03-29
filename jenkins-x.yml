@@ -10,7 +10,7 @@ pipelineConfig:
       build:
         replace: true
         steps:
-          - sh: export VERSION=$PREVIEW_VERSION ./set-csv-version.sh
+          - sh: ./set-csv-version.sh \${PREVIEW_VERSION}
             name: set-csv-version
           - sh: echo "This avoids unwanted kaniko command substitution"  &&  skaffold build -f skaffold.yaml
             name: container-build
