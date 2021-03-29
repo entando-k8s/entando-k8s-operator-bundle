@@ -35,37 +35,34 @@ spec:
     ## Entando
 
 
-    Entando is a micro frontend platform for Kubernetes that helps enterprises
-    innovate faster with parallel development teams that have end-to-end
-    autonomy across the entire stack.
+    The Entando platform accelerates the development and lifecycle 
+    management of fully modularized applications on Kubernetes. It 
+    provides tools to help developers create and manage applications 
+    using modular frontend and backend components.
+    
+    The Entando Operator automates the installation, provisioning, and 
+    configuration management of the components that make up an Entando 
+    application. Specifically, the operator manages the following custom 
+    resources:
 
+    **EntandoKeycloakServers** for centralized authentication of frontend 
+    and backend components. The operator can deploy Keycloak, or in certified 
+    environments, Red Hat SSO servers that can then be used by subsequent 
+    deployments as an OpenID Connect provider.
 
-    With native support for Javascript app development, a micro frontend and
-    microservices architecture, deployment of apps in containers that can be
-    individually scaled up and down, and automated management of containers with
-    Kubernetes, we simplify the move for enterprises looking to modernize across
-    on-prem and cloud infrastructures.
+    **EntandoApps** for hosting an Entando application. EntandoApps are hosted
+    on Wildfly or JBoss EAP containers, and can also be used to deploy custom 
+    EntandoApp containers.
 
-    ## About this Operator
+    **EntandoPlugins** for deploying microservices to customize or enhance your
+    EntandoApp. Entando microservice plugins are deployed to your cluster, and 
+    then linked to one or more EntandoApps.
 
-    The Entando Operator processes the various custom resource in Kubernetes
-    that represent the different component of an Entando application.
+    ## Using the Operator
 
-    EntandoKeycloakServers are used to deploy Keycloak, or in certified
-    environments, Red Hat SSO servers that can then be used by subsequent
-    deployments as an OIDC provider,
-
-    EntandoApps are used to deploy the appropriate Wildfly or JBoss EAP
-    containers hosting an Entando App, or potentially also custom containers.
-
-    EntandoPlugins can be used to deploy Entando microservice plugins in the
-    cluster and then link them to one or more EntandoApps.
-
-    ## Prerequisites for enabling this Operator
-
-    This Operator can be deployed and will function using default settings without any prerequisite configuration. However,
-    once deployed, the Entando Operator's configuration can be further customized by providing the following configmap and
-    a secrets
+    The Entando Operator can be deployed using the default settings without any 
+    configuration. Once deployed, the operator can be customized by editing 
+    the *configmap* and secrets.
 
     ### ConfigMap: entando-operator-config
 
@@ -73,20 +70,20 @@ spec:
     up by the operator on subsequent event processing. It supports the following keys:
 
         entando.k8s.operator.gc.controller.pods: set this to "false" to keep controller pods after completion.
-        entando.k8s.operator.compliance.mode: set this to "community" if there is no requirement for Red Hat compliance
-        entando.k8s.operator.image.pull.secrets: a comma separated list containing the names of pull secrets that will be linked to all service accounts
-        entando.k8s.operator.disable.pvc.garbage.collection: set this to "false" if you want PVCs to be deleted with the custom resources they are associated with
-        entando.k8s.operator.impose.default.limits: set this to "false" if there is no need to limit the resource consumption of pods on your cluster
-        entando.k8s.operator.request.to.limit.ratio: a decimal number that default limits will be multiplied by to calculate default requests for resources
-        entando.k8s.operator.force.db.password.reset: set this to "true" if you plan to delete Secrets from your namespace but you want to retain the Database they point to
+        entando.k8s.operator.compliance.mode: set this to "community" if there is no requirement for Red Hat compliance.
+        entando.k8s.operator.image.pull.secrets: a comma separated list containing the names of pull secrets that will be linked to all service accounts.
+        entando.k8s.operator.disable.pvc.garbage.collection: set this to "false" if you want Persistent Volume Claims to be deleted with the custom resources they are associated with.
+        entando.k8s.operator.impose.default.limits: set this to "false" if there is no need to limit the resource consumption of pods on your cluster.
+        entando.k8s.operator.request.to.limit.ratio: a decimal number that default limits will be multiplied by to calculate default requests for resources.
+        entando.k8s.operator.force.db.password.reset: set this to "true" if you plan to delete Secrets from your namespace but you want to retain the Database they point to.
         entando.k8s.operator.pull.policy.override: specify your preferred pullPolicy for images. The default is Always.
-        entando.tls.secret.name: The name of a standard TLS secret to use for HTTPS Ingresses. See the section entando-tls-secret
-        entando.ca.secret.name: The name of a secret containing CA certificates. See the section entando-ca-cert-secret
-        entando.assume.external.https.provider: Set this to "true" if your cloud provider handles HTTPS for you
-        entando.use.auto.cert.generation: Set this to "true" if you would prefer Openshift using its internal CA to generate certificates for your Routes
-        entando.default.routing.suffix: A domain name that can be suffixed to deployment names where the ingressHostName is omitted. Needs to be preconfigured on your DNS provider.
-        entando.pod.completion.timeout.seconds: The time it will take before Entando fails a run-to-completion Pod
-        entando.pod.readiness.timeout.seconds: The it will take before Entando fails a Service Pod
+        entando.tls.secret.name: The name of a standard TLS secret to use for HTTPS Ingresses. See the section entando-tls-secret.
+        entando.ca.secret.name: The name of a secret containing CA certificates. See the section entando-ca-cert-secret.
+        entando.assume.external.https.provider: Set this to "true" if your cloud provider handles HTTPS for you.
+        entando.use.auto.cert.generation: Set this to "true" to have Openshift use its internal CA to generate certificates for your Routes.
+        entando.default.routing.suffix: The domain name that can be suffixed to deployment names when the ingressHostName is omitted. Needs to be preconfigured on your DNS provider.
+        entando.pod.completion.timeout.seconds: The time it will take before Entando fails a run-to-completion Pod.
+        entando.pod.readiness.timeout.seconds: The time it will take before Entando fails a Service Pod.
         entando.pod.shutdown.timeout.seconds: The time Entando will give a Pod to shutdown gracefully.
 
 
@@ -101,12 +98,12 @@ spec:
 
     ### entando-ca-cert-secret
 
-    This an opaque secret in the Entando Operator's namespace that contains the
+    This is an opaque secret in the Entando Operator's namespace that contains the
     certificates of all trusted certificate authorities
     in your environment. This is generally used mainly for self signed
     certificates. As is generally the case for opaque
     secrets, there are no constraints on the keys in this secret. However, limit
-    the files inside the secret should contain X509 certificates or certificate chains.
+    the files inside the secret to X509 certificates or certificate chains.
     The Entando Operator will load all of these files into a Java
     keystore that it then configures as the
     trust store for each container that uses Java.
@@ -141,7 +138,7 @@ spec:
         version: v1
         description: >
           Using an Entando Composite Application is the easiest way to get started with Entando. It allows the user to
-          combine any number of the Entando Custom Resource and deploy them in the sequence specified. This is useful
+          combine any number of the Entando Custom Resources and deploy them in the sequence specified. This is useful
           for scenarios where one Entando Custom Resource (e.g. an EntandoPlugin) is dependent on another Entando
           Custom Resource such as an EntandoKeycloakServer or EntandoDatabaseService. Simply place the
           EntandoKeycloakServer or EntandoDatabaseService ahead of the EntandoPlugin in the list of components,
@@ -173,7 +170,7 @@ spec:
         description: >
           The EntandoDatabaseService is typically used to share a database instance across multiple deployments. This
           custom resource can either point to an external database service, or it can actually deploy a container that
-          hosts the database service. Any subsequent deployments in the same namespace the needs a service
+          hosts the database service. Any subsequent deployments in the same namespace that need a service
           by the same database vendor specified in the EntandoDatabaseService will be configured to point to this
           database service.
         resources:
@@ -216,7 +213,7 @@ spec:
         specDescriptors:
           - displayName: TLS Secret
             description: >-
-              The name of a standard Kubernetes TLS  secret to associated with
+              The name of a standard Kubernetes TLS  secret to be associated with
               the Ingress that will expose the Keycloak Service over HTTPS
             path: tlsSecretName
             x-descriptors:
@@ -236,7 +233,7 @@ spec:
         version: v1
         description: >
           The EntandoClusterInfrastructure resource allows the Entando Operator to deploy its abstraction layer on
-          Kubernetes, the Entando Kubernetes Service. In future, we will be deploying this service in the Entando
+          Kubernetes, the Entando Kubernetes Service. In the future, we will be deploying this service in the Entando
           Operator's ClusterServiceVersion.
         resources:
           - version: v1
@@ -286,8 +283,9 @@ spec:
         kind: EntandoApp
         version: v1
         description: >-
-          An Entando App deploys the typical components required to host a typical Entando App. The core server side
-          components that are deployed include the Entando Engine, the Portal, and the Entando CMS components. These
+          An Entando App deploys the components required to host a typical Entando App. The core server side
+          components that are deployed include the Entando App Engine, the Portal, and the Entando Web Content 
+          Management System. These
           are accessed through the Entando App Builder browser application. The Entando Component Manager is the third
           component deployed for an Entando App and it enables the basic integration between the Entando App Engine
           and the Entando Kubernetes Infrastructure.
