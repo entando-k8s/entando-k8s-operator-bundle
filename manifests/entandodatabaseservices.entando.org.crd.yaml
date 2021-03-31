@@ -53,6 +53,10 @@ spec:
                     for the Entando Custom Resource created to persist its data.
                   type: string
                   pattern: ^(mysql|oracle|postgresql)$
+                storageClass:
+                  description: >
+                    The name of the StorageClass to use for PersistentVolumeClaims created for this EntandoDatabaseService
+                  type: string
                 createDeployment:
                   description: >
                     When this property is 'true', the Entando Operator will create a Kubernetes Deployment using

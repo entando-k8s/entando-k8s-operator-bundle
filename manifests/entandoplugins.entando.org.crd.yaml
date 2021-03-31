@@ -62,6 +62,10 @@ spec:
                     yet supported for Oracle.
                   type: string
                   pattern: '^(mysql|oracle|postgresql|embedded|none)$'
+                storageClass:
+                  description: >
+                    The name of the StorageClass to use for PersistentVolumeClaims created for this EntandoPlugin
+                  type: string
                 ingressHostName:
                   description: >
                     The hostname that will be used to access this EntandoPlugin microservice from outside the cluster. The Entando

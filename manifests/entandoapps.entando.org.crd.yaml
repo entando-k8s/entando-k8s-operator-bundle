@@ -68,6 +68,10 @@ spec:
                     preparations steps in the deployment.
                   type: string
                   pattern: '^(mysql|oracle|postgresql|embedded|none)$'
+                storageClass:
+                  description: >
+                    The name of the StorageClass to use for PersistentVolumeClaims created for this EntandoApp
+                  type: string
                 ingressHostName:
                   description: >
                     The hostname that will be used to access this EntandoApp  from outside the cluster. The Entando
