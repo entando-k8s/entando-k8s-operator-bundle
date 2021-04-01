@@ -39,18 +39,11 @@ spec:
                   maximum: 10
                 dbms:
                   description: >
-                    The database management system (DBMS) to make availabe as a Kubernetes Service.
-                    Can be either oracle, mysql  or  postgresql. When the value is postgresql or
-                    mysql, the deployer could also choose to create a Deployment for the
-                    specified DBMS in the namespace of the EntandoDatabaseService using the
-                    'spec.createDeployment' field.
-                    If any Entando Custom Resources that requires
-                    a database is deployed in this namespace, and the DBMS specified on
-                    this EntandoDatabaseService is the same as the DBMS
-                    specified on the Entando Custom Resource, the Entando
-                    Operator will create a dedicated schema (in the case of
-                    PostgreSQL or Oracle), or a database in the case of MySQL
-                    for the Entando Custom Resource created to persist its data.
+                    The database management system (DBMS) to make available as a Kubernetes Service.
+                    Can be oracle, mysql or postgresql.
+                    Only 1 replica of the container is supported if embedded is selected. If
+                    Oracle is selected it must be created manually, the operator does not deploy Oracle instances.
+                    See [here] (https://dev.entando.org/v6.3/docs/concepts/operator-intro.html#database-deployment) for how the operator will create and configure the DBMS.
                   type: string
                   pattern: ^(mysql|oracle|postgresql)$
                 storageClass:
@@ -218,14 +211,14 @@ spec:
                         node at deployment time. A pod will only be deployed to
                         a node if the node has this amount of CPU units
                         available. Supports decimal numbers, or alternatively
-                        the suffix 'm' can be used to specify a milicore.
+                        the suffix 'm' can be used to specify a millicore.
                         Precision lower than 1m is not supported.
                       type: string
                     cpuLimit:
                       description: >
                         The maximum amount of CPU units that will be required by
                         the container.Supports decimal numbers, or alternatively
-                        the suffix 'm' can be used to specify a milicore.
+                        the suffix 'm' can be used to specify a millicore.
                         Precision lower than 1m is not supported.
                       type: string
             status:
