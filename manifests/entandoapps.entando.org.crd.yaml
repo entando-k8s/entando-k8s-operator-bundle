@@ -47,8 +47,7 @@ spec:
                 dbms:
                   description: >
                     The database management system (DBMS) to use for persistence of this EntandoApp. 
-                    Can be any of mysql, oracle  postgresql, embedded or none. Only 1 replica of the container is supported if embedded is selected. If
-                    Oracle is selected it must be created manually, the operator does not deploy Oracle instances.
+                    Can be any of mysql, oracle  postgresql, embedded or none. Only 1 replica of the container is supported if embedded is selected. If Oracle is selected it must be created manually, the operator does not deploy Oracle instances.
 
                     See [here] (https://dev.entando.org/v6.3/docs/concepts/operator-intro.html#database-deployment) for how the operator will create and configure the DBMS.
                   type: string
@@ -77,9 +76,9 @@ spec:
                   type: string
                 tlsSecretName:
                   description: >
-                    The name of a standard Kubernetes TLS Secret, assumed to be in the same Namespace as the EntandoApp
-                    being created. See here: https://dev.entando.org/v6.3/docs/concepts/operator-intro.html#tls-secret-creation for details and
-                    instructions on creating a secret for your Entando applications.
+                    The name of a standard Kubernetes TLS Secret, assumed to be in the same Namespace as the EntandoApp being created.
+                    See [here](https://dev.entando.org/v6.3/docs/concepts/operator-intro.html#tls-secret-creation) for details and instructions on
+                    creating a secret for your Entando applications.
                   type: string
                   pattern: '^([a-z])+([a-z0-9-\.])*[a-z0-9]$'
                 serviceAccountToUse:
