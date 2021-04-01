@@ -33,17 +33,25 @@ spec:
                       x-kubernetes-preserve-unknown-fields: true
                       type: object
                     versions:
+                      description: >
+                        The available versions for this bundle.
                       type: array
                       items:
                         type: string
                     keywords:
+                      description: >
+                        Keywords to associate with this bundle in the Entando Component Repository.
                       type: array
                       items:
                         type: string
                     thumbnail:
+                      description: >
+                        A base-64 encoded string for an image to display with the bundle in the Entando Component Repository.
                       type: string
                       maxLength: 320000
                 tags:
+                  description: >
+                    The tags that are available for this bundle in the git repository hosting the bundle contents.
                   type: array
                   items:
                     type: object

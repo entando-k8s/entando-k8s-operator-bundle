@@ -50,16 +50,10 @@ spec:
                 dbms:
                   description: >
                     The database management system (DBMS) to use for persistence of this EntandoPlugin microservice. Can be any of mysql, oracle
-                    postgresql, embedded or none. Set this to 'none' if this EntandoPlugin microservice does not require a database.
-                    When 'embedded' is used, an in-process H2 database will be used and mounted on
-                    a persistent volume. Since the supporting database files can only be opened by one process at a time,
-                    only 1 replica can be supported when the value is 'embedded'. If an EntandoDatabaseService has been
-                    deployed in this EntandoPlugin's namespace, and the DBMS specified on this EntandoDatabaseService
-                    is the same as the DBMS specified on this EntandoPlugin, the Entando Operator will create a dedicated
-                    schema (in the case of PostgreSQL or Oracle), or a database in the case of MySQL for this EntandoPlugin
-                    to persist its data. If a matching EntandoDatabaseService does not exist in this namespace, the Entando Operator
-                    will automatically deploy the appropriate container to host the DBMS specified. This last option is not
-                    yet supported for Oracle.
+                    postgresql, embedded or none.
+                    Only 1 replica of the container is supported if embedded is selected. If
+                    Oracle is selected it must be created manually, the operator does not deploy Oracle instances.
+                    See [here] (https://dev.entando.org/v6.3/docs/concepts/operator-intro.html#database-deployment) for how the operator will create and configure the DBMS.
                   type: string
                   pattern: '^(mysql|oracle|postgresql|embedded|none)$'
                 storageClass:
@@ -86,14 +80,7 @@ spec:
                 tlsSecretName:
                   description: >
                     The name of a standard Kubernetes TLS Secret, assumed to be in the same Namespace as the EntandoPlugin
-                    being created. This Secret is expected to have a private key, and a certificate for the hostname that
-                    the EntandoPlugin microservice will be exposed on. Please refer to the 'ingressHostname' property for more
-                    information on how the hostname is determined. If absent, the Entando Operator will evaluate the
-                    value of the ENTANDO_PATH_TO_TLS_KEYPAIR which is expected to contain two files: tls.key and tls.crt.
-                    If a keypair is found in the folder specified, it will revert to the keypair found. Alternatively,
-                    the Entando Operator will evaluate the value of the ENTANDO_USE_AUTO_CERT_GENERATION. If set to 'true'
-                    the Entando Operator will assume that the cluster has been configured with a valid CA and leave it to
-                    the Ingress controller in use to generate its own certificates.
+                    being created. See here: TODO for details and instructions on creating a TLS secret for your Entando applications.
                   type: string
                   pattern: '^([a-z])+([a-z0-9-\.])*[a-z0-9]$'
                 serviceAccountToUse:
@@ -190,12 +177,12 @@ spec:
                       description: >
                         The amount of CPU units that will be requested from a node at deployment time. A pod will only be
                         deployed to a node if the node has this amount of CPU units available. Supports decimal numbers, or
-                        alternatively the suffix 'm' can be used to specify a milicore. Precision lower than 1m is not supported.
+                        alternatively the suffix 'm' can be used to specify a millicore. Precision lower than 1m is not supported.
                       type: string
                     cpuLimit:
                       description: >
                         The maximum amount of CPU units that will be required by the container.Supports decimal numbers, or
-                        alternatively the suffix 'm' can be used to specify a milicore. Precision lower than 1m is not supported.
+                        alternatively the suffix 'm' can be used to specify a millicore. Precision lower than 1m is not supported.
                       type: string
                     fileUploadLimit:
                       description: >
@@ -254,7 +241,7 @@ spec:
                       description: >
                         The Namespace of the EntandoClusterInfrastructure to use. This value is only
                         evaluated if the 'spec.clusterInfrastructureToUse.name' property has been set on this
-                        EntandoPlugin.  If no Namespace is provided,
+                        EntandoPlugin.  If no namespace is provided,
                         but a name was provided, the Entando Operator will then look for the
                         EntandoClusterInfrastructure with the name specified in the same Namespace as this
                         EntandoPlugin microservice and use it.
