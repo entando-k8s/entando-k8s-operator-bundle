@@ -137,12 +137,11 @@ spec:
         displayName: Entando Composite Application
         version: v1
         description: >
-          Using an Entando Composite Application is the easiest way to get started with Entando. It allows the user to
-          combine any number of the Entando Custom Resources and deploy them in the sequence specified. This is useful
-          for scenarios where one Entando Custom Resource (e.g. an EntandoPlugin) is dependent on another Entando
-          Custom Resource such as an EntandoKeycloakServer or EntandoDatabaseService. Simply place the
-          EntandoKeycloakServer or EntandoDatabaseService ahead of the EntandoPlugin in the list of components,
-          deploy the EntandoCompositeApp and wait for the whole application to be ready.
+          An Entando Composite Application is the easiest way to get started with Entando. It allows the user to
+          combine Entando Custom Resources and deploy them in the sequence specified. This is useful
+          when one Entando Custom Resource (e.g. an EntandoPlugin) is dependent on another Entando
+          Custom Resource. Simply order the components in the list of components,
+          deploy the EntandoCompositeApp, and wait for the whole application to be ready.
         resources:
           - version: v1
             kind: Deployment
@@ -168,11 +167,10 @@ spec:
         kind: EntandoDatabaseService
         version: v1
         description: >
-          The EntandoDatabaseService is typically used to share a database instance across multiple deployments. This
+          The EntandoDatabaseService is used to share a database instance across multiple deployments. This
           custom resource can either point to an external database service, or it can actually deploy a container that
-          hosts the database service. Any subsequent deployments in the same namespace that need a service
-          by the same database vendor specified in the EntandoDatabaseService will be configured to point to this
-          database service.
+          hosts the database service. Any subsequent deployments in the same namespace that need  the same database
+          specified in the EntandoDatabaseService will be configured to point to this database service.
         resources:
           - version: v1
             kind: Deployment
@@ -213,7 +211,7 @@ spec:
         specDescriptors:
           - displayName: TLS Secret
             description: >-
-              The name of a standard Kubernetes TLS  secret to be associated with
+              The name of a standard Kubernetes TLS secret to be associated with
               the Ingress that will expose the Keycloak Service over HTTPS
             path: tlsSecretName
             x-descriptors:
@@ -233,8 +231,7 @@ spec:
         version: v1
         description: >
           The EntandoClusterInfrastructure resource allows the Entando Operator to deploy its abstraction layer on
-          Kubernetes, the Entando Kubernetes Service. In the future, we will be deploying this service in the Entando
-          Operator's ClusterServiceVersion.
+          Kubernetes, the Entando Kubernetes Service.
         resources:
           - version: v1
             kind: Deployment
@@ -257,10 +254,9 @@ spec:
         displayName: Entando Plugin Microservice
         version: v1
         description: >
-          The EntandoPlugin allows customers to extend the functionality of a typical Entando application by
-          deploying a microservice based on the Entando JHipster Blueprint. An EntandoPlugin is typically defined
-          from an Entando Bundle, which typically implements a microfrontend that uses the microservice provided
-          in this plugin using the backend-for-fronted pattern.
+          The EntandoPlugin allows customers to extend the functionality of an Entando application by
+          deploying a microservice based on the Entando JHipster Blueprint. EntandoPlugins can also be included in,
+          and deployed via, an Entando Bundle
         resources:
           - version: v1
             kind: Deployment
@@ -283,12 +279,9 @@ spec:
         kind: EntandoApp
         version: v1
         description: >-
-          An Entando App deploys the components required to host a typical Entando App. The core server side
-          components that are deployed include the Entando App Engine, the Portal, and the Entando Web Content 
-          Management System. These
-          are accessed through the Entando App Builder browser application. The Entando Component Manager is the third
-          component deployed for an Entando App and it enables the basic integration between the Entando App Engine
-          and the Entando Kubernetes Infrastructure.
+          An Entando App deploys the components required to host an Entando App. The server side
+          components that are deployed include the Entando App Engine, the Entando Component Manager,
+          the Entando App Builder, and the user facing application.
         resources:
           - version: v1
             kind: Deployment
@@ -310,7 +303,9 @@ spec:
         displayName: EntandoAppPluginLink
         kind: EntandoAppPluginLink
         version: v1
-        description: Entando App Plugin Link
+        description: >-
+          The EntandoAppPluginLink custom resource is used to associate an Entando Application and a plugin microservice so that the microservice
+          APIs can be accessed using the applications ingress.
         resources:
           - version: v1
             kind: Service
@@ -321,6 +316,8 @@ spec:
       - name: entandodebundles.entando.org
         displayName: EntandoDeBundle
         kind: EntandoDeBundle
+        description: >-
+          The EntandoDeBundle custom resource defines a bundle that can be deployed to the Entando Component Repository. See [here](https://dev.entando.org/v6.3/tutorials/ecr/publish-simple-bundle.html#build-and-publish-a-simple-bundle) for instructions on creating and deploying bundles.
         version: v1
         description: EntandoDeBundle
         resources:

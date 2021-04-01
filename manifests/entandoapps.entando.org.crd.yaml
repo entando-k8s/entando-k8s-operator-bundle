@@ -47,25 +47,9 @@ spec:
                 dbms:
                   description: >
                     The database management system (DBMS) to use for persistence of this EntandoApp. 
-                    Can be any of mysql, oracle  postgresql, embedded or none. When 'embedded' is used, an in-process 
-                    Derby database will be used and in the folder /entando-data which is where the standard
-                    Entando persistent volume is mounted. Since the supporting database files can only be opened by one process at a time,
-                    only 1 replica can be supported when the value is 'embedded'. 
-                    If an EntandoDatabaseService has been
-                    deployed in this EntandoApp's namespace, and the DBMS specified on this EntandoDatabaseService
-                    is the same as the DBMS specified on this EntandoApp, the Entando Operator will create dedicated
-                    schema s(in the case of PostgreSQL or Oracle), or databases in the case of MySQL for this EntandoApp
-                    to persist its data. If a matching EntandoDatabaseService does not exist in this namespace, the Entando Operator
-                    will automatically deploy the appropriate container to host the DBMS specified. This last option is not
-                    yet supported for Oracle.
-                    Three schemas/database will be created: the Entando Port DB, tne Entando Serv DB and a database for
-                    the Entando Component Manager. If the Port and Serv schemas/databases are empty, the Entando Operator
-                    will use the underlying Entando App to populate these datbases with the data backup available in the
-                    standard backup path in the WAR deployment.
-                    In scenarios where the EntandoApp needs to connect to an existing database that is fully managed 
-                    by the customer, it is best to setup the standard database connection variables using the 
-                    'spec.environmentVariables' property and set this property to 'none'. This will skip any database
-                    preparations steps in the deployment.
+                    Can be any of mysql, oracle  postgresql, embedded or none. Only 1 replica of the container is supported if embedded is selected. If Oracle is selected it must be created manually, the operator does not deploy Oracle instances.
+
+                    See [here] (https://dev.entando.org/v6.3/docs/concepts/operator-intro.html#database-deployment) for how the operator will create and configure the DBMS.
                   type: string
                   pattern: '^(mysql|oracle|postgresql|embedded|none)$'
                 storageClass:
@@ -74,44 +58,33 @@ spec:
                   type: string
                 ingressHostName:
                   description: >
-                    The hostname that will be used to access this EntandoApp  from outside the cluster. The Entando
+                    The hostname that will be used to access this EntandoApp from outside the cluster. The Entando
                     Operator will create an Ingress reflecting this hostname, and expose this EntandoApp on the
                     path specified in 'EntandoApp.spec.ingressPath' on
-                    this host. If omitted, the Entando Operator will automatically generate a hostname using the value of
-                    the ENTANDO_DEFAULT_ROUTING_SUFFIX environment variable that the Entando Operator was configured with.
-                    It will prefix the name and namespace of the EntandoApp to this default routing suffix.
+                    this host. If omitted, the Entando Operator will automatically generate a hostname.
+
+                    See [here] (https://dev.entando.org/v6.3/docs/concepts/operator-intro.html#ingress-path-generation) for how the operator will create and configure the Ingress.
                   type: string
                   pattern: '^([A-Za-z0-9-]{1,63}\.)*[[A-Za-z0-9-]{1,63}$'
                 ingressPath:
                   description: >
                     The path that will be used to expose this EntandoApp on the ingress host
                     specified in 'EntandoApp.spec.ingressHostname'. This property needs to be in sync with
-                    the web context path that is used in the underlying WAR deployment. It should there either be
+                    the web context path that is used in the underlying WAR deployment. It should either be
                     the name of the WAR file that gets generated, or it needs to be in sync with the web context
                     specified in the jboss-web.xml deployment descriptor. The default value is 'entando-de-app'.
                   type: string
                 tlsSecretName:
                   description: >
-                    The name of a standard Kubernetes TLS Secret, assumed to be in the same Namespace as the EntandoApp
-                    being created. This Secret is expected to have a private key, and a certificate for the hostname that
-                    the EntandoApp will be exposed on. Please refer to the 'ingressHostname' property for more
-                    information on how the hostname is determined. If absent, the Entando Operator will evaluate the
-                    value of the ENTANDO_PATH_TO_TLS_KEYPAIR which is expected to contain two files: tls.key and tls.crt.
-                    If a keypair is found in the folder specified, it will revert to the keypair found. Alternatively,
-                    the Entando Operator will evaluate the value of the ENTANDO_USE_AUTO_CERT_GENERATION. If set to 'true'
-                    the Entando Operator will assume that the cluster has been configured with a valid CA and leave it to
-                    the Ingress controller in use to generate its own certificates.
+                    The name of a standard Kubernetes TLS Secret, assumed to be in the same Namespace as the EntandoApp being created.
+                    See [here](https://dev.entando.org/v6.3/docs/concepts/operator-intro.html#tls-secret-creation) for details and instructions on
+                    creating a secret for your Entando applications.
                   type: string
                   pattern: '^([a-z])+([a-z0-9-\.])*[a-z0-9]$'
                 serviceAccountToUse:
                   description: >
                     The Kubernetes ServiceAccount in the Namespace of the EntandoApp that is to be used for
-                    the Pods hosting the EntandoApps. The default is 'default'. The standard EntandoApp Docker images
-                    have been configured to use the KUBE_PING protocol in JGroups for clustering. This protocol requires
-                    get/list/watch access to Pods in the same namespace. By default, Entando will attempt to add
-                    the necessary permissions to the ServiceAccount specified here. Should this fail, it is up to the
-                    deployer to ensure that this ServiceAccount has get/list/watch access to Pods in the same
-                    namespace.
+                    the Pods hosting the EntandoApps. The default is 'default'.
                   type: string
                   pattern: '^([a-z])+([a-z0-9-\.])*[a-z0-9]$'
                 environmentVariables:
@@ -199,12 +172,12 @@ spec:
                       description: >
                         The amount of CPU units that will be requested from a node at deployment time. A pod will only be
                         deployed to a node if the node has this amount of CPU units available. Supports decimal numbers, or
-                        alternatively the suffix 'm' can be used to specify a milicore. Precision lower than 1m is not supported.
+                        alternatively the suffix 'm' can be used to specify a millicore. Precision lower than 1m is not supported.
                       type: string
                     cpuLimit:
                       description: >
                         The maximum amount of CPU units that will be required by the container.Supports decimal numbers, or
-                        alternatively the suffix 'm' can be used to specify a milicore. Precision lower than 1m is not supported.
+                        alternatively the suffix 'm' can be used to specify a millicore. Precision lower than 1m is not supported.
                       type: string
                     fileUploadLimit:
                       description: >
@@ -263,7 +236,7 @@ spec:
                       description: >
                         The Namespace of the EntandoClusterInfrastructure to use. This value is only
                         evaluated if the 'spec.clusterInfrastructureToUse.name' property has been set on this
-                        EntandoApp.  If no Namespace is provided,
+                        EntandoApp. If no Namespace is provided,
                         but a name was provided, the Entando Operator will then look for the
                         EntandoClusterInfrastructure with the name specified in the same Namespace as this
                         EntandoApp and use it.
@@ -283,7 +256,7 @@ spec:
                 customServerImage:
                   description: >
                     The full Docker image URI for the Docker image to be deployed. This is only required in scenarios
-                    where the customer has created an independent Maven project based on the entando-de-app project
+                    where the user has created an independent Maven project based on the entando-de-app project
                     (https://github.com/entando-k8s/entando-de-app) and packaged this project to its own image.
                     Use this property in conjunction with 'EntandoApp.spec.standardServerImage' to ensure that the
                     Entando Operator provides it with the correct environment variables.

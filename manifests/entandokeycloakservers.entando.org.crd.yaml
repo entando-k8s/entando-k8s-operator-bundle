@@ -50,22 +50,11 @@ spec:
                   description: >
                     The database management system (DBMS) to use for persistence
                     of this Keycloak server. Can be any of mysql, oracle
-                    postgresql or embedded. When 'embedded' is used, an
-                    in-process H2 database will be used and mounted on a
-                    persistent volume. Since the supporting database files can
-                    only be opened by one process at a time, only 1 replica can
-                    be supported when the value is 'embedded'. If an
-                    EntandoDatabaseService has been deployed in this
-                    EntandoKeycloakServer's namespace, and the DBMS specified on
-                    this EntandoDatabaseService is the same as the DBMS
-                    specified on this EntandoKeycloakServer, the Entando
-                    Operator will create a dedicated schema (in the case of
-                    PostgreSQL or Oracle), or a database in the case of MySQL
-                    for this EntandoKeycloakServer to persist its data. If a
-                    matching EntandoDatabaseService does not exist in this
-                    namespace, the Entando Operator will automatically deploy
-                    the appropriate container to host the DBMS specified. This
-                    last option is not yet supported for Oracle
+                    postgresql or embedded.
+
+                     Only 1 replica of the container is supported if embedded is selected. If
+                     Oracle is selected it must be created manually, the operator does not deploy Oracle instances.
+                     See [here](https://dev.entando.org/v6.3/docs/concepts/operator-intro.html#database-deployment) for how the operator will create and configure the DBMS.
                   type: string
                   pattern: ^(mysql|oracle|postgresql|embedded|none)$
                 storageClass:
@@ -76,33 +65,21 @@ spec:
                   description: >
                     The hostname that will be used to access this Keycloak
                     service from outside the cluster. The Entando Operator will
-                    create an Ingress reflecting this hostname, and expose
-                    Keycloak on the '/auth' path on this host. If omitted, the
-                    Entando Operator will automatically generate a hostname
-                    using the value of the ENTANDO_DEFAULT_ROUTING_SUFFIX
-                    environment variable that the Entando Operator was
-                    configured with. It will prefix the name and namespace of
-                    the EntandoKeycloakServer to this default routing suffix.
+                    create an ingress reflecting this hostname, and expose
+                    Keycloak on the '/auth' path on this host. If omitted, the operator will generate a default host
+                    path.
+
+                    See [here] (https://dev.entando.org/v6.3/docs/concepts/operator-intro.html#ingress-path-generation) for how the operator will create and configure the Ingress.
+
                   type: string
                   pattern: '^([A-Za-z0-9-]{1,63}\.)*[[A-Za-z0-9-]{1,63}$'
                 tlsSecretName:
                   description: >
                     The name of a standard Kubernetes TLS Secret, assumed to be
                     in the same Namespace as the EntandoKeycloakServer being
-                    created. This Secret is expected to have a private key, and
-                    a certificate for the hostname that the Keycloak service
-                    will be exposed on. Please refer to the 'ingressHostname'
-                    property for more information on how the hostname is
-                    determined. If absent, the Entando Operator will evaluate
-                    the value of the ENTANDO_PATH_TO_TLS_KEYPAIR which is
-                    expected to contain two files: tls.key and tls.crt. If a
-                    keypair is found in the folder specified, it will revert to
-                    the keypair found. Alternatively, the Entando Operator will
-                    evaluate the value of the ENTANDO_USE_AUTO_CERT_GENERATION.
-                    If set to 'true' the Entando Operator will assume that the
-                    cluster has been configured with a valid CA and leave it to
-                    the Ingress controller in use to generate its own
-                    certificates.
+                    created. See (here) [https://dev.entando.org/v6.3/docs/concepts/operator-intro.html#tls-secret-creation] for details and instructions on
+                    creating a secret for your Entando applications.
+
                   type: string
                   pattern: '^([a-z])+([a-z0-9-\.])*[a-z0-9]$'
                 serviceAccountToUse:
@@ -180,7 +157,7 @@ spec:
                     The projected resource requirements of the given Keycloak
                     deployment. Specifies the limits that the container is
                     expected to respect, and the size of requests that will be
-                    initiated on behalf of the container. When omitted our known
+                    initiated on behalf of the container. When omitted
                     defaults will be applied.
                   type: object
                   properties:
@@ -223,14 +200,14 @@ spec:
                         node at deployment time. A pod will only be deployed to
                         a node if the node has this amount of CPU units
                         available. Supports decimal numbers, or alternatively
-                        the suffix 'm' can be used to specify a milicore.
+                        the suffix 'm' can be used to specify a millicore.
                         Precision lower than 1m is not supported.
                       type: string
                     cpuLimit:
                       description: >
                         The maximum amount of CPU units that will be required by
                         the container.Supports decimal numbers, or alternatively
-                        the suffix 'm' can be used to specify a milicore.
+                        the suffix 'm' can be used to specify a millicore.
                         Precision lower than 1m is not supported.
                       type: string
                     fileUploadLimit:
@@ -262,7 +239,7 @@ spec:
                   description: >
                     One of the standard images for Keycloak provided by Entando.
                     The value can be either 'keycloak' or 'redhat-sso'. Please
-                    not that, when the Entando Operator runs in certified Red
+                    note that, when the Entando Operator runs in certified Red
                     Hat mode, it will always use the 'redhat-sso' image. This
                     can be controlled by setting the environment variable
                     ENTANDO_K8S_OPERATOR_COMPLIANCE_MODE on the Entando Operator

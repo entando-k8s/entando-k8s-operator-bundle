@@ -43,31 +43,21 @@ spec:
                   maximum: 10
                 ingressHostName:
                   description: >
-                    The hostname that will be used to access this Keycloak service from outside the cluster. The Entando
-                    Operator will create an Ingress reflecting this hostname, and expose Keycloak on the '/auth' path on
-                    this host. If omitted, the Entando Operator will automatically generate a hostname using the value of
-                    the ENTANDO_DEFAULT_ROUTING_SUFFIX environment variable that the Entando Operator was configured with.
-                    It will prefix the name and namespace of the EntandoClusterInfrastructure to this default routing suffix.
+                    The hostname that will be used to access this cluster infrastructure service from outside the cluster. The Entando
+                    Operator will create an Ingress reflecting this hostname and make it available to internal components that need it.
                   type: string
                   pattern: '^([A-Za-z0-9-]{1,63}\.)*[[A-Za-z0-9-]{1,63}$'
                 tlsSecretName:
                   description: >
                     The name of a standard Kubernetes TLS Secret, assumed to be in the same Namespace as the EntandoClusterInfrastructure
-                    being created. This Secret is expected to have a private key, and a certificate for the hostname that
-                    the Keycloak service will be exposed on. Please refer to the 'ingressHostname' property for more
-                    information on how the hostname is determined. If absent, the Entando Operator will evaluate the
-                    value of the ENTANDO_PATH_TO_TLS_KEYPAIR which is expected to contain two files: tls.key and tls.crt.
-                    If a keypair is found in the folder specified, it will revert to the keypair found. Alternatively,
-                    the Entando Operator will evaluate the value of the ENTANDO_USE_AUTO_CERT_GENERATION. If set to 'true'
-                    the Entando Operator will assume that the cluster has been configured with a valid CA and leave it to
-                    the Ingress controller in use to generate its own certificates.
+                    being created. See [here](https://dev.entando.org/v6.3/docs/concepts/operator-intro.html#tls-secret-creation) for details and instructions on creating a secret for your Entando applications.
                   type: string
                   pattern: '^([a-z])+([a-z0-9-\.])*[a-z0-9]$'
                 serviceAccountToUse:
                   description: >
                     The Kubernetes ServiceAccount in the Namespace of the EntandoClusterInfrastructure that is to be used for
-                    the Pods hosting the Keycloak services. Can be left empty for
-                    most situations, as the Keycloak service doesn't make direct use of Kubernetes resources.
+                    the pods hosting the  services. Can be left empty in
+                    most situations.
                   type: string
                   pattern: '^([a-z])+([a-z0-9-\.])*[a-z0-9]$'
                 environmentVariables:
@@ -122,9 +112,9 @@ spec:
                                 type: string
                 resourceRequirements:
                   description: >
-                    The projected resource requirements of the given Keycloak deployment. Specifies the limits that the
+                    The projected resource requirements of the given cluster infrastructure deployment. Specifies the limits that the
                     container is expected to respect, and the size of requests that will be initiated on behalf of the
-                    container. When omitted our known defaults will be applied.
+                    container. When omitted defaults will be applied.
                   type: object
                   properties:
                     storageRequest:
@@ -134,7 +124,7 @@ spec:
                       type: string
                     storageLimit:
                       description: >
-                        The maximum amount of persistent storage require by the Keycloak server. Only relevant
+                        The maximum amount of persistent storage required by the server. Only relevant
                         if the 'embedded' DBMS option is used. Limits and requests for memory are measured in bytes. You can
                         express storage as a plain integer using one of these suffixes: T, G, M, K. You can also
                         use the power-of-two equivalents: Ti, Gi, Mi, Ki.
@@ -155,12 +145,12 @@ spec:
                       description: >
                         The amount of CPU units that will be requested from a node at deployment time. A pod will only be
                         deployed to a node if the node has this amount of CPU units available. Supports decimal numbers, or
-                        alternatively the suffix 'm' can be used to specify a milicore. Precision lower than 1m is not supported.
+                        alternatively the suffix 'm' can be used to specify a millicore. Precision lower than 1m is not supported.
                       type: string
                     cpuLimit:
                       description: >
                         The maximum amount of CPU units that will be required by the container.Supports decimal numbers, or
-                        alternatively the suffix 'm' can be used to specify a milicore. Precision lower than 1m is not supported.
+                        alternatively the suffix 'm' can be used to specify a millicore. Precision lower than 1m is not supported.
                       type: string
                     fileUploadLimit:
                       description: >
@@ -169,7 +159,7 @@ spec:
                       type: string
                 isDefault:
                   description: >
-                    Set this property to 'true' if this Keycloak instance is to be used by the deployments of other
+                    Set this property to 'true' if this instance is to be used by the deployments of other
                     Entando custom resource when they do not specify it themselves.
                   type: boolean
                 keycloakToUse:
