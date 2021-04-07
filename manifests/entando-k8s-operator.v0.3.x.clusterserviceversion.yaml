@@ -343,8 +343,6 @@ spec:
       image: docker.io/entando/entando-k8s-cluster-infrastructure-controller@sha256:86dbea6696349d7b2393e12bacef4d1acec2dd3f8551e397fa26c92706a18dd3
     - name: entando-k8s-composite-app-controller #6.3.8
       image: docker.io/entando/entando-k8s-composite-app-controller@sha256:379b31e34277c60208e58503512513b41cc5705f1ec664f95259dc8591ae221e
-    - name: entando-k8s-controller-coordinator #6.3.7
-      image: docker.io/entando/entando-k8s-controller-coordinator@sha256:dc0c66a454872e9dd1e980239343e1978a2f3e87bf54ccc9718d2614f5d60fae
     - name: entando-k8s-database-service-controller #6.3.11
       image: docker.io/entando/entando-k8s-database-service-controller@sha256:58ca4ad2fca83a715aba9b68609f9056f633d556eb9845b3aff5c05769369539
     - name: entando-k8s-dbjob #6.3.8
@@ -555,7 +553,7 @@ spec:
                 imagePullSecrets:
                   - name: entando-pull-secret
                 containers:
-                  - image: entando/entando-k8s-controller-coordinator@sha256:de44bde6b8228dbfc9af0d599d0448586a2980b088502f37900a3613926a4bd2
+                  - image: entando/entando-k8s-controller-coordinator@sha256:c12cdf3d83cef1d81e8be90369919b5d572cca25059ffc9ecc22543379d58d6d
                     imagePullPolicy: IfNotPresent
                     name: entando-operator
                     resources:
@@ -618,8 +616,6 @@ spec:
                         value: docker.io/entando/entando-k8s-cluster-infrastructure-controller@sha256:86dbea6696349d7b2393e12bacef4d1acec2dd3f8551e397fa26c92706a18dd3
                       - name: RELATED_IMAGE_ENTANDO_K8S_COMPOSITE_APP_CONTROLLER #6.3.8
                         value: docker.io/entando/entando-k8s-composite-app-controller@sha256:379b31e34277c60208e58503512513b41cc5705f1ec664f95259dc8591ae221e
-                      - name: RELATED_IMAGE_ENTANDO_K8S_CONTROLLER_COORDINATOR #6.3.7
-                        value: docker.io/entando/entando-k8s-controller-coordinator@sha256:dc0c66a454872e9dd1e980239343e1978a2f3e87bf54ccc9718d2614f5d60fae
                       - name: RELATED_IMAGE_ENTANDO_K8S_DATABASE_SERVICE_CONTROLLER #6.3.11
                         value: docker.io/entando/entando-k8s-database-service-controller@sha256:58ca4ad2fca83a715aba9b68609f9056f633d556eb9845b3aff5c05769369539
                       - name: RELATED_IMAGE_ENTANDO_K8S_DBJOB #6.3.8
