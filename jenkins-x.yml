@@ -29,7 +29,7 @@ pipelineConfig:
         steps:
           - sh: echo "This avoids unwanted kaniko command substitution"  &&  skaffold build -p internal -f skaffold.yaml
             name: container-build
-          - sh: operator-sdk bundle validate "${DOCKER_REGISTRY}/entando/${APP_NAME}:$(cat VERSION)"
+          - sh: operator-sdk bundle validate "${DOCKER_REGISTRY}/entando/${APP_NAME}-internal:$(cat VERSION)"
             name: verify-bundle
-          - sh: jx step post build --image "${DOCKER_REGISTRY}/entando/${APP_NAME}:$(cat VERSION)"
+          - sh: jx step post build --image "${DOCKER_REGISTRY}/entando/${APP_NAME}-internal:$(cat VERSION)"
             name: post-build
