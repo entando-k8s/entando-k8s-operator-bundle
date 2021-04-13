@@ -1,4 +1,4 @@
-export MY_VERSION=$(yq eval '.spec.version' manifests/entando-k8s-operator.v0.3.x.clusterserviceversion.yaml)
+export MY_VERSION=$(yq eval '.spec.version' manifests/k8s-116-and-later/olm-deployment/entando-k8s-operator.v6.3.x.clusterserviceversion.yaml)
 echo $MY_VERSION
 export PREVIOUS_VERSIONS=()
 for V in ${PREVIOUS_VERSIONS[@]}; do

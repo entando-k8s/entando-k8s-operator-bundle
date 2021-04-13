@@ -12,7 +12,7 @@ pipelineConfig:
         steps:
           - sh: ./set-csv-version.sh \${PREVIEW_VERSION}
             name: set-csv-version
-          - sh: echo "This avoids unwanted kaniko command substitution"  &&  skaffold build -f skaffold.yaml
+          - sh: echo "This avoids unwanted kaniko command substitution"  &&  skaffold build -p internal -f skaffold.yaml
             name: container-build
           - sh: operator-sdk bundle validate "${DOCKER_REGISTRY}/entando/${APP_NAME}:$(cat VERSION)"
             name: verify-bundle
@@ -27,7 +27,7 @@ pipelineConfig:
       build:
         replace: true
         steps:
-          - sh: echo "This avoids unwanted kaniko command substitution"  &&  skaffold build  -f skaffold.yaml
+          - sh: echo "This avoids unwanted kaniko command substitution"  &&  skaffold build -p internal -f skaffold.yaml
             name: container-build
           - sh: operator-sdk bundle validate "${DOCKER_REGISTRY}/entando/${APP_NAME}:$(cat VERSION)"
             name: verify-bundle

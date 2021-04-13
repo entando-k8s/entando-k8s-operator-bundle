@@ -12,18 +12,13 @@ build:
 deploy:
   kubectl: {}
 profiles:
-- name: dev
-  build:
-    tagPolicy:
-      envTemplate:
-        template: '{{.DOCKER_REGISTRY}}/{{.IMAGE_NAME}}:{{.DIGEST_HEX}}'
-    local: {}
-  deploy:
-    helm:
-      releases:
-      - name: entando-k8s-operator-bundle
-        chartPath: charts/entando-k8s-operator-bundle
-        setValueTemplates:
-          image.repository: '{{.DOCKER_REGISTRY}}/{{.IMAGE_NAME}}'
-          image.tag: '{{.DIGEST_HEX}}'
-
+  - name: internal
+    artifacts:
+      - image: entando/entando-k8s-operator-bundle-internal
+        docker:
+          dockerfile: Dockerfile.internal
+  - name: rh-cert
+    artifacts:
+      - image: entando/entando-k8s-operator-bundle
+        docker:
+          dockerfile: Dockerfile.rh-cert

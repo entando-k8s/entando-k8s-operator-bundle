@@ -14,11 +14,11 @@ metadata:
   namespace: openshift-marketplace
 spec:
   displayName: Entando Catalog
-  image: docker.io/ampie/entando-k8s-index:latest
+  image: docker.io/entando/entando-k8s-index:latest
   sourceType: grpc
   updateStrategy:
     registryPoll:
-      interval: 2m
+      interval: 5m
 ```
 
 2. Confirm that a Pod starting with the phrase 'entando-catalog' is running in the `openshift-marketplace` Namespace:
@@ -27,7 +27,7 @@ watch oc get pods -n openshift-marketplace
 ```
 
 3. When the new catalog Pod is ready, go to your Openshift web console's Operator Hub and search for the keyword 'Entando'. 
-The latest available version should be 0.3.45. Click on the 'Install' button. Use the default 'openshift-operators' namespace
+The latest available version should be 6.3.1. Click on the 'Install' button. Use the default 'openshift-operators' namespace
    
 4. Confirm that the Entando Operator pod is up and running:
 ```
