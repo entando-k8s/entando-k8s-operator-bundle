@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 export MY_VERSION=$(yq eval '.spec.version' manifests/k8s-116-and-later/olm-deployment/entando-k8s-operator.v6.3.x.clusterserviceversion.yaml)
 echo $MY_VERSION
 export PREVIOUS_VERSIONS=()
