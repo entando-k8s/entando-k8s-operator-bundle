@@ -1724,6 +1724,9 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: entando-operator
+imagePullSecrets:
+  - name: redhat-registry
+  - name: entando-pull-secret
 
 ---
 # Source: entando-k8s-operator-bundle/charts/operator/templates/entando-editor-clusterrole.yaml
@@ -1967,7 +1970,7 @@ metadata:
   name: release-name-operator
   labels:
     draft: draft-app
-    chart: "operator-0.0.1"
+    chart: "operator-6.3.9"
 spec:
   replicas: 1
   selector:
@@ -1984,12 +1987,12 @@ spec:
       volumes:
       containers:
         - name: operator
-          image: "entando/entando-k8s-controller-coordinator:6.3.8"
+          image: "docker.io/entando/entando-k8s-controller-coordinator:6.3.9"
           imagePullPolicy: Always
           volumeMounts:
           env:
             - name: ENTANDO_K8S_OPERATOR_IMAGE_PULL_SECRETS
-              value: ""
+              value: "redhat-registry,entando-pull-secret"
             - name: ENTANDO_K8S_OPERATOR_SERVICEACCOUNT
               valueFrom:
                 fieldRef:
