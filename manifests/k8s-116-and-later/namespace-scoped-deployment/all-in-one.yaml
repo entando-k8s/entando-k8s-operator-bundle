@@ -1672,17 +1672,17 @@ metadata:
   name: entando-docker-image-info
 data:
   app-builder: >-
-    {"version":"6.3.55","executable-type":"n/a","registry":"docker.io","organization":"entando"}
+    {"version":"6.3.47-2","executable-type":"n/a","registry":"docker.io","organization":"entando"}
   busybox: >-
     {"version":"latest","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-avatar-plugin: >-
     {"version":"6.0.5","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-component-manager: >-
-    {"version":"6.3.17","executable-type":"jvm","registry":"docker.io","organization":"entando"}
+    {"version":"6.3.13-1","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-de-app-eap: >-
-    {"version":"6.3.62","executable-type":"jvm","registry":"docker.io","organization":"entando"}
+    {"version":"6.3.58-2","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-de-app-wildfly: >-
-    {"version":"6.3.62","executable-type":"jvm","registry":"docker.io","organization":"entando"}
+    {"version":"6.3.58","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-app-controller: >-
     {"version":"6.3.9","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-app-plugin-link-controller: >-
@@ -1690,7 +1690,7 @@ data:
   entando-k8s-cluster-infrastructure-controller: >-
     {"version":"6.3.7","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-composite-app-controller: >-
-    {"version":"6.3.8","executable-type":"jvm","registry":"docker.io","organization":"entando"}
+    {"version":"6.3.11","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-database-service-controller: >-
     {"version":"6.3.11","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-dbjob: >-
@@ -1708,7 +1708,7 @@ data:
   entando-process-driven-plugin: >-
     {"version":"6.0.50","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-redhat-sso: >-
-    {"version":"6.3.8","executable-type":"","registry":"docker.io","organization":"entando"}
+    {"version":"6.3.9","executable-type":"","registry":"docker.io","organization":"entando"}
   mysql-80-centos7: >-
     {"version":"latest","executable-type":"jvm","registry":"docker.io","organization":"centos"}
   postgresql-12-centos7: >-
@@ -1810,6 +1810,13 @@ rules:
     verbs:
       - "*"
   - apiGroups:
+      - route.openshift.io
+    resources:
+      - "routes"
+      - "routes/custom-host"
+    verbs:
+      - "*"
+  - apiGroups:
       - ""
     resources:
       - secrets
@@ -1903,6 +1910,13 @@ rules:
     verbs:
       - get
       - create
+  - apiGroups:
+      - route.openshift.io
+    resources:
+      - "routes"
+      - "routes/custom-host"
+    verbs:
+      - "*"
 
 ---
 # Source: entando-k8s-operator-bundle/charts/operator/templates/plugin-role.yaml
@@ -2054,22 +2068,30 @@ spec:
               value: "600"
             - name: ENTANDO_POD_READINESS_TIMEOUT_SECONDS
               value: "600"
+          startupProbe:
+            exec:
+              command:
+                - cat
+                - /tmp/EntandoControllerCoordinator.ready
+            periodSeconds: 3
+            failureThreshold: 20
+            successThreshold: 1
+            timeoutSeconds: 1
           livenessProbe:
             exec:
               command:
                 - cat
                 - /tmp/EntandoControllerCoordinator.ready
-            initialDelaySeconds: 60
-            periodSeconds: 10
-            successThreshold: 1
+            periodSeconds: 5
+            failureThreshold: 1
             timeoutSeconds: 1
           readinessProbe:
             exec:
               command:
                 - cat
                 - /tmp/EntandoControllerCoordinator.ready
-            periodSeconds: 10
-            successThreshold: 1
+            periodSeconds: 5
+            failureThreshold: 1
             timeoutSeconds: 1
           resources:
             limits:

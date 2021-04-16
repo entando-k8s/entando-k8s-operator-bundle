@@ -647,6 +647,14 @@ spec:
                       periodSeconds: 5
                       failureThreshold: 1
                       timeoutSeconds: 1
+                    readinessProbe:
+                      exec:
+                        command:
+                          - cat
+                          - /tmp/EntandoControllerCoordinator.ready
+                      periodSeconds: 5
+                      failureThreshold: 1
+                      timeoutSeconds: 1
                 nodeSelector:
                   beta.kubernetes.io/os: linux
                 serviceAccountName: entando-operator
