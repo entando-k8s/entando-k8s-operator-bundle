@@ -26,13 +26,13 @@ function writeAllResourcesForVersion {
     support_openshift_311="false"
   fi
   writeClusterResourceToFile ${k8s_version} ${output_dir}/cluster-resources.yaml
-  helm template --set operator.supportOpenshift311=${support_openshift_311},operator.clusterScope=false,bundle.olmDisabled=true ./  >> ${output_dir}/namespace-resources.yaml
+  helm template --name=entando --set operator.supportOpenshift311=${support_openshift_311},operator.clusterScope=false,bundle.olmDisabled=true ./  >> ${output_dir}/namespace-resources.yaml
   writeClusterResourceToFile ${k8s_version} ${output_dir}/all-in-one.yaml
-  helm template --set operator.supportOpenshift311=${support_openshift_311},operator.clusterScope=false,bundle.olmDisabled=true ./  >> ${output_dir}/all-in-one.yaml
+  helm template --name=entando --set operator.supportOpenshift311=${support_openshift_311},operator.clusterScope=false,bundle.olmDisabled=true ./  >> ${output_dir}/all-in-one.yaml
   output_dir=./manifests/${k8s_version}/cluster-scoped-deployment
   rm $output_dir/*.yaml 2>/dev/null
   writeClusterResourceToFile ${k8s_version} ${output_dir}/all-in-one.yaml
-  helm template --set operator.supportOpenshift311=${support_openshift_311},operator.clusterScope=true,bundle.olmDisabled=true ./  >> ${output_dir}/all-in-one.yaml
+  helm template --name=entando --set operator.supportOpenshift311=${support_openshift_311},operator.clusterScope=true,bundle.olmDisabled=true ./  >> ${output_dir}/all-in-one.yaml
 }
 
 writeAllResourcesForVersion k8s-116-and-later
