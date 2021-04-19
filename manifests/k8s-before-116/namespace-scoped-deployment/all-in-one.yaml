@@ -2023,7 +2023,7 @@ subjects:
 apiVersion: "extensions/v1beta1"
 kind: Deployment
 metadata:
-  name: release-name-operator
+  name: entando-operator
   labels:
     draft: draft-app
     chart: "operator-6.3.9"
@@ -2032,12 +2032,12 @@ spec:
   selector:
     matchLabels:
       draft: draft-app
-      app: release-name-operator
+      app: entando-operator
   template:
     metadata:
       labels:
         draft: draft-app
-        app: release-name-operator
+        app: entando-operator
     spec:
       serviceAccountName: entando-operator
       volumes:
