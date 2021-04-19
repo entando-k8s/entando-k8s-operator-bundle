@@ -7,7 +7,7 @@ for V in ${PREVIOUS_VERSIONS[@]}; do
 done
 BUNDLES="${BUNDLES}docker.io/ampie/entando-k8s-operator-bundle:${MY_VERSION}"
 echo $BUNDLES
-docker build . -t ampie/entando-k8s-operator-bundle:${MY_VERSION} \
+docker build . -f Dockerfile.internal -t ampie/entando-k8s-operator-bundle:${MY_VERSION} \
       && docker push ampie/entando-k8s-operator-bundle:${MY_VERSION} \
       && operator-sdk bundle validate docker.io/ampie/entando-k8s-operator-bundle:${MY_VERSION} \
       && opm index add --bundles "${BUNDLES}" --tag docker.io/ampie/entando-k8s-index:latest \
