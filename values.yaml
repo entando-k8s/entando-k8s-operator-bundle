@@ -1,5 +1,5 @@
 bundle:
-  version: 6.3.2-pr3
+  version: 6.3.2-pr4
   olmDisabled: true
   internalOnly: true
 operator:
