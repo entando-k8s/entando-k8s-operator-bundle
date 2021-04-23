@@ -1,4 +1,4 @@
-#!/usr/bin/env bash\
+#!/usr/bin/env bash
 #This script determines the latest version of the entando-k8s-operator-bundle-internal container that was created
 #and builds an index image that can be deployed as a CatalogSource to an Openshift 4.6+ cluster
 #This script should typically be execute once a release build of the internal release of our operator
