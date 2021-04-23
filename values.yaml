@@ -23,8 +23,8 @@ operator:
       version: 6.3.58-2
       sha256: 1f0e35d7f7ee8123721cf8e80ac96ac2f594f21a2b68cf9e720917d090c8095e
     entando_k8s_app_controller:
-      version: 6.3.9
-      sha256: c68d3b129fc625f5d1ee10ed2a107e28c145049d4b513dcdb2c736555025e339
+      version: 6.3.10
+      sha256: 5a126f32ad61c0c8c76b3c8ccc75b13756756a4a47882cede29242015c8ccd5c
     entando_k8s_app_plugin_link_controller:
       version: 6.3.5
       sha256: aa7ba0861705213434e610530c5bf5da1bdb33f1834d3c346174f5a28145c0bd
@@ -50,8 +50,8 @@ operator:
       version: 6.3.7
       sha256: a20c753dda86e0f54f210e446b404733045ba426fc7186dc3936daed8224fbcb
     entando_k8s_service:
-      version: 6.3.4
-      sha256: 775391f0005e64764288bfe007d9ea576f13618c02ea400d030a7502cfb551bd
+      version: 6.3.6
+      sha256: be14d820b1dc1af7068e34d90f48e5e2468f10f3a712d497894fa292c4cdf6a8
     entando_redhat_sso:
       version: 6.3.9
       sha256: 3692adb3694b3bf278bed7a678c9d0eaa0aba8e3e3ed4117ca04156525bcac72
