@@ -14,8 +14,9 @@ operator:
       sha256: f4e5c728b644bf1888ec8086424852ed74b5596a511be29e636fb10218fc9b6f
       version: latest
     app_builder:
-      sha256: 39584207318bc61053321890d76567dbc2c9bc075f16d1950c79c625e75b159f
-      version: 6.3.77
+    app_builder:
+      sha256: 45dc1cf1fb113a87223cdab38c99ddebfc4870ff51c6103bccc09e787eab6667
+      version: 6.3.82
     busybox:
       sha256: 400ee2ed939df769d4681023810d2e4fb9479b8401d97003c710d0e20f7c49c6
       version: latest
@@ -23,17 +24,17 @@ operator:
       sha256: 3ff5425ca1b27c609614879bf1c8a25df4e6c0c560caa683d272eccd6090cee6
       version: 6.0.5
     entando_component_manager:
-      sha256: 28001329222a626c8ccf5c6f4e509da59c4e8788179b0f164634d1f74706c1f3
-      version: 6.3.22
+      sha256: 026030b67330e61a08000f899a819e3e1691047faeca52d213248612147a462a
+      version: 6.3.26
     entando_de_app_eap:
-      sha256: 6eef37cd92b969f5d5a876fe233de076f142f75eed5006f847b108581c892615
-      version: 6.3.66
+      sha256: 947fe5a5c3e852fc33227d75269bf291f0ee6e1dded4f777a6ecb8a86fbfb165
+      version: 6.3.67
     entando_de_app_wildfly:
-      sha256: e7e25c52962fb529ea0cbdba7afb41b576d0095ab1fa6ddee06dc24514f7211d
-      version: 6.3.66
+      sha256: 47dbaa95568b1510d2f6e0944811b96e449357e7c8d356ff57cb25e243e6a4be
+      version: 6.3.67
     entando_k8s_app_controller:
-      sha256: c08276ee99665783bc88ac8b6506bebfa36ff6d68dd8554cf1017b9febf458b8
-      version: 6.3.11
+      sha256: ba0058c319484e737507a1b1d33a813071b2a9a01044a85c4095f1eb8afb5887
+      version: 6.3.12
     entando_k8s_app_plugin_link_controller:
       sha256: aa7ba0861705213434e610530c5bf5da1bdb33f1834d3c346174f5a28145c0bd
       version: 6.3.5
@@ -59,8 +60,8 @@ operator:
       sha256: a20c753dda86e0f54f210e446b404733045ba426fc7186dc3936daed8224fbcb
       version: 6.3.7
     entando_k8s_service:
-      sha256: 6b5842d73377d4560728709e6db3aa090fbd30699f6e1aa00a2b32524936d48f
-      version: 6.3.8
+      sha256: 794bb2759aa11cfea0d31abadf53434581ec35a2084a6a6be0c82e8c7c980c3d
+      version: 6.3.14
     entando_keycloak:
       sha256: 36383301348c15526deac7d378a2f1a8a216c419697f3255e6d183a9cd53e323
       version: 6.3.9
