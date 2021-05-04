@@ -1,5 +1,5 @@
 bundle:
-  version: 6.3.2-pr4
+  version: 6.3.2
   olmDisabled: true
   internalOnly: true
 operator:
@@ -14,8 +14,8 @@ operator:
       sha256: f4e5c728b644bf1888ec8086424852ed74b5596a511be29e636fb10218fc9b6f
       version: latest
     app_builder:
-      sha256: 45dc1cf1fb113a87223cdab38c99ddebfc4870ff51c6103bccc09e787eab6667
-      version: 6.3.82
+      sha256: 6205a847b3c139498a5af358b7f2b55463897c192ad60b33211f974d63eab354
+      version: 6.3.84
     busybox:
       sha256: 400ee2ed939df769d4681023810d2e4fb9479b8401d97003c710d0e20f7c49c6
       version: latest
@@ -59,8 +59,8 @@ operator:
       sha256: a20c753dda86e0f54f210e446b404733045ba426fc7186dc3936daed8224fbcb
       version: 6.3.7
     entando_k8s_service:
-      sha256: 9085b9f38a11f50c4a0119c1ef9c72aec28e260efa4336285538230acc49ec76
-      version: 6.3.15
+      sha256: 775391f0005e64764288bfe007d9ea576f13618c02ea400d030a7502cfb551bd
+      version: 6.3.4
     entando_keycloak:
       sha256: 36383301348c15526deac7d378a2f1a8a216c419697f3255e6d183a9cd53e323
       version: 6.3.9
