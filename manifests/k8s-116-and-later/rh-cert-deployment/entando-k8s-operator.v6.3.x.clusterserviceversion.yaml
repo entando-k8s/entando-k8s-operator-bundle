@@ -573,8 +573,8 @@ spec:
                         value: registry.redhat.io/rhel8/mysql-80@sha256:570bce7dc649ac7ac85e7ecb196aabc281c77a94590aa7df7d9746869ce757ea
                       - name: RELATED_IMAGE_RHEL8_POSTGRESQL_12 #latest
                         value: registry.redhat.io/rhel8/postgresql-12@sha256:f4e5c728b644bf1888ec8086424852ed74b5596a511be29e636fb10218fc9b6f
-                      - name: RELATED_IMAGE_APP_BUILDER #6.3.82
-                        value: docker.io/entando/app-builder@sha256:45dc1cf1fb113a87223cdab38c99ddebfc4870ff51c6103bccc09e787eab6667
+                      - name: RELATED_IMAGE_APP_BUILDER #6.3.84
+                        value: docker.io/entando/app-builder@sha256:6205a847b3c139498a5af358b7f2b55463897c192ad60b33211f974d63eab354
                       - name: RELATED_IMAGE_ENTANDO_COMPONENT_MANAGER #6.3.26
                         value: docker.io/entando/entando-component-manager@sha256:026030b67330e61a08000f899a819e3e1691047faeca52d213248612147a462a
                       - name: RELATED_IMAGE_ENTANDO_DE_APP_EAP #6.3.68
@@ -595,8 +595,8 @@ spec:
                         value: docker.io/entando/entando-k8s-keycloak-controller@sha256:f1ed42001260802353197433cea7df4c2d0e5fd9bcd926bb5ae7c654dfad2ffe
                       - name: RELATED_IMAGE_ENTANDO_K8S_PLUGIN_CONTROLLER #6.3.7
                         value: docker.io/entando/entando-k8s-plugin-controller@sha256:a20c753dda86e0f54f210e446b404733045ba426fc7186dc3936daed8224fbcb
-                      - name: RELATED_IMAGE_ENTANDO_K8S_SERVICE #6.3.15
-                        value: docker.io/entando/entando-k8s-service@sha256:9085b9f38a11f50c4a0119c1ef9c72aec28e260efa4336285538230acc49ec76
+                      - name: RELATED_IMAGE_ENTANDO_K8S_SERVICE #6.3.4
+                        value: docker.io/entando/entando-k8s-service@sha256:775391f0005e64764288bfe007d9ea576f13618c02ea400d030a7502cfb551bd
                       - name: RELATED_IMAGE_ENTANDO_REDHAT_SSO #6.3.9
                         value: docker.io/entando/entando-redhat-sso@sha256:3692adb3694b3bf278bed7a678c9d0eaa0aba8e3e3ed4117ca04156525bcac72
                     startupProbe:
