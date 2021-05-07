@@ -14,8 +14,8 @@ operator:
       sha256: f4e5c728b644bf1888ec8086424852ed74b5596a511be29e636fb10218fc9b6f
       version: latest
     app_builder:
-      sha256: 6205a847b3c139498a5af358b7f2b55463897c192ad60b33211f974d63eab354
-      version: 6.3.84
+      sha256: e2cc13b5df750d55be52f5e0b85e60db3a89a6aaf75113dea09b34e7e634468b
+      version: 6.3.86
     busybox:
       sha256: 400ee2ed939df769d4681023810d2e4fb9479b8401d97003c710d0e20f7c49c6
       version: latest
