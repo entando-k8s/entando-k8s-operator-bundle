@@ -1664,7 +1664,7 @@ metadata:
   name: entando-docker-image-info
 data:
   app-builder: >-
-    {"version":"6.3.86","executable-type":"n/a","registry":"docker.io","organization":"entando"}
+    {"version":"6.3.93","executable-type":"n/a","registry":"docker.io","organization":"entando"}
   busybox: >-
     {"version":"latest","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-avatar-plugin: >-

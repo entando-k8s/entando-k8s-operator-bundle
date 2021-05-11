@@ -331,8 +331,8 @@ spec:
       image: registry.redhat.io/rhel8/mysql-80@sha256:570bce7dc649ac7ac85e7ecb196aabc281c77a94590aa7df7d9746869ce757ea
     - name: rhel8-postgresql-12 #latest
       image: registry.redhat.io/rhel8/postgresql-12@sha256:f4e5c728b644bf1888ec8086424852ed74b5596a511be29e636fb10218fc9b6f
-    - name: app-builder #6.3.86
-      image: docker.io/entando/app-builder@sha256:e2cc13b5df750d55be52f5e0b85e60db3a89a6aaf75113dea09b34e7e634468b
+    - name: app-builder #6.3.93
+      image: docker.io/entando/app-builder@sha256:b1b36ed310050e1a04cb6c05e1a08d13232ba3ea2f5b74a7c17dcbae3e052cd0
     - name: entando-component-manager #6.3.26
       image: docker.io/entando/entando-component-manager@sha256:026030b67330e61a08000f899a819e3e1691047faeca52d213248612147a462a
     - name: entando-de-app-eap #6.3.68
@@ -604,8 +604,8 @@ spec:
                         value: registry.redhat.io/rhel8/mysql-80@sha256:570bce7dc649ac7ac85e7ecb196aabc281c77a94590aa7df7d9746869ce757ea
                       - name: RELATED_IMAGE_RHEL8_POSTGRESQL_12 #latest
                         value: registry.redhat.io/rhel8/postgresql-12@sha256:f4e5c728b644bf1888ec8086424852ed74b5596a511be29e636fb10218fc9b6f
-                      - name: RELATED_IMAGE_APP_BUILDER #6.3.86
-                        value: docker.io/entando/app-builder@sha256:e2cc13b5df750d55be52f5e0b85e60db3a89a6aaf75113dea09b34e7e634468b
+                      - name: RELATED_IMAGE_APP_BUILDER #6.3.93
+                        value: docker.io/entando/app-builder@sha256:b1b36ed310050e1a04cb6c05e1a08d13232ba3ea2f5b74a7c17dcbae3e052cd0
                       - name: RELATED_IMAGE_ENTANDO_COMPONENT_MANAGER #6.3.26
                         value: docker.io/entando/entando-component-manager@sha256:026030b67330e61a08000f899a819e3e1691047faeca52d213248612147a462a
                       - name: RELATED_IMAGE_ENTANDO_DE_APP_EAP #6.3.68
