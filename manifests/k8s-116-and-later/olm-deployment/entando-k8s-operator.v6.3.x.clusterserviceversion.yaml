@@ -4,7 +4,7 @@
 apiVersion: operators.coreos.com/v1alpha1
 kind: ClusterServiceVersion
 metadata:
-  name: entando-k8s-operator.v6.3.2
+  name: entando-k8s-operator.v6.4.0-pr10
   namespace: placeholder
   annotations:
     alm-examples: >-
@@ -12,11 +12,9 @@ metadata:
         {"apiVersion":"entando.org/v1","kind":"EntandoDeBundle","metadata":{"name":"my-bundle","namespace":"my-namespace"},"spec":{"details":{"name":"my-bundle"}}},
         {"apiVersion":"entando.org/v1","kind":"EntandoDatabaseService","metadata":{"name":"my-entando-database-service","namespace":"my-namespace"},"spec":{"dbms":"postgresql","databaseName":"my_database","createDeployment":true}},
         {"apiVersion":"entando.org/v1","kind":"EntandoKeycloakServer","metadata":{"name":"my-keycloak","namespace":"my-namespace"},"spec":{"standardImage":"redhat-sso", "dbms":"postgresql","replicas":1,"environmentVariables":[]}},
-        {"apiVersion":"entando.org/v1","kind":"EntandoClusterInfrastructure","metadata":{"name":"my-entando-cluster-infrastructure","namespace":"my-namespace"},"spec":{"replicas":1,"environmentVariables":[]}},
         {"apiVersion":"entando.org/v1","kind":"EntandoPlugin","metadata":{"name":"my-entando-plugin","namespace":"my-namespace"},"spec": {"dbms": "postgresql","healthCheckPath": "/management/health","image": "entando/entando-avatar-plugin:6.0.5","ingressHostName": "my-plugin.apps-crc.testing","ingressPath": "/avatarPlugin","replicas": 1,"roles": [{"code": "admin","name": "user"},{"code": "user","name": "user"}],"securityLevel": "strict"}},
         {"apiVersion":"entando.org/v1","kind":"EntandoApp","metadata":{"name":"my-app","namespace":"my-namespace"},"spec":{"dbms":"postgresql","environmentVariables":[],"ingressHostName":"my-app.apps-crc.testing","replicas":1,"standardServerImage":"eap"}},
-        {"apiVersion":"entando.org/v1","kind":"EntandoAppPluginLink","metadata":{"name":"my-link","namespace":"my-namespace"},"spec":{"entandoAppName":"my-app","entandoPluginName":"my-plugin"}},
-        {"apiVersion":"entando.org/v1","kind":"EntandoCompositeApp","metadata":{"name":"my-entando-composite-app","namespace":"my-namespace"},"spec":{"dbmsOverride":"postgresql","ingressHostNameOverride":"entando.apps-crc.testing","components":[{"kind":"EntandoDatabaseService","metadata":{"name":"inline-entando-database-service"},"spec":{"createDeployment":true}},{"kind":"EntandoKeycloakServer","metadata":{"name":"inline-keycloak"},"spec":{"standardImage":"redhat-sso"}},{"kind":"EntandoClusterInfrastructure","metadata":{"name":"inline-entando-cluster-infrastructure"},"spec":{}},{"kind":"EntandoApp","metadata":{"name":"inline-app"},"spec":{"standardServerImage":"eap"}},{"kind":"EntandoPlugin","metadata":{"name":"inline-plugin"},"spec":{"healthCheckPath":"/management/health","image":"entando/entando-avatar-plugin:6.0.5","ingressPath":"/avatarPlugin","roles":[{"code":"admin","name":"admin"},{"code":"user","name":"user"}]}},{"kind":"EntandoAppPluginLink","metadata":{"name":"inline-link"},"spec":{"entandoAppName":"inline-app","entandoPluginName":"inline-plugin"}}]}}
+        {"apiVersion":"entando.org/v1","kind":"EntandoAppPluginLink","metadata":{"name":"my-link","namespace":"my-namespace"},"spec":{"entandoAppName":"my-app","entandoPluginName":"my-plugin"}}
       ]
     categories:  Application Runtime, Development Tools
     certified: 'false'
@@ -24,14 +22,14 @@ metadata:
     description: >-
       Processes EntandoKeycloakServer, EntandoApp and EntandoPlugin custom
       resources and deploys the relevant containers in the Kubernetes cluster.
-    containerImage: entando/entando-k8s-controller-coordinator@sha256:7fb2f8867609892daa175eb3c10103de07697cddc74bff7bb9ddf2298fc5f8bf
+    containerImage: entando/entando-k8s-controller-coordinator@sha256:0c3ccc18060208beee9901aea5259bc565048b9e2c70526ad3fcb7b84964da67
     support: ''
     capabilities: Basic Install
     repository: ''
 spec:
   displayName: Entando Operator
   maturity: beta
-  version: 6.3.2
+  version: 6.4.0-pr10
 #  replaces: entando-k8s-operator.v0.3.56
   skips: []
   description: >
@@ -135,36 +133,6 @@ spec:
       mediatype: image/png
   customresourcedefinitions:
     owned:
-      - name: entandocompositeapps.entando.org
-        kind: EntandoCompositeApp
-        displayName: Entando Composite Application
-        version: v1
-        description: >
-          An Entando Composite Application is the easiest way to get started with Entando. It allows the user to
-          combine Entando Custom Resources and deploy them in the sequence specified. This is useful
-          when one Entando Custom Resource (e.g. an EntandoPlugin) is dependent on another Entando
-          Custom Resource. Simply order the components in the list of components,
-          deploy the EntandoCompositeApp, and wait for the whole application to be ready.
-        resources:
-          - version: v1
-            kind: Deployment
-          - version: v1
-            kind: Service
-          - version: v1
-            kind: Pod
-          - version: v1
-            kind: Secret
-          - version: v1
-            kind: ConfigMap
-          - version: v1
-            kind: Ingress
-          - version: v1
-            kind: PersistentVolumeClaim
-        specDescriptors: [ ]
-        statusDescriptors:
-          - description: Status
-            displayName: Status
-            path: entandoDeploymentPhase
       - name: entandodatabaseservices.entando.org
         displayName: Entando Database Service
         kind: EntandoDatabaseService
@@ -227,30 +195,6 @@ spec:
               - 'urn:alm:descriptor:com.tectonic.ui:select:postgresql'
               - 'urn:alm:descriptor:com.tectonic.ui:select:embedded'
               - 'urn:alm:descriptor:com.tectonic.ui:select:oracle'
-        statusDescriptors: [ ]
-      - name: entandoclusterinfrastructures.entando.org
-        kind: EntandoClusterInfrastructure
-        displayName: Entando Cluster Infrastructure
-        version: v1
-        description: >
-          The EntandoClusterInfrastructure resource allows the Entando Operator to deploy its abstraction layer on
-          Kubernetes, the Entando Kubernetes Service.
-        resources:
-          - version: v1
-            kind: Deployment
-          - version: v1
-            kind: Service
-          - version: v1
-            kind: Pod
-          - version: v1
-            kind: Secret
-          - version: v1
-            kind: ConfigMap
-          - version: v1
-            kind: Ingress
-          - version: v1
-            kind: PersistentVolumeClaim
-        specDescriptors: [ ]
         statusDescriptors: [ ]
       - name: entandoplugins.entando.org
         kind: EntandoPlugin
@@ -325,6 +269,31 @@ spec:
         resources:
         specDescriptors: [ ]
         statusDescriptors: [ ]
+      - name: providedcapabilities.entando.org
+        kind: ProvidedCapability
+        displayName: Provided Capability
+        version: v1
+        description: >
+          The ProvidedCapability can be used to express a requirement for a specific capability (e.g. DBMS, SSO)
+          at a specific level or scope (namespace, cluster, labeled). Currently this custom resource is used
+          primarily to allow decouple the different controllers that the Entando Operator is made of.
+        resources:
+          - version: v1
+            kind: Deployment
+          - version: v1
+            kind: Service
+          - version: v1
+            kind: Pod
+          - version: v1
+            kind: Secret
+          - version: v1
+            kind: ConfigMap
+          - version: v1
+            kind: Ingress
+          - version: v1
+            kind: PersistentVolumeClaim
+        specDescriptors: [ ]
+        statusDescriptors: [ ]
     required: [ ]
   relatedImages:
     - name: rhel8-mysql-80 #latest
@@ -337,24 +306,20 @@ spec:
       image: docker.io/entando/entando-component-manager@sha256:026030b67330e61a08000f899a819e3e1691047faeca52d213248612147a462a
     - name: entando-de-app-eap #6.3.68
       image: docker.io/entando/entando-de-app-eap@sha256:cb382354c75731ff6e29b26197ad92c9934bf80fe8dee95635807a2ea7a6ca35
-    - name: entando-k8s-app-controller #6.3.12
-      image: docker.io/entando/entando-k8s-app-controller@sha256:ba0058c319484e737507a1b1d33a813071b2a9a01044a85c4095f1eb8afb5887
-    - name: entando-k8s-app-plugin-link-controller #6.3.5
-      image: docker.io/entando/entando-k8s-app-plugin-link-controller@sha256:aa7ba0861705213434e610530c5bf5da1bdb33f1834d3c346174f5a28145c0bd
-    - name: entando-k8s-cluster-infrastructure-controller #6.3.7
-      image: docker.io/entando/entando-k8s-cluster-infrastructure-controller@sha256:86dbea6696349d7b2393e12bacef4d1acec2dd3f8551e397fa26c92706a18dd3
-    - name: entando-k8s-composite-app-controller #6.3.11
-      image: docker.io/entando/entando-k8s-composite-app-controller@sha256:4bc6797bb41b3e407b64530c3cff7a78f3fc2c22863caad9c606ccd650310b61
-    - name: entando-k8s-database-service-controller #6.3.11
-      image: docker.io/entando/entando-k8s-database-service-controller@sha256:58ca4ad2fca83a715aba9b68609f9056f633d556eb9845b3aff5c05769369539
+    - name: entando-k8s-app-controller #0.0.0-SNAPSHOT-PR-32-24
+      image: docker.io/entando/entando-k8s-app-controller@sha256:8507349c6e2724a50c63c09ffcd4d794de62e2880b00d8b81f504314839944c9
+    - name: entando-k8s-app-plugin-link-controller #0.0.0-SNAPSHOT-PR-15-4
+      image: docker.io/entando/entando-k8s-app-plugin-link-controller@sha256:d83f632c79f967d67a062ddc5b4ad6dccfa07eaae5ec2112a8bb4d973f52eb69
+    - name: entando-k8s-database-service-controller #0.0.0-SNAPSHOT-PR-10-11
+      image: docker.io/entando/entando-k8s-database-service-controller@sha256:bb5ce0ee62ca393185b314cd29fb01ad251127f2461f3dfde14997b19084ac64
     - name: entando-k8s-dbjob #6.3.8
       image: docker.io/entando/entando-k8s-dbjob@sha256:8ae47dbf93201965106663299f06daad544982fa244d4a0f365a1b717727e5ed
-    - name: entando-k8s-keycloak-controller #6.3.8
-      image: docker.io/entando/entando-k8s-keycloak-controller@sha256:f1ed42001260802353197433cea7df4c2d0e5fd9bcd926bb5ae7c654dfad2ffe
-    - name: entando-k8s-plugin-controller #6.3.7
-      image: docker.io/entando/entando-k8s-plugin-controller@sha256:a20c753dda86e0f54f210e446b404733045ba426fc7186dc3936daed8224fbcb
-    - name: entando-k8s-service #6.3.4
-      image: docker.io/entando/entando-k8s-service@sha256:775391f0005e64764288bfe007d9ea576f13618c02ea400d030a7502cfb551bd
+    - name: entando-k8s-keycloak-controller #0.0.0-SNAPSHOT-PR-28-17
+      image: docker.io/entando/entando-k8s-keycloak-controller@sha256:9c91505b916048e5af0af37ab8c26a3fb504b27562e97e814eb1554f5c2a90a2
+    - name: entando-k8s-plugin-controller #0.0.0-SNAPSHOT-PR-27-9
+      image: docker.io/entando/entando-k8s-plugin-controller@sha256:da704110c4035e3dda5ef697271f3edffdc473a5767b54d88125a8372dbe2f84
+    - name: entando-k8s-service #0.0.0-SNAPSHOT-4
+      image: docker.io/entando/entando-k8s-service@sha256:4bb4300f3affa1afb2b5c99b92f0bbe5ba32dd6b358aeab5f053f5b33ada6086
     - name: entando-redhat-sso #6.3.9
       image: docker.io/entando/entando-redhat-sso@sha256:3692adb3694b3bf278bed7a678c9d0eaa0aba8e3e3ed4117ca04156525bcac72
   install:
@@ -407,9 +372,9 @@ spec:
                 - '*'
             - apiGroups:
                 - extensions
+                - networking.k8s.io
               resources:
                 - ingresses
-                - deployments
               verbs:
                 - '*'
             - apiGroups:
@@ -423,12 +388,6 @@ spec:
                 - ''
               resources:
                 - namespaces
-              verbs:
-                - get
-            - apiGroups:
-                - apiextensions.k8s.io
-              resources:
-                - customresourcedefinitions
               verbs:
                 - get
             - apiGroups:
@@ -489,8 +448,11 @@ spec:
                 - customresourcedefinitions
               verbs:
                 - get
+                - list
+                - watch
             - apiGroups:
                 - 'extensions'
+                - 'networking.k8s.io'
               resources:
                 - deployments
                 - ingresses
@@ -522,24 +484,6 @@ spec:
               verbs:
                 - get
                 - create
-        - serviceAccountName: pod-viewer
-          rules:
-            - apiGroups:
-                - ''
-              resources:
-                - pods
-              verbs:
-                - get
-                - list
-                - watch
-        - serviceAccountName: entando-editor
-          rules:
-            - apiGroups:
-                - entando.org
-              resources:
-                - '*'
-              verbs:
-                - '*'
       deployments:
         - name: entando-operator
           spec:
@@ -555,7 +499,7 @@ spec:
                 imagePullSecrets:
                   - name: entando-pull-secret
                 containers:
-                  - image: entando/entando-k8s-controller-coordinator@sha256:7fb2f8867609892daa175eb3c10103de07697cddc74bff7bb9ddf2298fc5f8bf
+                  - image: entando/entando-k8s-controller-coordinator@sha256:0c3ccc18060208beee9901aea5259bc565048b9e2c70526ad3fcb7b84964da67
                     imagePullPolicy: IfNotPresent
                     name: entando-operator
                     resources:
@@ -581,7 +525,7 @@ spec:
                       - name: ENTANDO_DISABLE_KEYCLOAK_SSL_REQUIREMENT
                         value: "true"
                       - name: ENTANDO_K8S_OPERATOR_VERSION
-                        value: 6.3.2
+                        value: 6.4.0-pr10
                       - name: ENTANDO_K8S_OPERATOR_VERSION_TO_REPLACE
                         value: 0.3.56
                       - name: ENTANDO_K8S_OPERATOR_DEPLOYMENT_TYPE
@@ -610,24 +554,20 @@ spec:
                         value: docker.io/entando/entando-component-manager@sha256:026030b67330e61a08000f899a819e3e1691047faeca52d213248612147a462a
                       - name: RELATED_IMAGE_ENTANDO_DE_APP_EAP #6.3.68
                         value: docker.io/entando/entando-de-app-eap@sha256:cb382354c75731ff6e29b26197ad92c9934bf80fe8dee95635807a2ea7a6ca35
-                      - name: RELATED_IMAGE_ENTANDO_K8S_APP_CONTROLLER #6.3.12
-                        value: docker.io/entando/entando-k8s-app-controller@sha256:ba0058c319484e737507a1b1d33a813071b2a9a01044a85c4095f1eb8afb5887
-                      - name: RELATED_IMAGE_ENTANDO_K8S_APP_PLUGIN_LINK_CONTROLLER #6.3.5
-                        value: docker.io/entando/entando-k8s-app-plugin-link-controller@sha256:aa7ba0861705213434e610530c5bf5da1bdb33f1834d3c346174f5a28145c0bd
-                      - name: RELATED_IMAGE_ENTANDO_K8S_CLUSTER_INFRASTRUCTURE_CONTROLLER #6.3.7
-                        value: docker.io/entando/entando-k8s-cluster-infrastructure-controller@sha256:86dbea6696349d7b2393e12bacef4d1acec2dd3f8551e397fa26c92706a18dd3
-                      - name: RELATED_IMAGE_ENTANDO_K8S_COMPOSITE_APP_CONTROLLER #6.3.11
-                        value: docker.io/entando/entando-k8s-composite-app-controller@sha256:4bc6797bb41b3e407b64530c3cff7a78f3fc2c22863caad9c606ccd650310b61
-                      - name: RELATED_IMAGE_ENTANDO_K8S_DATABASE_SERVICE_CONTROLLER #6.3.11
-                        value: docker.io/entando/entando-k8s-database-service-controller@sha256:58ca4ad2fca83a715aba9b68609f9056f633d556eb9845b3aff5c05769369539
+                      - name: RELATED_IMAGE_ENTANDO_K8S_APP_CONTROLLER #0.0.0-SNAPSHOT-PR-32-24
+                        value: docker.io/entando/entando-k8s-app-controller@sha256:8507349c6e2724a50c63c09ffcd4d794de62e2880b00d8b81f504314839944c9
+                      - name: RELATED_IMAGE_ENTANDO_K8S_APP_PLUGIN_LINK_CONTROLLER #0.0.0-SNAPSHOT-PR-15-4
+                        value: docker.io/entando/entando-k8s-app-plugin-link-controller@sha256:d83f632c79f967d67a062ddc5b4ad6dccfa07eaae5ec2112a8bb4d973f52eb69
+                      - name: RELATED_IMAGE_ENTANDO_K8S_DATABASE_SERVICE_CONTROLLER #0.0.0-SNAPSHOT-PR-10-11
+                        value: docker.io/entando/entando-k8s-database-service-controller@sha256:bb5ce0ee62ca393185b314cd29fb01ad251127f2461f3dfde14997b19084ac64
                       - name: RELATED_IMAGE_ENTANDO_K8S_DBJOB #6.3.8
                         value: docker.io/entando/entando-k8s-dbjob@sha256:8ae47dbf93201965106663299f06daad544982fa244d4a0f365a1b717727e5ed
-                      - name: RELATED_IMAGE_ENTANDO_K8S_KEYCLOAK_CONTROLLER #6.3.8
-                        value: docker.io/entando/entando-k8s-keycloak-controller@sha256:f1ed42001260802353197433cea7df4c2d0e5fd9bcd926bb5ae7c654dfad2ffe
-                      - name: RELATED_IMAGE_ENTANDO_K8S_PLUGIN_CONTROLLER #6.3.7
-                        value: docker.io/entando/entando-k8s-plugin-controller@sha256:a20c753dda86e0f54f210e446b404733045ba426fc7186dc3936daed8224fbcb
-                      - name: RELATED_IMAGE_ENTANDO_K8S_SERVICE #6.3.4
-                        value: docker.io/entando/entando-k8s-service@sha256:775391f0005e64764288bfe007d9ea576f13618c02ea400d030a7502cfb551bd
+                      - name: RELATED_IMAGE_ENTANDO_K8S_KEYCLOAK_CONTROLLER #0.0.0-SNAPSHOT-PR-28-17
+                        value: docker.io/entando/entando-k8s-keycloak-controller@sha256:9c91505b916048e5af0af37ab8c26a3fb504b27562e97e814eb1554f5c2a90a2
+                      - name: RELATED_IMAGE_ENTANDO_K8S_PLUGIN_CONTROLLER #0.0.0-SNAPSHOT-PR-27-9
+                        value: docker.io/entando/entando-k8s-plugin-controller@sha256:da704110c4035e3dda5ef697271f3edffdc473a5767b54d88125a8372dbe2f84
+                      - name: RELATED_IMAGE_ENTANDO_K8S_SERVICE #0.0.0-SNAPSHOT-4
+                        value: docker.io/entando/entando-k8s-service@sha256:4bb4300f3affa1afb2b5c99b92f0bbe5ba32dd6b358aeab5f053f5b33ada6086
                       - name: RELATED_IMAGE_ENTANDO_REDHAT_SSO #6.3.9
                         value: docker.io/entando/entando-redhat-sso@sha256:3692adb3694b3bf278bed7a678c9d0eaa0aba8e3e3ed4117ca04156525bcac72
                     startupProbe:
@@ -652,6 +592,73 @@ spec:
                         command:
                           - cat
                           - /tmp/EntandoControllerCoordinator.ready
+                      periodSeconds: 5
+                      failureThreshold: 1
+                      timeoutSeconds: 1
+                nodeSelector:
+                  beta.kubernetes.io/os: linux
+                serviceAccountName: entando-operator
+        - name: entando-k8s-service
+          spec:
+            replicas: 1
+            selector:
+              matchLabels:
+                k8s-app: entando-k8s-service
+            template:
+              metadata:
+                labels:
+                  k8s-app: entando-k8s-service
+              spec:
+                imagePullSecrets:
+                  - name: entando-pull-secret
+                containers:
+                  - image: entando/entando-k8s-service@sha256:4bb4300f3affa1afb2b5c99b92f0bbe5ba32dd6b358aeab5f053f5b33ada6086
+                    imagePullPolicy: IfNotPresent
+                    name: entando-k8s-service
+                    ports:
+                      - name: k8s-svc-port
+                        containerPort: 8084
+                        protocol: TCP
+                    resources:
+                      limits:
+                        cpu: 1000m
+                        memory: 1024Mi
+                      requests:
+                        cpu: 250m
+                        memory: 128Mi
+                    env:
+                      - name: SERVER_SERVLET_CONTEXT_PATH
+                        value: /k8s
+                      - name: ENTANDO_NAMESPACES_TO_OBSERVE
+                        valueFrom:
+                          fieldRef:
+                            fieldPath: 'metadata.annotations[''olm.targetNamespaces'']'
+                      - name: ENTANDO_K8S_OPERATOR_DEPLOYMENT_TYPE
+                        value: olm
+                      - name: OPERATOR_NAME
+                        value: entando-operator
+                    startupProbe:
+                      httpGet:
+                        path: /k8s/actuator/health
+                        port: 8084
+                        scheme: HTTP
+                      periodSeconds: 5
+                      failureThreshold: 20
+                      successThreshold: 1
+                      timeoutSeconds: 1
+                    livenessProbe:
+                      httpGet:
+                        path: /k8s/actuator/health
+                        port: 8084
+                        scheme: HTTP
+                      periodSeconds: 5
+                      failureThreshold: 1
+                      timeoutSeconds: 1
+                    readinessProbe:
+                      httpGet:
+                        path: /k8s/actuator/health
+                        port: 8084
+                        scheme: HTTP
                       periodSeconds: 5
                       failureThreshold: 1
                       timeoutSeconds: 1

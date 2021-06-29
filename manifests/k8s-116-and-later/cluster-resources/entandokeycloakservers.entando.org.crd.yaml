@@ -2,6 +2,11 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   name: entandokeycloakservers.entando.org
+  annotations:
+    entando.org/controller-image: entando-k8s-keycloak-controller
+    entando.org/supported-capabilities: keycloak.sso,redhat_sso.sso,sso
+  labels:
+    entando.org/crd-of-interest: EntandoKeycloakServer
 spec:
   group: entando.org
   versions:
@@ -13,7 +18,7 @@ spec:
       additionalPrinterColumns:
         - name: Phase
           type: string
-          jsonPath: .status.entandoDeploymentPhase
+          jsonPath: .status.phase
         - name: Observed Generation
           type: number
           jsonPath: .status.observedGeneration
@@ -246,12 +251,43 @@ spec:
                     to one of COMMUNITY or REDHAT
                   type: string
                   pattern: ^(keycloak|redhat-sso)$
+                providedCapabilityScope:
+                  description: >
+                    The scope inside the Kubernetes cluster that this
+                    EntandoKeycloakServer instance can be shared.
+                    Available values are 'specified', 'specified', 'labeled'
+                    and 'cluster'. Please refer to our documentation
+                    pertaining to shared capabilities for more information.
+                  type: string
+                  pattern: ^(Dedicated|Specified|Namespace|Labeled|Cluster)$
+                provisioningStrategy:
+                  description: >
+                    The strategy that will be used to make this EntandoKeycloakServer
+                    available to its consumers. Valid values are
+                  type: string
+                  pattern: ^(UseExternal|DeployDirectly|DelegateToOperator)$
+                adminSecretName:
+                  description: >
+                    The name of an Opaque secret that contains the 'username' and
+                    'password' keys that gives the operator admin access to a
+                    Keycloak server. This is used when .
+                  type: string
+                defaultRealm:
+                  description: >
+                    The default realm that clients using this EntandoKeycloakServer
+                    instance will be created under. This can be used to isolate
+                    the clients created by a specific deployment in their own
+                    realm so as not to interfere with clients in other realms
+                    that may have the same name. Please ensure that all
+                    clients that have to communicate with each other share
+                    the same realm.
+                  type: string
             status:
               type: object
               properties:
                 observedGeneration:
                   type: number
-                entandoDeploymentPhase:
+                phase:
                   type: string
                 serverStatuses:
                   type: object

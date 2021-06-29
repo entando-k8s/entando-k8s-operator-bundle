@@ -2,8 +2,18 @@ apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
   name: entandoapps.entando.org
+  annotations:
+    entando.org/controller-image: entando-k8s-app-controller
+  labels:
+    entando.org/crd-of-interest: EntandoApp
 spec:
   group: entando.org
+  names:
+    kind: EntandoApp
+    plural: entandoapps
+    shortNames:
+      - enap
+  scope: Namespaced
   versions:
     - name: v1
       served: true
@@ -13,7 +23,7 @@ spec:
   additionalPrinterColumns:
     - name: Phase
       type: string
-      JSONPath: .status.entandoDeploymentPhase
+      JSONPath: .status.phase
     - name: Observed Generation
       type: number
       JSONPath: .status.observedGeneration
@@ -218,28 +228,6 @@ spec:
                     EntandoKeycloakServer with the name specified in the same Namespace as this
                     EntandoApp and use it as OIDC provider.
                   type: string
-            clusterInfrastructureToUse:
-              type: object
-              description: >
-                The properties of this object configure which Entando K8S Service will be used.
-              properties:
-                name:
-                  description: >
-                    The name of the EntandoClusterInfrastructure to use as Entando K8S Service. If no name is provided, the
-                    Entando Operator will then look for any EntandoClusterInfrastructure in the same Namespace as this
-                    EntandoApp and use it. If no EntandoClusterInfrastructure is found,
-                    it will then use the (last) EntandoClusterInfrastructure that was marked as the cluster wide  default
-                    using the property EntandoClusterInfrastructure.spec.isDefault.
-                  type: string
-                namespace:
-                  description: >
-                    The Namespace of the EntandoClusterInfrastructure to use. This value is only
-                    evaluated if the 'spec.clusterInfrastructureToUse.name' property has been set on this
-                    EntandoApp. If no Namespace is provided,
-                    but a name was provided, the Entando Operator will then look for the
-                    EntandoClusterInfrastructure with the name specified in the same Namespace as this
-                    EntandoApp and use it.
-                  type: string
             standardServerImage:
               description: >
                 Specifies the standard server base image that this EntandoApp has been packaged in. Valid values
@@ -291,14 +279,8 @@ spec:
           properties:
             observedGeneration:
               type: number
-            entandoDeploymentPhase:
+            phase:
               type: string
             serverStatuses:
               type: object
               x-kubernetes-preserve-unknown-fields: true
-  names:
-    kind: EntandoApp
-    plural: entandoapps
-    shortNames:
-      - enap
-  scope: Namespaced

@@ -2,6 +2,11 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   name: entandodatabaseservices.entando.org
+  annotations:
+    entando.org/controller-image: entando-k8s-database-service-controller
+    entando.org/supported-capabilities: mysql.dbms,oracle.dbms,postgresql.dbms,dbms
+  labels:
+    entando.org/crd-of-interest: EntandoDatabaseService
 spec:
   group: entando.org
   versions:
@@ -13,7 +18,7 @@ spec:
       additionalPrinterColumns:
         - name: Phase
           type: string
-          jsonPath: .status.entandoDeploymentPhase
+          jsonPath: .status.phase
         - name: Age
           type: date
           jsonPath: .metadata.creationTimestamp
@@ -71,7 +76,7 @@ spec:
                     on the port specified on this property. If no value is provided, it
                     defaults to the default port of the DBMS in question.
                   type: integer
-                database:
+                databaseName:
                   description: >
                     If 'spec.createDeployment' is false, this is the name of the database
                     that this database service will connect to. If 'spec.createDeployment'
@@ -88,11 +93,23 @@ spec:
                     The name of a Kubernetes Secret that contains the username and password
                     of a user on the database server that has superuser permissions.
                   type: string
+                providedCapabilityScope:
+                  description: >
+                    The scope at which this EntandoDatabaseService will be made available to
+                    possible consumers. Values are as follows:
+                    *  Dedicated - only valid when specified from a consumer, and will be resolved using the suffix '-db'
+                    *  Specified - not supported in any of our consumers yet.
+                    *  Namespace - all requirements for a DBMS with matching implementations in the namespace will resolve to this instance
+                    *  Cluster - all requirements for a DBMS with matching implementations in the cluster will resolve to this instance
+                    *  Labeled - not supported in any of our consumers yet.
+                  type: string
+                  pattern: ^(Dedicated|Specified|Namespace|Cluster|Labeled)$
                 jdbcParameters:
                   type: object
                   description: >
                     A map of name/value pairs that will be appended to the connection string
                     to the database in questions.
+                  x-kubernetes-preserve-unknown-fields: true
                 serviceAccountToUse:
                   description: >
                     The Kubernetes ServiceAccount in the Namespace of the
@@ -225,7 +242,7 @@ spec:
               properties:
                 observedGeneration:
                   type: number
-                entandoDeploymentPhase:
+                phase:
                   type: string
                 serverStatuses:
                   type: object

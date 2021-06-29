@@ -2,8 +2,19 @@ apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
   name: entandodatabaseservices.entando.org
+  annotations:
+    entando.org/controller-image: entando-k8s-database-service-controller
+    entando.org/supported-capabilities: mysql.dbms,oracle.dbms,postgresql.dbms,dbms
+  labels:
+    entando.org/crd-of-interest: EntandoDatabaseService
 spec:
   group: entando.org
+  names:
+    kind: EntandoDatabaseService
+    plural: entandodatabaseservices
+    shortNames:
+      - eds
+  scope: Namespaced
   versions:
     - name: v1
       served: true
@@ -13,7 +24,7 @@ spec:
   additionalPrinterColumns:
     - name: Phase
       type: string
-      JSONPath: .status.entandoDeploymentPhase
+      JSONPath: .status.phase
     - name: Age
       type: date
       JSONPath: .metadata.creationTimestamp
@@ -224,14 +235,8 @@ spec:
           properties:
             observedGeneration:
               type: number
-            entandoDeploymentPhase:
+            phase:
               type: string
             serverStatuses:
               type: object
               x-kubernetes-preserve-unknown-fields: true
-  names:
-    kind: EntandoDatabaseService
-    plural: entandodatabaseservices
-    shortNames:
-      - eds
-  scope: Namespaced

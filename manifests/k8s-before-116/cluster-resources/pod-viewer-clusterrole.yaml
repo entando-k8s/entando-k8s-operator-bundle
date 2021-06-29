@@ -4,10 +4,10 @@ metadata:
   name: pod-viewer
 rules:
   - apiGroups:
-      - ""
+      - ''
     resources:
       - pods
     verbs:
-      - "list"
-      - "get"
-      - "watch"
+      - list
+      - get
+      - watch
