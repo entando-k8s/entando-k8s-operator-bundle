@@ -1579,21 +1579,21 @@ data:
   entando-de-app-wildfly: >-
     {"version":"6.3.68","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-app-controller: >-
-    {"version":"0.0.0-SNAPSHOT-PR-32-24","executable-type":"jvm","registry":"docker.io","organization":"entando"}
+    {"version":"0.0.0-SNAPSHOT-PR-32-25","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-app-plugin-link-controller: >-
-    {"version":"0.0.0-SNAPSHOT-PR-15-4","executable-type":"jvm","registry":"docker.io","organization":"entando"}
+    {"version":"0.0.0-SNAPSHOT-PR-15-5","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-cluster-infrastructure-controller: >-
     {"version":"6.3.7","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-composite-app-controller: >-
     {"version":"6.3.13","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-database-service-controller: >-
-    {"version":"0.0.0-SNAPSHOT-PR-10-11","executable-type":"jvm","registry":"docker.io","organization":"entando"}
+    {"version":"0.0.0-SNAPSHOT-PR-10-12","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-dbjob: >-
     {"version":"6.3.8","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-keycloak-controller: >-
-    {"version":"0.0.0-SNAPSHOT-PR-28-17","executable-type":"jvm","registry":"docker.io","organization":"entando"}
+    {"version":"0.0.0-SNAPSHOT-PR-28-18","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-plugin-controller: >-
-    {"version":"0.0.0-SNAPSHOT-PR-27-9","executable-type":"jvm","registry":"docker.io","organization":"entando"}
+    {"version":"0.0.0-SNAPSHOT-PR-27-10","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-service: >-
     {"version":"0.0.0-SNAPSHOT-4","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-keycloak: >-
@@ -1623,40 +1623,6 @@ imagePullSecrets:
   - name: redhat-registry
   - name: entando-pull-secret
 
----
-# Source: entando-k8s-operator-bundle/charts/operator/templates/entando-editor-clusterrole.yaml
-
-kind: ClusterRole
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: entando-editor
-  labels:
-    # Add these permissions to the "edit" default role.
-    rbac.authorization.k8s.io/aggregate-to-edit: "true"
-rules:
-  - apiGroups:
-      - entando.org
-    resources:
-      - "*"
-    verbs:
-      - "*"
----
-# Source: entando-k8s-operator-bundle/charts/operator/templates/ingress-viewer-clusterrole.yaml
-
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: ingress-viewer
-rules:
-  - apiGroups:
-      - "extensions/v1beta1"
-      - "networking.k8s.io/v1"
-    resources:
-      - "ingresses"
-    verbs:
-      - "list"
-      - "get"
-      - "watch"
 ---
 # Source: entando-k8s-operator-bundle/charts/operator/templates/operator-clusterrole.yaml
 
@@ -1738,22 +1704,6 @@ rules:
     verbs:
       - "*"
 
----
-# Source: entando-k8s-operator-bundle/charts/operator/templates/pod-viewer-clusterrole.yaml
-
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: pod-viewer
-rules:
-  - apiGroups:
-      - ""
-    resources:
-      - pods
-    verbs:
-      - "list"
-      - "get"
-      - "watch"
 ---
 # Source: entando-k8s-operator-bundle/charts/operator/templates/operator-clusterrolebinding.yaml
 
@@ -2049,6 +1999,12 @@ spec:
 # Source: entando-k8s-operator-bundle/charts/operator/templates/default-pod-viewer-rolebinding.yaml
 
 ---
+# Source: entando-k8s-operator-bundle/charts/operator/templates/entando-editor-clusterrole.yaml
+
+---
+# Source: entando-k8s-operator-bundle/charts/operator/templates/ingress-viewer-clusterrole.yaml
+
+---
 # Source: entando-k8s-operator-bundle/charts/operator/templates/plugin-role.yaml
 
 
@@ -2059,6 +2015,9 @@ spec:
 ---
 # Source: entando-k8s-operator-bundle/charts/operator/templates/plugin-serviceaccount.yaml
 
+
+---
+# Source: entando-k8s-operator-bundle/charts/operator/templates/pod-viewer-clusterrole.yaml
 
 ---
 # Source: entando-k8s-operator-bundle/charts/operator/templates/pod-viewer-role.yaml

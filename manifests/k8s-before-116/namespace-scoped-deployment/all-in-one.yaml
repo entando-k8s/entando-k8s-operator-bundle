@@ -445,7 +445,7 @@ spec:
                 on the port specified on this property. If no value is provided, it
                 defaults to the default port of the DBMS in question.
               type: integer
-            database:
+            databaseName:
               description: >
                 If 'spec.createDeployment' is false, this is the name of the database
                 that this database service will connect to. If 'spec.createDeployment'
@@ -1506,21 +1506,21 @@ data:
   entando-de-app-wildfly: >-
     {"version":"6.3.68","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-app-controller: >-
-    {"version":"0.0.0-SNAPSHOT-PR-32-24","executable-type":"jvm","registry":"docker.io","organization":"entando"}
+    {"version":"0.0.0-SNAPSHOT-PR-32-25","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-app-plugin-link-controller: >-
-    {"version":"0.0.0-SNAPSHOT-PR-15-4","executable-type":"jvm","registry":"docker.io","organization":"entando"}
+    {"version":"0.0.0-SNAPSHOT-PR-15-5","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-cluster-infrastructure-controller: >-
     {"version":"6.3.7","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-composite-app-controller: >-
     {"version":"6.3.13","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-database-service-controller: >-
-    {"version":"0.0.0-SNAPSHOT-PR-10-11","executable-type":"jvm","registry":"docker.io","organization":"entando"}
+    {"version":"0.0.0-SNAPSHOT-PR-10-12","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-dbjob: >-
     {"version":"6.3.8","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-keycloak-controller: >-
-    {"version":"0.0.0-SNAPSHOT-PR-28-17","executable-type":"jvm","registry":"docker.io","organization":"entando"}
+    {"version":"0.0.0-SNAPSHOT-PR-28-18","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-plugin-controller: >-
-    {"version":"0.0.0-SNAPSHOT-PR-27-9","executable-type":"jvm","registry":"docker.io","organization":"entando"}
+    {"version":"0.0.0-SNAPSHOT-PR-27-10","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-service: >-
     {"version":"0.0.0-SNAPSHOT-4","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-keycloak: >-
