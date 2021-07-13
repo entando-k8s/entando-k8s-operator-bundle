@@ -29,27 +29,21 @@ data:
   entando-de-app-wildfly: >-
     {"version":"6.3.68","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-app-controller: >-
-    {"version":"0.0.0-SNAPSHOT-PR-32-25","executable-type":"jvm","registry":"docker.io","organization":"entando"}
+    {"version":"0.0.0-SNAPSHOT-PR-32-44","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-app-plugin-link-controller: >-
-    {"version":"0.0.0-SNAPSHOT-PR-15-5","executable-type":"jvm","registry":"docker.io","organization":"entando"}
-  entando-k8s-cluster-infrastructure-controller: >-
-    {"version":"6.3.7","executable-type":"jvm","registry":"docker.io","organization":"entando"}
-  entando-k8s-composite-app-controller: >-
-    {"version":"6.3.13","executable-type":"jvm","registry":"docker.io","organization":"entando"}
+    {"version":"0.0.0-SNAPSHOT-PR-15-14","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-database-service-controller: >-
-    {"version":"0.0.0-SNAPSHOT-PR-10-12","executable-type":"jvm","registry":"docker.io","organization":"entando"}
+    {"version":"0.0.0-SNAPSHOT-PR-10-19","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-dbjob: >-
     {"version":"6.3.8","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-keycloak-controller: >-
-    {"version":"0.0.0-SNAPSHOT-PR-28-18","executable-type":"jvm","registry":"docker.io","organization":"entando"}
+    {"version":"0.0.0-SNAPSHOT-PR-28-27","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-plugin-controller: >-
-    {"version":"0.0.0-SNAPSHOT-PR-27-10","executable-type":"jvm","registry":"docker.io","organization":"entando"}
+    {"version":"0.0.0-SNAPSHOT-PR-27-16","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-service: >-
     {"version":"0.0.0-SNAPSHOT-4","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-keycloak: >-
     {"version":"6.3.9","executable-type":"","registry":"docker.io","organization":"entando"}
-  entando-plugin-sidecar: >-
-    {"version":"6.0.2","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-process-driven-plugin: >-
     {"version":"6.0.50","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-redhat-sso: >-
@@ -323,7 +317,7 @@ spec:
             periodSeconds: 3
             failureThreshold: 20
             successThreshold: 1
-            timeoutSeconds: 1
+            timeoutSeconds: 3
           livenessProbe:
             exec:
               command:
@@ -331,7 +325,7 @@ spec:
                 - /tmp/EntandoControllerCoordinator.ready
             periodSeconds: 5
             failureThreshold: 1
-            timeoutSeconds: 1
+            timeoutSeconds: 3
           readinessProbe:
             exec:
               command:
@@ -339,7 +333,7 @@ spec:
                 - /tmp/EntandoControllerCoordinator.ready
             periodSeconds: 5
             failureThreshold: 1
-            timeoutSeconds: 1
+            timeoutSeconds: 3
           resources:
             limits:
               cpu: 500m

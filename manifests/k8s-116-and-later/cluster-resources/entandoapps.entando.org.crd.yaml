@@ -218,32 +218,10 @@ spec:
                       description: >
                         The Namespace of the EntandoKeycloakServer to use as OIDC provider. This value is only
                         evaluated if the 'spec.keycloakToUse.name' property has been set on this
-                        EntandoClusterInfrastructure.  If no Namespace is provided,
+                        EntandoApp.  If no Namespace is provided,
                         but a name was provided, the Entando Operator will then look for the
                         EntandoKeycloakServer with the name specified in the same Namespace as this
                         EntandoApp and use it as OIDC provider.
-                      type: string
-                clusterInfrastructureToUse:
-                  type: object
-                  description: >
-                    The properties of this object configure which Entando K8S Service will be used.
-                  properties:
-                    name:
-                      description: >
-                        The name of the EntandoClusterInfrastructure to use as Entando K8S Service. If no name is provided, the
-                        Entando Operator will then look for any EntandoClusterInfrastructure in the same Namespace as this
-                        EntandoApp and use it. If no EntandoClusterInfrastructure is found,
-                        it will then use the (last) EntandoClusterInfrastructure that was marked as the cluster wide  default
-                        using the property EntandoClusterInfrastructure.spec.isDefault.
-                      type: string
-                    namespace:
-                      description: >
-                        The Namespace of the EntandoClusterInfrastructure to use. This value is only
-                        evaluated if the 'spec.clusterInfrastructureToUse.name' property has been set on this
-                        EntandoApp. If no Namespace is provided,
-                        but a name was provided, the Entando Operator will then look for the
-                        EntandoClusterInfrastructure with the name specified in the same Namespace as this
-                        EntandoApp and use it.
                       type: string
                 standardServerImage:
                   description: >
@@ -271,32 +249,14 @@ spec:
                     Entando Bundles on the Git server they are hosted on.
                   type: string
                   pattern: '^([a-z])+([a-z0-9-\.])*[a-z0-9]$'
-                backupGitSpec:
-                  description: >
-                    Use this object to configure the git repository that this EntandoApp will be backed up to or backed
-                    up from. This functionality is not available yet. Please ignore.
-                  type: object
-                  properties:
-                    backupGitRepo:
-                      description: >
-                        The full URL of the backup git repository
-                      type: string
-                    backupGitSecretName:
-                      description: >
-                        The name of a standard Kubernetes Secret that contains a single field 'token' that will be
-                        used for authentication when backing up or restoring backups from Git.
-                      type: string
-                    backupResponsibility:
-                      description: >
-                        One of 'backup' or 'restore'
-                      type: string
-                      pattern: '^(backup|restore)$'
             status:
               type: object
               properties:
                 observedGeneration:
                   type: number
                 phase:
+                  type: string
+                entandoDeploymentPhase:
                   type: string
                 serverStatuses:
                   type: object

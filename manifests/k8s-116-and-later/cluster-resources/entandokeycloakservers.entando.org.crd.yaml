@@ -232,7 +232,9 @@ spec:
                 frontEndUrl:
                   description: >
                     The URL that will be used to access Keycloak from web
-                    applications.
+                    applications. If the 'UseExternal' provisioning strategy
+                    has been selected, this should be the base URL of the
+                    external SSO service your would like to connect to.
                   type: string
                 isDefault:
                   description: >
@@ -255,22 +257,27 @@ spec:
                   description: >
                     The scope inside the Kubernetes cluster that this
                     EntandoKeycloakServer instance can be shared.
-                    Available values are 'specified', 'specified', 'labeled'
-                    and 'cluster'. Please refer to our documentation
+                    Available values are 'Namespace', 'Cluster' and 'Specified'.
+                    Please refer to our documentation
                     pertaining to shared capabilities for more information.
                   type: string
                   pattern: ^(Dedicated|Specified|Namespace|Labeled|Cluster)$
                 provisioningStrategy:
                   description: >
                     The strategy that will be used to make this EntandoKeycloakServer
-                    available to its consumers. Valid values are
+                    available to its consumers. Values:
+
+                    * UseExternal - use this EntandoKeycloakServer resource to point to an existing external Keycloak Service.
+
+                    * DeployDirectly - deploy a new Keycloak server on demand
                   type: string
                   pattern: ^(UseExternal|DeployDirectly|DelegateToOperator)$
                 adminSecretName:
                   description: >
                     The name of an Opaque secret that contains the 'username' and
                     'password' keys that gives the operator admin access to a
-                    Keycloak server. This is used when .
+                    Keycloak server. This is used when the provisioning strategy
+                    is 'UseExternal'.
                   type: string
                 defaultRealm:
                   description: >

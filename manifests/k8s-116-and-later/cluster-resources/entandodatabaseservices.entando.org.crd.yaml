@@ -78,9 +78,9 @@ spec:
                   type: integer
                 databaseName:
                   description: >
-                    If 'spec.createDeployment' is false, this is the name of the database
-                    that this database service will connect to. If 'spec.createDeployment'
-                    is true, and PostgreSQL is being used, it will create the database
+                    When connecting to an external database, this is the name of the database
+                    that this database service will connect to. When deploying the DBMS directly
+                    and PostgreSQL is being used, it will create the database
                     on PostgreSQL. This property has no effect on MySQL.
                   type: string
                 tablespace:
@@ -97,10 +97,15 @@ spec:
                   description: >
                     The scope at which this EntandoDatabaseService will be made available to
                     possible consumers. Values are as follows:
+
                     *  Dedicated - only valid when specified from a consumer, and will be resolved using the suffix '-db'
+
                     *  Specified - not supported in any of our consumers yet.
+
                     *  Namespace - all requirements for a DBMS with matching implementations in the namespace will resolve to this instance
+
                     *  Cluster - all requirements for a DBMS with matching implementations in the cluster will resolve to this instance
+
                     *  Labeled - not supported in any of our consumers yet.
                   type: string
                   pattern: ^(Dedicated|Specified|Namespace|Cluster|Labeled)$

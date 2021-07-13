@@ -64,6 +64,8 @@ spec:
                   type: number
                 phase:
                   type: string
+                entandoDeploymentPhase:
+                  type: string
                 serverStatuses:
                   type: object
                   x-kubernetes-preserve-unknown-fields: true
@@ -295,32 +297,10 @@ spec:
                       description: >
                         The Namespace of the EntandoKeycloakServer to use as OIDC provider. This value is only
                         evaluated if the 'spec.keycloakToUse.name' property has been set on this
-                        EntandoClusterInfrastructure.  If no Namespace is provided,
+                        EntandoApp.  If no Namespace is provided,
                         but a name was provided, the Entando Operator will then look for the
                         EntandoKeycloakServer with the name specified in the same Namespace as this
                         EntandoApp and use it as OIDC provider.
-                      type: string
-                clusterInfrastructureToUse:
-                  type: object
-                  description: >
-                    The properties of this object configure which Entando K8S Service will be used.
-                  properties:
-                    name:
-                      description: >
-                        The name of the EntandoClusterInfrastructure to use as Entando K8S Service. If no name is provided, the
-                        Entando Operator will then look for any EntandoClusterInfrastructure in the same Namespace as this
-                        EntandoApp and use it. If no EntandoClusterInfrastructure is found,
-                        it will then use the (last) EntandoClusterInfrastructure that was marked as the cluster wide  default
-                        using the property EntandoClusterInfrastructure.spec.isDefault.
-                      type: string
-                    namespace:
-                      description: >
-                        The Namespace of the EntandoClusterInfrastructure to use. This value is only
-                        evaluated if the 'spec.clusterInfrastructureToUse.name' property has been set on this
-                        EntandoApp. If no Namespace is provided,
-                        but a name was provided, the Entando Operator will then look for the
-                        EntandoClusterInfrastructure with the name specified in the same Namespace as this
-                        EntandoApp and use it.
                       type: string
                 standardServerImage:
                   description: >
@@ -348,32 +328,14 @@ spec:
                     Entando Bundles on the Git server they are hosted on.
                   type: string
                   pattern: '^([a-z])+([a-z0-9-\.])*[a-z0-9]$'
-                backupGitSpec:
-                  description: >
-                    Use this object to configure the git repository that this EntandoApp will be backed up to or backed
-                    up from. This functionality is not available yet. Please ignore.
-                  type: object
-                  properties:
-                    backupGitRepo:
-                      description: >
-                        The full URL of the backup git repository
-                      type: string
-                    backupGitSecretName:
-                      description: >
-                        The name of a standard Kubernetes Secret that contains a single field 'token' that will be
-                        used for authentication when backing up or restoring backups from Git.
-                      type: string
-                    backupResponsibility:
-                      description: >
-                        One of 'backup' or 'restore'
-                      type: string
-                      pattern: '^(backup|restore)$'
             status:
               type: object
               properties:
                 observedGeneration:
                   type: number
                 phase:
+                  type: string
+                entandoDeploymentPhase:
                   type: string
                 serverStatuses:
                   type: object
@@ -466,9 +428,9 @@ spec:
                   type: integer
                 databaseName:
                   description: >
-                    If 'spec.createDeployment' is false, this is the name of the database
-                    that this database service will connect to. If 'spec.createDeployment'
-                    is true, and PostgreSQL is being used, it will create the database
+                    When connecting to an external database, this is the name of the database
+                    that this database service will connect to. When deploying the DBMS directly
+                    and PostgreSQL is being used, it will create the database
                     on PostgreSQL. This property has no effect on MySQL.
                   type: string
                 tablespace:
@@ -485,10 +447,15 @@ spec:
                   description: >
                     The scope at which this EntandoDatabaseService will be made available to
                     possible consumers. Values are as follows:
+
                     *  Dedicated - only valid when specified from a consumer, and will be resolved using the suffix '-db'
+
                     *  Specified - not supported in any of our consumers yet.
+
                     *  Namespace - all requirements for a DBMS with matching implementations in the namespace will resolve to this instance
+
                     *  Cluster - all requirements for a DBMS with matching implementations in the cluster will resolve to this instance
+
                     *  Labeled - not supported in any of our consumers yet.
                   type: string
                   pattern: ^(Dedicated|Specified|Namespace|Cluster|Labeled)$
@@ -973,7 +940,9 @@ spec:
                 frontEndUrl:
                   description: >
                     The URL that will be used to access Keycloak from web
-                    applications.
+                    applications. If the 'UseExternal' provisioning strategy
+                    has been selected, this should be the base URL of the
+                    external SSO service your would like to connect to.
                   type: string
                 isDefault:
                   description: >
@@ -996,22 +965,27 @@ spec:
                   description: >
                     The scope inside the Kubernetes cluster that this
                     EntandoKeycloakServer instance can be shared.
-                    Available values are 'specified', 'specified', 'labeled'
-                    and 'cluster'. Please refer to our documentation
+                    Available values are 'Namespace', 'Cluster' and 'Specified'.
+                    Please refer to our documentation
                     pertaining to shared capabilities for more information.
                   type: string
                   pattern: ^(Dedicated|Specified|Namespace|Labeled|Cluster)$
                 provisioningStrategy:
                   description: >
                     The strategy that will be used to make this EntandoKeycloakServer
-                    available to its consumers. Valid values are
+                    available to its consumers. Values:
+
+                    * UseExternal - use this EntandoKeycloakServer resource to point to an existing external Keycloak Service.
+
+                    * DeployDirectly - deploy a new Keycloak server on demand
                   type: string
                   pattern: ^(UseExternal|DeployDirectly|DelegateToOperator)$
                 adminSecretName:
                   description: >
                     The name of an Opaque secret that contains the 'username' and
                     'password' keys that gives the operator admin access to a
-                    Keycloak server. This is used when .
+                    Keycloak server. This is used when the provisioning strategy
+                    is 'UseExternal'.
                   type: string
                 defaultRealm:
                   description: >
@@ -1266,32 +1240,10 @@ spec:
                       description: >
                         The Namespace of the EntandoKeycloakServer to use as OIDC provider. This value is only
                         evaluated if the 'spec.keycloakToUse.name' property has been set on this
-                        EntandoClusterInfrastructure.  If no Namespace is provided,
+                        EntandoPlugin microservice.  If no Namespace is provided,
                         but a name was provided, the Entando Operator will then look for the
                         EntandoKeycloakServer with the name specified in the same Namespace as this
                         EntandoPlugin microservice and use it as OIDC provider.
-                      type: string
-                clusterInfrastructureToUse:
-                  type: object
-                  description: >
-                    The properties of this object configure which Entando K8S Service will be used.
-                  properties:
-                    name:
-                      description: >
-                        The name of the EntandoClusterInfrastructure to use as Entando K8S Service. If no name is provided, the
-                        Entando Operator will then look for any EntandoClusterInfrastructure in the same Namespace as this
-                        EntandoPlugin microservice and use it. If no EntandoClusterInfrastructure is found,
-                        it will then use the (last) EntandoClusterInfrastructure that was marked as the cluster wide  default
-                        using the property EntandoClusterInfrastructure.spec.isDefault.
-                      type: string
-                    namespace:
-                      description: >
-                        The Namespace of the EntandoClusterInfrastructure to use. This value is only
-                        evaluated if the 'spec.clusterInfrastructureToUse.name' property has been set on this
-                        EntandoPlugin.  If no namespace is provided,
-                        but a name was provided, the Entando Operator will then look for the
-                        EntandoClusterInfrastructure with the name specified in the same Namespace as this
-                        EntandoPlugin microservice and use it.
                       type: string
                 healthCheckPath:
                   description: >
@@ -1367,6 +1319,8 @@ spec:
                 observedGeneration:
                   type: number
                 phase:
+                  type: string
+                entandoDeploymentPhase:
                   type: string
                 serverStatuses:
                   type: object
@@ -1456,7 +1410,7 @@ spec:
                     The chosen implementation of the selected capability. The available values depend on the capability in question.
                     For instance, for 'sso' the valid values are 'keycloak' and 'redhat-sso'
                   type: string
-                  pattern: ^(mysql|oracle|postgresql|redhat-sso|keycloak)$
+                  pattern: ^(mysql|oracle|postgresql|redhat-sso|redhat_sso|keycloak)$
                 resolutionScopePreference:
                   description: >
                     An ordered list expressing the preference that this capability will be available to. The first item
@@ -1579,27 +1533,21 @@ data:
   entando-de-app-wildfly: >-
     {"version":"6.3.68","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-app-controller: >-
-    {"version":"0.0.0-SNAPSHOT-PR-32-25","executable-type":"jvm","registry":"docker.io","organization":"entando"}
+    {"version":"0.0.0-SNAPSHOT-PR-32-44","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-app-plugin-link-controller: >-
-    {"version":"0.0.0-SNAPSHOT-PR-15-5","executable-type":"jvm","registry":"docker.io","organization":"entando"}
-  entando-k8s-cluster-infrastructure-controller: >-
-    {"version":"6.3.7","executable-type":"jvm","registry":"docker.io","organization":"entando"}
-  entando-k8s-composite-app-controller: >-
-    {"version":"6.3.13","executable-type":"jvm","registry":"docker.io","organization":"entando"}
+    {"version":"0.0.0-SNAPSHOT-PR-15-14","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-database-service-controller: >-
-    {"version":"0.0.0-SNAPSHOT-PR-10-12","executable-type":"jvm","registry":"docker.io","organization":"entando"}
+    {"version":"0.0.0-SNAPSHOT-PR-10-19","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-dbjob: >-
     {"version":"6.3.8","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-keycloak-controller: >-
-    {"version":"0.0.0-SNAPSHOT-PR-28-18","executable-type":"jvm","registry":"docker.io","organization":"entando"}
+    {"version":"0.0.0-SNAPSHOT-PR-28-27","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-plugin-controller: >-
-    {"version":"0.0.0-SNAPSHOT-PR-27-10","executable-type":"jvm","registry":"docker.io","organization":"entando"}
+    {"version":"0.0.0-SNAPSHOT-PR-27-16","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-service: >-
     {"version":"0.0.0-SNAPSHOT-4","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-keycloak: >-
     {"version":"6.3.9","executable-type":"","registry":"docker.io","organization":"entando"}
-  entando-plugin-sidecar: >-
-    {"version":"6.0.2","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-process-driven-plugin: >-
     {"version":"6.0.50","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-redhat-sso: >-
@@ -1873,7 +1821,7 @@ spec:
             periodSeconds: 3
             failureThreshold: 20
             successThreshold: 1
-            timeoutSeconds: 1
+            timeoutSeconds: 3
           livenessProbe:
             exec:
               command:
@@ -1881,7 +1829,7 @@ spec:
                 - /tmp/EntandoControllerCoordinator.ready
             periodSeconds: 5
             failureThreshold: 1
-            timeoutSeconds: 1
+            timeoutSeconds: 3
           readinessProbe:
             exec:
               command:
@@ -1889,7 +1837,7 @@ spec:
                 - /tmp/EntandoControllerCoordinator.ready
             periodSeconds: 5
             failureThreshold: 1
-            timeoutSeconds: 1
+            timeoutSeconds: 3
           resources:
             limits:
               cpu: 500m

@@ -4,7 +4,7 @@
 apiVersion: operators.coreos.com/v1alpha1
 kind: ClusterServiceVersion
 metadata:
-  name: entando-k8s-operator.v6.4.0-pr11
+  name: entando-k8s-operator.v6.4.0-pr1-25
   namespace: placeholder
   annotations:
     alm-examples: >-
@@ -22,14 +22,14 @@ metadata:
     description: >-
       Processes EntandoKeycloakServer, EntandoApp and EntandoPlugin custom
       resources and deploys the relevant containers in the Kubernetes cluster.
-    containerImage: entando/entando-k8s-controller-coordinator@sha256:68fa47521cf9ecce0b67e495ea5a6ab44aec7c2d38a26ccd3c61a4aa639fadb0
+    containerImage: entando/entando-k8s-controller-coordinator@sha256:32455380dadc8b832ea19a45a1f1d0bf51fc84d26c4f128663d5f52b7682efc8
     support: ''
     capabilities: Basic Install
     repository: ''
 spec:
   displayName: Entando Operator
   maturity: beta
-  version: 6.4.0-pr11
+  version: 6.4.0-pr1-25
 #  replaces: entando-k8s-operator.v0.3.56
   skips: []
   description: >
@@ -153,8 +153,64 @@ spec:
             kind: Secret
           - version: v1
             kind: PersistentVolumeClaim
-        specDescriptors: [ ]
-        statusDescriptors: [ ]
+        specDescriptors:
+          - displayName: Scope
+            path: providedCapabilityScope
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:select:Namespace'
+              - 'urn:alm:descriptor:com.tectonic.ui:select:Cluster'
+              - 'urn:alm:descriptor:com.tectonic.ui:select:Specified'
+          - displayName: DBMS
+            path: dbms
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:select:mysql'
+              - 'urn:alm:descriptor:com.tectonic.ui:select:postgresql'
+              - 'urn:alm:descriptor:com.tectonic.ui:select:oracle'
+          - displayName: Deploy Directly
+            path: createDeployment
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:booleanSwitch'
+          - displayName: External Host Name
+            path: host
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:number'
+          - displayName: Port
+            path: port
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:number'
+          - displayName: Admin Secret
+            path: secretName
+            x-descriptors:
+              - 'urn:alm:descriptor:io.kubernetes:Secret'
+          - displayName: Database Name
+            path: databaseName
+            x-descriptors:
+              - 'urn:alm:descriptor:text'
+          - displayName: Storage Class
+            path: storageClass
+            x-descriptors:
+              - 'urn:alm:descriptor:io.kubernetes:StorageClass'
+          - displayName: Replicas
+            path: replicas
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:hidden'
+          - displayName: HIDDEN FIELDS - replicas
+            path: replicas
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:hidden'
+          - displayName: HIDDEN FIELDS - serviceAccountToUse
+            path: serviceAccountToUse
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:hidden'
+        statusDescriptors:
+          - displayName: Deployment Phase
+            path: phase
+            x-descriptors:
+              - 'urn:alm:descriptor:text'
+          - displayName: Failure Message
+            path: serverStatuses.main.entandoControllerFailure.detailMessage
+            x-descriptors:
+              - 'urn:alm:descriptor:text'
       - name: entandokeycloakservers.entando.org
         kind: EntandoKeycloakServer
         displayName: Entando Keycloak Server
@@ -180,22 +236,74 @@ spec:
           - version: v1
             kind: PersistentVolumeClaim
         specDescriptors:
-          - displayName: TLS Secret
-            description: >-
-              The name of a standard Kubernetes TLS secret to be associated with
-              the Ingress that will expose the Keycloak Service over HTTPS
-            path: tlsSecretName
+          - displayName: Scope
+            path: providedCapabilityScope
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:select:Namespace'
+              - 'urn:alm:descriptor:com.tectonic.ui:select:Cluster'
+              - 'urn:alm:descriptor:com.tectonic.ui:select:Specified'
+          - displayName: Provisioning Strategy
+            path: provisioningStrategy
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:select:DeployDirectly'
+              - 'urn:alm:descriptor:com.tectonic.ui:select:UseExternal'
+          - displayName: Standard Image
+            path: standardImage
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:select:redhat-sso'
+              - 'urn:alm:descriptor:com.tectonic.ui:select:keycloak'
+          - displayName: Admin Secret
+            path: adminSecretName
             x-descriptors:
               - 'urn:alm:descriptor:io.kubernetes:Secret'
           - displayName: DBMS
-            description: Database Management System to use for persistent storage
             path: dbms
             x-descriptors:
               - 'urn:alm:descriptor:com.tectonic.ui:select:mysql'
               - 'urn:alm:descriptor:com.tectonic.ui:select:postgresql'
               - 'urn:alm:descriptor:com.tectonic.ui:select:embedded'
               - 'urn:alm:descriptor:com.tectonic.ui:select:oracle'
-        statusDescriptors: [ ]
+          - displayName: Default Realm
+            path: defaultRealm
+            x-descriptors:
+              - 'urn:alm:descriptor:text'
+          - displayName: Ingress Host Name
+            path: ingressHostname
+            x-descriptors:
+              - 'urn:alm:descriptor:text'
+          - displayName: TLS Secret
+            path: tlsSecretName
+            x-descriptors:
+              - 'urn:alm:descriptor:io.kubernetes:Secret'
+          - displayName: Replicas
+            path: replicas
+            x-descriptors:
+            - 'urn:alm:descriptor:com.tectonic.ui:podCount'
+          - displayName: HIDDEN FIELDS -Storage Class
+            path: storageClass
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:hidden'
+          - displayName: HIDDEN FIELDS - isDefault
+            path: isDefault
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:hidden'
+          - displayName: HIDDEN FIELDS - serviceAccountToUse
+            path: serviceAccountToUse
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:hidden'
+        statusDescriptors:
+          - displayName: Deployment Phase
+            path: phase
+            x-descriptors:
+              - urn:alm:descriptor:text
+          - displayName: Base URL
+            path: serverStatuses.main.externalBaseUrl
+            x-descriptors:
+              - urn:alm:descriptor:org.w3:link
+          - displayName: Failure Message
+            path: serverStatuses.main.entandoControllerFailure.detailMessage
+            x-descriptors:
+              - urn:alm:descriptor:text
       - name: entandoplugins.entando.org
         kind: EntandoPlugin
         displayName: Entando Plugin Microservice
@@ -244,8 +352,104 @@ spec:
             kind: Ingress
           - version: v1
             kind: PersistentVolumeClaim
-        specDescriptors: [ ]
-        statusDescriptors: [ ]
+        specDescriptors:
+          - displayName: Standard Server Image
+            path: standardServerImage
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:select:wildfly'
+              - 'urn:alm:descriptor:com.tectonic.ui:select:eap'
+          - displayName: Ingress Host Name
+            path: ingressHostName
+            x-descriptors:
+              - 'urn:alm:descriptor:text'
+          - displayName: DBMS
+            path: dbms
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:select:mysql'
+              - 'urn:alm:descriptor:com.tectonic.ui:select:postgresql'
+              - 'urn:alm:descriptor:com.tectonic.ui:select:embedded'
+              - 'urn:alm:descriptor:com.tectonic.ui:select:oracle'
+          - displayName: TLS Secret
+            path: tlsSecretName
+            x-descriptors:
+              - 'urn:alm:descriptor:io.kubernetes:Secret'
+          - displayName: Replicas
+            path: replicas
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:podCount'
+          - displayName: Storage Class
+            path: storageClass
+            x-descriptors:
+              - 'urn:alm:descriptor:io.kubernetes:StorageClass'
+          - displayName: Service Account to Use
+            path: serviceAccountToUse
+            x-descriptors:
+              - 'urn:alm:descriptor:io.kubernetes:ServiceAccount'
+          - displayName: Keycloak Namespace
+            path: keycloakToUse.namespace
+            x-descriptors:
+              - 'urn:alm:descriptor:text'
+          - displayName: Keycloak Name
+            path: keycloakToUse.name
+            x-descriptors:
+              - 'urn:alm:descriptor:text'
+          - displayName: Keycloak Realm
+            path: keycloakToUse.realm
+            x-descriptors:
+              - 'urn:alm:descriptor:text'
+          - displayName: Custom Server Image
+            path: customServerImage
+            x-descriptors:
+              - 'urn:alm:descriptor:text'
+          - displayName: Custom Ingress Path
+            path: ingressPath
+            x-descriptors:
+              - 'urn:alm:descriptor:text'
+          - displayName: HIDDEN FIELDS - ecrGitSshSecretName
+            path: ecrGitSshSecretName
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:hidden'
+        statusDescriptors:
+          - displayName: Deployment Phase
+            path: phase
+            x-descriptors:
+              - urn:alm:descriptor:text
+          - displayName: Entando URL
+            path: serverStatuses.main.externalBaseUrl
+            x-descriptors:
+              - urn:alm:descriptor:org.w3:link
+          - displayName: Entando Deployment Failure
+            path: serverStatuses.main.entandoControllerFailure.detailMessage
+            x-descriptors:
+              - urn:alm:descriptor:text
+          - displayName: AppBuidler URL
+            path: serverStatuses.ab.externalBaseUrl
+            x-descriptors:
+              - urn:alm:descriptor:org.w3:link
+          - displayName: AppBuilder Deployment Failure
+            path: serverStatuses.ab.entandoControllerFailure.detailMessage
+            x-descriptors:
+              - urn:alm:descriptor:text
+          - displayName: Component Manager URL
+            path: serverStatuses.cm.externalBaseUrl
+            x-descriptors:
+              - urn:alm:descriptor:org.w3:link
+          - displayName: Component Manager Deployment Failure
+            path: serverStatuses.cm.entandoControllerFailure.detailMessage
+            x-descriptors:
+              - urn:alm:descriptor:text
+          - displayName: SSO URL
+            path: serverStatuses.sso.externalBaseUrl
+            x-descriptors:
+              - urn:alm:descriptor:org.w3:link
+          - displayName: SSO Deployment Failure
+            path: serverStatuses.sso.entandoControllerFailure.detailMessage
+            x-descriptors:
+              - urn:alm:descriptor:text
+          - displayName: Database Deployment Failure
+            path: serverStatuses.db.entandoControllerFailure.detailMessage
+            x-descriptors:
+              - urn:alm:descriptor:text
       - name: entandoapppluginlinks.entando.org
         displayName: EntandoAppPluginLink
         kind: EntandoAppPluginLink
@@ -472,7 +676,7 @@ spec:
                 imagePullSecrets:
                   - name: entando-pull-secret
                 containers:
-                  - image: entando/entando-k8s-controller-coordinator@sha256:68fa47521cf9ecce0b67e495ea5a6ab44aec7c2d38a26ccd3c61a4aa639fadb0
+                  - image: entando/entando-k8s-controller-coordinator@sha256:32455380dadc8b832ea19a45a1f1d0bf51fc84d26c4f128663d5f52b7682efc8
                     imagePullPolicy: IfNotPresent
                     name: entando-operator
                     resources:
@@ -498,7 +702,7 @@ spec:
                       - name: ENTANDO_DISABLE_KEYCLOAK_SSL_REQUIREMENT
                         value: "true"
                       - name: ENTANDO_K8S_OPERATOR_VERSION
-                        value: 6.4.0-pr11
+                        value: 6.4.0-pr1-25
                       - name: ENTANDO_K8S_OPERATOR_VERSION_TO_REPLACE
                         value: 0.3.56
                       - name: ENTANDO_K8S_OPERATOR_DEPLOYMENT_TYPE
@@ -527,18 +731,18 @@ spec:
                         value: docker.io/entando/entando-component-manager@sha256:026030b67330e61a08000f899a819e3e1691047faeca52d213248612147a462a
                       - name: RELATED_IMAGE_ENTANDO_DE_APP_EAP #6.3.68
                         value: docker.io/entando/entando-de-app-eap@sha256:cb382354c75731ff6e29b26197ad92c9934bf80fe8dee95635807a2ea7a6ca35
-                      - name: RELATED_IMAGE_ENTANDO_K8S_APP_CONTROLLER #0.0.0-SNAPSHOT-PR-32-25
-                        value: docker.io/entando/entando-k8s-app-controller@sha256:071bc73fa763eac1a6ffe7a3c9ad0adbb7ffae2a28d6e00ebf55aafeaf5bc3ed
-                      - name: RELATED_IMAGE_ENTANDO_K8S_APP_PLUGIN_LINK_CONTROLLER #0.0.0-SNAPSHOT-PR-15-5
-                        value: docker.io/entando/entando-k8s-app-plugin-link-controller@sha256:ae5a53ac4b5c85ab2f54abfed6ee93a75144f8300317120fa55762966534d749
-                      - name: RELATED_IMAGE_ENTANDO_K8S_DATABASE_SERVICE_CONTROLLER #0.0.0-SNAPSHOT-PR-10-12
-                        value: docker.io/entando/entando-k8s-database-service-controller@sha256:822934130424a5207dc7032360ceb309d3d44696f1e125ee9da2ae7dcfe570ea
+                      - name: RELATED_IMAGE_ENTANDO_K8S_APP_CONTROLLER #0.0.0-SNAPSHOT-PR-32-44
+                        value: docker.io/entando/entando-k8s-app-controller@sha256:6e4525ecf68de3027a6a9e03787a3e5f82dd8729de25b413f3d679d5116cb290
+                      - name: RELATED_IMAGE_ENTANDO_K8S_APP_PLUGIN_LINK_CONTROLLER #0.0.0-SNAPSHOT-PR-15-14
+                        value: docker.io/entando/entando-k8s-app-plugin-link-controller@sha256:e776a083d0b570696f483de90b1f17877db79b71cc29af504350d56d8e3fb7c8
+                      - name: RELATED_IMAGE_ENTANDO_K8S_DATABASE_SERVICE_CONTROLLER #0.0.0-SNAPSHOT-PR-10-19
+                        value: docker.io/entando/entando-k8s-database-service-controller@sha256:f4f2f780f0028aaf4881e62fcfeac00cb245a457fcdb41ea12a33fabbf808704
                       - name: RELATED_IMAGE_ENTANDO_K8S_DBJOB #6.3.8
                         value: docker.io/entando/entando-k8s-dbjob@sha256:8ae47dbf93201965106663299f06daad544982fa244d4a0f365a1b717727e5ed
-                      - name: RELATED_IMAGE_ENTANDO_K8S_KEYCLOAK_CONTROLLER #0.0.0-SNAPSHOT-PR-28-18
-                        value: docker.io/entando/entando-k8s-keycloak-controller@sha256:72e236ac3419d0a07cb7cb978e97b56877a7af5537b20e40443b5ce8d2e170bc
-                      - name: RELATED_IMAGE_ENTANDO_K8S_PLUGIN_CONTROLLER #0.0.0-SNAPSHOT-PR-27-10
-                        value: docker.io/entando/entando-k8s-plugin-controller@sha256:0b029b5e8f18c985ad577e8b24f2b7f48b40654e26741f1ccd62041cd8fa0b4f
+                      - name: RELATED_IMAGE_ENTANDO_K8S_KEYCLOAK_CONTROLLER #0.0.0-SNAPSHOT-PR-28-27
+                        value: docker.io/entando/entando-k8s-keycloak-controller@sha256:678a496e89bc845146212643e341d013e294f626e8a4b71585302f9c0a7fdaa6
+                      - name: RELATED_IMAGE_ENTANDO_K8S_PLUGIN_CONTROLLER #0.0.0-SNAPSHOT-PR-27-16
+                        value: docker.io/entando/entando-k8s-plugin-controller@sha256:048bb26903b7a435e4a54c55333b2813d9da6b132132f94745d9f746bfc56254
                       - name: RELATED_IMAGE_ENTANDO_K8S_SERVICE #0.0.0-SNAPSHOT-4
                         value: docker.io/entando/entando-k8s-service@sha256:4bb4300f3affa1afb2b5c99b92f0bbe5ba32dd6b358aeab5f053f5b33ada6086
                       - name: RELATED_IMAGE_ENTANDO_REDHAT_SSO #6.3.9
@@ -551,7 +755,7 @@ spec:
                       periodSeconds: 3
                       failureThreshold: 50
                       successThreshold: 1
-                      timeoutSeconds: 1
+                      timeoutSeconds: 3
                     livenessProbe:
                       exec:
                         command:
@@ -559,7 +763,7 @@ spec:
                           - /tmp/EntandoControllerCoordinator.ready
                       periodSeconds: 5
                       failureThreshold: 1
-                      timeoutSeconds: 1
+                      timeoutSeconds: 3
                     readinessProbe:
                       exec:
                         command:
@@ -567,7 +771,7 @@ spec:
                           - /tmp/EntandoControllerCoordinator.ready
                       periodSeconds: 5
                       failureThreshold: 1
-                      timeoutSeconds: 1
+                      timeoutSeconds: 3
                 nodeSelector:
                   beta.kubernetes.io/os: linux
                 serviceAccountName: entando-operator

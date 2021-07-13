@@ -45,7 +45,7 @@ spec:
                     The chosen implementation of the selected capability. The available values depend on the capability in question.
                     For instance, for 'sso' the valid values are 'keycloak' and 'redhat-sso'
                   type: string
-                  pattern: ^(mysql|oracle|postgresql|redhat-sso|keycloak)$
+                  pattern: ^(mysql|oracle|postgresql|redhat-sso|redhat_sso|keycloak)$
                 resolutionScopePreference:
                   description: >
                     An ordered list expressing the preference that this capability will be available to. The first item

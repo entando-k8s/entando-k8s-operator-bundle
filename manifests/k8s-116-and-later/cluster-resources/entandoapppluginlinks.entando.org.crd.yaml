@@ -64,6 +64,8 @@ spec:
                   type: number
                 phase:
                   type: string
+                entandoDeploymentPhase:
+                  type: string
                 serverStatuses:
                   type: object
                   x-kubernetes-preserve-unknown-fields: true

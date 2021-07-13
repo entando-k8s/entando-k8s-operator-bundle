@@ -151,8 +151,64 @@ spec:
             kind: Secret
           - version: v1
             kind: PersistentVolumeClaim
-        specDescriptors: [ ]
-        statusDescriptors: [ ]
+        specDescriptors:
+          - displayName: Scope
+            path: providedCapabilityScope
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:select:Namespace'
+              - 'urn:alm:descriptor:com.tectonic.ui:select:Cluster'
+              - 'urn:alm:descriptor:com.tectonic.ui:select:Specified'
+          - displayName: DBMS
+            path: dbms
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:select:mysql'
+              - 'urn:alm:descriptor:com.tectonic.ui:select:postgresql'
+              - 'urn:alm:descriptor:com.tectonic.ui:select:oracle'
+          - displayName: Deploy Directly
+            path: createDeployment
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:booleanSwitch'
+          - displayName: External Host Name
+            path: host
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:number'
+          - displayName: Port
+            path: port
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:number'
+          - displayName: Admin Secret
+            path: secretName
+            x-descriptors:
+              - 'urn:alm:descriptor:io.kubernetes:Secret'
+          - displayName: Database Name
+            path: databaseName
+            x-descriptors:
+              - 'urn:alm:descriptor:text'
+          - displayName: Storage Class
+            path: storageClass
+            x-descriptors:
+              - 'urn:alm:descriptor:io.kubernetes:StorageClass'
+          - displayName: Replicas
+            path: replicas
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:hidden'
+          - displayName: HIDDEN FIELDS - replicas
+            path: replicas
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:hidden'
+          - displayName: HIDDEN FIELDS - serviceAccountToUse
+            path: serviceAccountToUse
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:hidden'
+        statusDescriptors:
+          - displayName: Deployment Phase
+            path: phase
+            x-descriptors:
+              - 'urn:alm:descriptor:text'
+          - displayName: Failure Message
+            path: serverStatuses.main.entandoControllerFailure.detailMessage
+            x-descriptors:
+              - 'urn:alm:descriptor:text'
       - name: entandokeycloakservers.entando.org
         kind: EntandoKeycloakServer
         displayName: Entando Keycloak Server
@@ -178,22 +234,74 @@ spec:
           - version: v1
             kind: PersistentVolumeClaim
         specDescriptors:
-          - displayName: TLS Secret
-            description: >-
-              The name of a standard Kubernetes TLS secret to be associated with
-              the Ingress that will expose the Keycloak Service over HTTPS
-            path: tlsSecretName
+          - displayName: Scope
+            path: providedCapabilityScope
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:select:Namespace'
+              - 'urn:alm:descriptor:com.tectonic.ui:select:Cluster'
+              - 'urn:alm:descriptor:com.tectonic.ui:select:Specified'
+          - displayName: Provisioning Strategy
+            path: provisioningStrategy
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:select:DeployDirectly'
+              - 'urn:alm:descriptor:com.tectonic.ui:select:UseExternal'
+          - displayName: Standard Image
+            path: standardImage
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:select:redhat-sso'
+              - 'urn:alm:descriptor:com.tectonic.ui:select:keycloak'
+          - displayName: Admin Secret
+            path: adminSecretName
             x-descriptors:
               - 'urn:alm:descriptor:io.kubernetes:Secret'
           - displayName: DBMS
-            description: Database Management System to use for persistent storage
             path: dbms
             x-descriptors:
               - 'urn:alm:descriptor:com.tectonic.ui:select:mysql'
               - 'urn:alm:descriptor:com.tectonic.ui:select:postgresql'
               - 'urn:alm:descriptor:com.tectonic.ui:select:embedded'
               - 'urn:alm:descriptor:com.tectonic.ui:select:oracle'
-        statusDescriptors: [ ]
+          - displayName: Default Realm
+            path: defaultRealm
+            x-descriptors:
+              - 'urn:alm:descriptor:text'
+          - displayName: Ingress Host Name
+            path: ingressHostname
+            x-descriptors:
+              - 'urn:alm:descriptor:text'
+          - displayName: TLS Secret
+            path: tlsSecretName
+            x-descriptors:
+              - 'urn:alm:descriptor:io.kubernetes:Secret'
+          - displayName: Replicas
+            path: replicas
+            x-descriptors:
+            - 'urn:alm:descriptor:com.tectonic.ui:podCount'
+          - displayName: HIDDEN FIELDS -Storage Class
+            path: storageClass
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:hidden'
+          - displayName: HIDDEN FIELDS - isDefault
+            path: isDefault
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:hidden'
+          - displayName: HIDDEN FIELDS - serviceAccountToUse
+            path: serviceAccountToUse
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:hidden'
+        statusDescriptors:
+          - displayName: Deployment Phase
+            path: phase
+            x-descriptors:
+              - urn:alm:descriptor:text
+          - displayName: Base URL
+            path: serverStatuses.main.externalBaseUrl
+            x-descriptors:
+              - urn:alm:descriptor:org.w3:link
+          - displayName: Failure Message
+            path: serverStatuses.main.entandoControllerFailure.detailMessage
+            x-descriptors:
+              - urn:alm:descriptor:text
       - name: entandoplugins.entando.org
         kind: EntandoPlugin
         displayName: Entando Plugin Microservice
@@ -242,8 +350,104 @@ spec:
             kind: Ingress
           - version: v1
             kind: PersistentVolumeClaim
-        specDescriptors: [ ]
-        statusDescriptors: [ ]
+        specDescriptors:
+          - displayName: Standard Server Image
+            path: standardServerImage
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:select:wildfly'
+              - 'urn:alm:descriptor:com.tectonic.ui:select:eap'
+          - displayName: Ingress Host Name
+            path: ingressHostName
+            x-descriptors:
+              - 'urn:alm:descriptor:text'
+          - displayName: DBMS
+            path: dbms
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:select:mysql'
+              - 'urn:alm:descriptor:com.tectonic.ui:select:postgresql'
+              - 'urn:alm:descriptor:com.tectonic.ui:select:embedded'
+              - 'urn:alm:descriptor:com.tectonic.ui:select:oracle'
+          - displayName: TLS Secret
+            path: tlsSecretName
+            x-descriptors:
+              - 'urn:alm:descriptor:io.kubernetes:Secret'
+          - displayName: Replicas
+            path: replicas
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:podCount'
+          - displayName: Storage Class
+            path: storageClass
+            x-descriptors:
+              - 'urn:alm:descriptor:io.kubernetes:StorageClass'
+          - displayName: Service Account to Use
+            path: serviceAccountToUse
+            x-descriptors:
+              - 'urn:alm:descriptor:io.kubernetes:ServiceAccount'
+          - displayName: Keycloak Namespace
+            path: keycloakToUse.namespace
+            x-descriptors:
+              - 'urn:alm:descriptor:text'
+          - displayName: Keycloak Name
+            path: keycloakToUse.name
+            x-descriptors:
+              - 'urn:alm:descriptor:text'
+          - displayName: Keycloak Realm
+            path: keycloakToUse.realm
+            x-descriptors:
+              - 'urn:alm:descriptor:text'
+          - displayName: Custom Server Image
+            path: customServerImage
+            x-descriptors:
+              - 'urn:alm:descriptor:text'
+          - displayName: Custom Ingress Path
+            path: ingressPath
+            x-descriptors:
+              - 'urn:alm:descriptor:text'
+          - displayName: HIDDEN FIELDS - ecrGitSshSecretName
+            path: ecrGitSshSecretName
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:hidden'
+        statusDescriptors:
+          - displayName: Deployment Phase
+            path: phase
+            x-descriptors:
+              - urn:alm:descriptor:text
+          - displayName: Entando URL
+            path: serverStatuses.main.externalBaseUrl
+            x-descriptors:
+              - urn:alm:descriptor:org.w3:link
+          - displayName: Entando Deployment Failure
+            path: serverStatuses.main.entandoControllerFailure.detailMessage
+            x-descriptors:
+              - urn:alm:descriptor:text
+          - displayName: AppBuidler URL
+            path: serverStatuses.ab.externalBaseUrl
+            x-descriptors:
+              - urn:alm:descriptor:org.w3:link
+          - displayName: AppBuilder Deployment Failure
+            path: serverStatuses.ab.entandoControllerFailure.detailMessage
+            x-descriptors:
+              - urn:alm:descriptor:text
+          - displayName: Component Manager URL
+            path: serverStatuses.cm.externalBaseUrl
+            x-descriptors:
+              - urn:alm:descriptor:org.w3:link
+          - displayName: Component Manager Deployment Failure
+            path: serverStatuses.cm.entandoControllerFailure.detailMessage
+            x-descriptors:
+              - urn:alm:descriptor:text
+          - displayName: SSO URL
+            path: serverStatuses.sso.externalBaseUrl
+            x-descriptors:
+              - urn:alm:descriptor:org.w3:link
+          - displayName: SSO Deployment Failure
+            path: serverStatuses.sso.entandoControllerFailure.detailMessage
+            x-descriptors:
+              - urn:alm:descriptor:text
+          - displayName: Database Deployment Failure
+            path: serverStatuses.db.entandoControllerFailure.detailMessage
+            x-descriptors:
+              - urn:alm:descriptor:text
       - name: entandoapppluginlinks.entando.org
         displayName: EntandoAppPluginLink
         kind: EntandoAppPluginLink
@@ -578,7 +782,7 @@ spec:
                       periodSeconds: 3
                       failureThreshold: 50
                       successThreshold: 1
-                      timeoutSeconds: 1
+                      timeoutSeconds: 3
                     livenessProbe:
                       exec:
                         command:
@@ -586,7 +790,7 @@ spec:
                           - /tmp/EntandoControllerCoordinator.ready
                       periodSeconds: 5
                       failureThreshold: 1
-                      timeoutSeconds: 1
+                      timeoutSeconds: 3
                     readinessProbe:
                       exec:
                         command:
@@ -594,7 +798,7 @@ spec:
                           - /tmp/EntandoControllerCoordinator.ready
                       periodSeconds: 5
                       failureThreshold: 1
-                      timeoutSeconds: 1
+                      timeoutSeconds: 3
                 nodeSelector:
                   beta.kubernetes.io/os: linux
                 serviceAccountName: entando-operator
