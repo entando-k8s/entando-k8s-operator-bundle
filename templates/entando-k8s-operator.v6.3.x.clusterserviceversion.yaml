@@ -20,7 +20,7 @@ metadata:
     description: >-
       Processes EntandoKeycloakServer, EntandoApp and EntandoPlugin custom
       resources and deploys the relevant containers in the Kubernetes cluster.
-    containerImage: entando/entando-k8s-controller-coordinator@sha256:{{ .Values.operator.relatedImages.entando_k8s_controller_coordinator.sha256 }}
+    containerImage: docker.io/entando/entando-k8s-controller-coordinator@sha256:{{ .Values.operator.relatedImages.entando_k8s_controller_coordinator.sha256 }}
     support: ''
     capabilities: Basic Install
     repository: ''
@@ -28,7 +28,9 @@ spec:
   displayName: Entando Operator
   maturity: beta
   version: {{ .Values.bundle.version }}
-#  replaces: entando-k8s-operator.v0.3.56
+{{- if .Values.bundle.replaces }}
+  replaces: entando-k8s-operator.v{{ .Values.bundle.replaces}}
+{{- end }}
   skips: []
   description: >
     ## Entando
@@ -703,7 +705,7 @@ spec:
                 imagePullSecrets:
                   - name: entando-pull-secret
                 containers:
-                  - image: entando/entando-k8s-controller-coordinator@sha256:{{ .Values.operator.relatedImages.entando_k8s_controller_coordinator.sha256 }}
+                  - image: docker.io/entando/entando-k8s-controller-coordinator@sha256:{{ .Values.operator.relatedImages.entando_k8s_controller_coordinator.sha256 }}
                     imagePullPolicy: IfNotPresent
                     name: entando-operator
                     resources:
@@ -730,8 +732,10 @@ spec:
                         value: "true"
                       - name: ENTANDO_K8S_OPERATOR_VERSION
                         value: {{ .Values.bundle.version }}
+  {{- if .Values.bundle.replaces }}
                       - name: ENTANDO_K8S_OPERATOR_VERSION_TO_REPLACE
-                        value: 0.3.56
+                        value: {{ .Values.bundle.replaces }}
+  {{- end }}
                       - name: ENTANDO_K8S_OPERATOR_DEPLOYMENT_TYPE
                         value: olm
                       - name: OPERATOR_NAME
@@ -816,7 +820,7 @@ spec:
                 imagePullSecrets:
                   - name: entando-pull-secret
                 containers:
-                  - image: entando/entando-k8s-service@sha256:{{ .Values.operator.relatedImages.entando_k8s_service.sha256 }}
+                  - image: docker.io/entando/entando-k8s-service@sha256:{{ .Values.operator.relatedImages.entando_k8s_service.sha256 }}
                     imagePullPolicy: IfNotPresent
                     name: entando-k8s-service
                     ports:
