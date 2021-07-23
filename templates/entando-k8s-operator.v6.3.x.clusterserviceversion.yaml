@@ -173,7 +173,7 @@ spec:
           - displayName: External Host Name
             path: host
             x-descriptors:
-              - 'urn:alm:descriptor:com.tectonic.ui:number'
+              - 'urn:alm:descriptor:text'
           - displayName: Port
             path: port
             x-descriptors:
