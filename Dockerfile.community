@@ -16,6 +16,6 @@ LABEL com.redhat.openshift.versions="v4.6"
 LABEL com.redhat.delivery.operator.bundle=true
 LABEL com.redhat.delivery.backport=false
 
-COPY manifests/k8s-116-and-later/cluster-resources manifests/k8s-116-and-later/olm-deployment /manifests/
+COPY manifests/k8s-116-and-later/cluster-resources manifests/k8s-116-and-later/community-deployment /manifests/
 COPY metadata /metadata/
 COPY tests/scorecard /tests/scorecard/

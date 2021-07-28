@@ -1,8 +1,9 @@
 bundle:
-  version: 6.4.0-pr1-40
+  version: 6.4.0-pr1-41
 #  replaces: 6.4.0-pr1-34
   olmDisabled: true
-  internalOnly: true
+  communityOnly: true
+  containerRegistry: registry.connect.redhat.com
 operator:
   generateClusterRoles: false
   imagePullSecrets:
@@ -37,8 +38,8 @@ operator:
       sha256: b623fd7d95b3ce9f399e65773fb6c5d851ba399d828b9867c76af823de87ed65
       version: 0.0.0-SNAPSHOT-PR-32-47
     entando_k8s_app_plugin_link_controller:
-      sha256: ea0da4a006d5eb8f75c215a0bca37689f58d0513ea0250919e1313b130db3b9f
-      version: 0.0.0-SNAPSHOT-PR-15-15
+      sha256: ca0500fbee00caef5969a78279583e1ae3ebd4edc75462fb65785861954e208e
+      version: 0.0.0-SNAPSHOT-PR-15-16
     entando_k8s_controller_coordinator:
       sha256: 2be3b284b3902efe37d4e346590758e7b6031d5d8b8aa0750d92f8855fc6c9d9
       version: 0.0.0-SNAPSHOT-PR-75-45

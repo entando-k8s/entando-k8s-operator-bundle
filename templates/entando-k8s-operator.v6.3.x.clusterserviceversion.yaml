@@ -20,7 +20,7 @@ metadata:
     description: >-
       Processes EntandoKeycloakServer, EntandoApp and EntandoPlugin custom
       resources and deploys the relevant containers in the Kubernetes cluster.
-    containerImage: docker.io/entando/entando-k8s-controller-coordinator@sha256:{{ .Values.operator.relatedImages.entando_k8s_controller_coordinator.sha256 }}
+    containerImage: {{ .Values.bundle.containerRegistry }}/entando/entando-k8s-controller-coordinator@sha256:{{ .Values.operator.relatedImages.entando_k8s_controller_coordinator.sha256 }}
     support: ''
     capabilities: Basic Install
     repository: ''
@@ -499,34 +499,34 @@ spec:
         specDescriptors: [ ]
         statusDescriptors: [ ]
     required: [ ]
-{{- if .Values.bundle.internalOnly }}
+{{- if .Values.bundle.communityOnly }}
   relatedImages:
     - name: rhel8-mysql-80 #{{ .Values.operator.relatedImages.rhel8_mysql_80.version }}
       image: registry.redhat.io/rhel8/mysql-80@sha256:{{ .Values.operator.relatedImages.rhel8_mysql_80.sha256 }}
     - name: rhel8-postgresql-12 #{{ .Values.operator.relatedImages.rhel8_postgresql_12.version }}
       image: registry.redhat.io/rhel8/postgresql-12@sha256:{{ .Values.operator.relatedImages.rhel8_postgresql_12.sha256 }}
     - name: app-builder #{{ .Values.operator.relatedImages.app_builder.version }}
-      image: docker.io/entando/app-builder@sha256:{{ .Values.operator.relatedImages.app_builder.sha256 }}
+      image: {{ .Values.bundle.containerRegistry }}/entando/app-builder@sha256:{{ .Values.operator.relatedImages.app_builder.sha256 }}
     - name: entando-component-manager #{{ .Values.operator.relatedImages.entando_component_manager.version }}
-      image: docker.io/entando/entando-component-manager@sha256:{{ .Values.operator.relatedImages.entando_component_manager.sha256 }}
+      image: {{ .Values.bundle.containerRegistry }}/entando/entando-component-manager@sha256:{{ .Values.operator.relatedImages.entando_component_manager.sha256 }}
     - name: entando-de-app-eap #{{ .Values.operator.relatedImages.entando_de_app_eap.version }}
-      image: docker.io/entando/entando-de-app-eap@sha256:{{ .Values.operator.relatedImages.entando_de_app_eap.sha256 }}
+      image: {{ .Values.bundle.containerRegistry }}/entando/entando-de-app-eap@sha256:{{ .Values.operator.relatedImages.entando_de_app_eap.sha256 }}
     - name: entando-k8s-app-controller #{{ .Values.operator.relatedImages.entando_k8s_app_controller.version }}
-      image: docker.io/entando/entando-k8s-app-controller@sha256:{{ .Values.operator.relatedImages.entando_k8s_app_controller.sha256 }}
+      image: {{ .Values.bundle.containerRegistry }}/entando/entando-k8s-app-controller@sha256:{{ .Values.operator.relatedImages.entando_k8s_app_controller.sha256 }}
     - name: entando-k8s-app-plugin-link-controller #{{ .Values.operator.relatedImages.entando_k8s_app_plugin_link_controller.version }}
-      image: docker.io/entando/entando-k8s-app-plugin-link-controller@sha256:{{ .Values.operator.relatedImages.entando_k8s_app_plugin_link_controller.sha256 }}
+      image: {{ .Values.bundle.containerRegistry }}/entando/entando-k8s-app-plugin-link-controller@sha256:{{ .Values.operator.relatedImages.entando_k8s_app_plugin_link_controller.sha256 }}
     - name: entando-k8s-database-service-controller #{{ .Values.operator.relatedImages.entando_k8s_database_service_controller.version }}
-      image: docker.io/entando/entando-k8s-database-service-controller@sha256:{{ .Values.operator.relatedImages.entando_k8s_database_service_controller.sha256 }}
+      image: {{ .Values.bundle.containerRegistry }}/entando/entando-k8s-database-service-controller@sha256:{{ .Values.operator.relatedImages.entando_k8s_database_service_controller.sha256 }}
     - name: entando-k8s-dbjob #{{ .Values.operator.relatedImages.entando_k8s_dbjob.version }}
-      image: docker.io/entando/entando-k8s-dbjob@sha256:{{ .Values.operator.relatedImages.entando_k8s_dbjob.sha256 }}
+      image: {{ .Values.bundle.containerRegistry }}/entando/entando-k8s-dbjob@sha256:{{ .Values.operator.relatedImages.entando_k8s_dbjob.sha256 }}
     - name: entando-k8s-keycloak-controller #{{ .Values.operator.relatedImages.entando_k8s_keycloak_controller.version }}
-      image: docker.io/entando/entando-k8s-keycloak-controller@sha256:{{ .Values.operator.relatedImages.entando_k8s_keycloak_controller.sha256 }}
+      image: {{ .Values.bundle.containerRegistry }}/entando/entando-k8s-keycloak-controller@sha256:{{ .Values.operator.relatedImages.entando_k8s_keycloak_controller.sha256 }}
     - name: entando-k8s-plugin-controller #{{ .Values.operator.relatedImages.entando_k8s_plugin_controller.version }}
-      image: docker.io/entando/entando-k8s-plugin-controller@sha256:{{ .Values.operator.relatedImages.entando_k8s_plugin_controller.sha256 }}
+      image: {{ .Values.bundle.containerRegistry }}/entando/entando-k8s-plugin-controller@sha256:{{ .Values.operator.relatedImages.entando_k8s_plugin_controller.sha256 }}
     - name: entando-k8s-service #{{ .Values.operator.relatedImages.entando_k8s_service.version }}
-      image: docker.io/entando/entando-k8s-service@sha256:{{ .Values.operator.relatedImages.entando_k8s_service.sha256 }}
+      image: {{ .Values.bundle.containerRegistry }}/entando/entando-k8s-service@sha256:{{ .Values.operator.relatedImages.entando_k8s_service.sha256 }}
     - name: entando-redhat-sso #{{ .Values.operator.relatedImages.entando_redhat_sso.version }}
-      image: docker.io/entando/entando-redhat-sso@sha256:{{ .Values.operator.relatedImages.entando_redhat_sso.sha256 }}
+      image: {{ .Values.bundle.containerRegistry }}/entando/entando-redhat-sso@sha256:{{ .Values.operator.relatedImages.entando_redhat_sso.sha256 }}
 {{- end }}
   install:
     strategy: deployment
@@ -705,7 +705,7 @@ spec:
                 imagePullSecrets:
                   - name: entando-pull-secret
                 containers:
-                  - image: docker.io/entando/entando-k8s-controller-coordinator@sha256:{{ .Values.operator.relatedImages.entando_k8s_controller_coordinator.sha256 }}
+                  - image: {{ .Values.bundle.containerRegistry }}/entando/entando-k8s-controller-coordinator@sha256:{{ .Values.operator.relatedImages.entando_k8s_controller_coordinator.sha256 }}
                     imagePullPolicy: IfNotPresent
                     name: entando-operator
                     resources:
@@ -757,27 +757,27 @@ spec:
                       - name: RELATED_IMAGE_RHEL8_POSTGRESQL_12 #{{ .Values.operator.relatedImages.rhel8_postgresql_12.version }}
                         value: registry.redhat.io/rhel8/postgresql-12@sha256:{{ .Values.operator.relatedImages.rhel8_postgresql_12.sha256 }}
                       - name: RELATED_IMAGE_APP_BUILDER #{{ .Values.operator.relatedImages.app_builder.version }}
-                        value: docker.io/entando/app-builder@sha256:{{ .Values.operator.relatedImages.app_builder.sha256 }}
+                        value: {{ .Values.bundle.containerRegistry }}/entando/app-builder@sha256:{{ .Values.operator.relatedImages.app_builder.sha256 }}
                       - name: RELATED_IMAGE_ENTANDO_COMPONENT_MANAGER #{{ .Values.operator.relatedImages.entando_component_manager.version }}
-                        value: docker.io/entando/entando-component-manager@sha256:{{ .Values.operator.relatedImages.entando_component_manager.sha256 }}
+                        value: {{ .Values.bundle.containerRegistry }}/entando/entando-component-manager@sha256:{{ .Values.operator.relatedImages.entando_component_manager.sha256 }}
                       - name: RELATED_IMAGE_ENTANDO_DE_APP_EAP #{{ .Values.operator.relatedImages.entando_de_app_eap.version }}
-                        value: docker.io/entando/entando-de-app-eap@sha256:{{ .Values.operator.relatedImages.entando_de_app_eap.sha256 }}
+                        value: {{ .Values.bundle.containerRegistry }}/entando/entando-de-app-eap@sha256:{{ .Values.operator.relatedImages.entando_de_app_eap.sha256 }}
                       - name: RELATED_IMAGE_ENTANDO_K8S_APP_CONTROLLER #{{ .Values.operator.relatedImages.entando_k8s_app_controller.version }}
-                        value: docker.io/entando/entando-k8s-app-controller@sha256:{{ .Values.operator.relatedImages.entando_k8s_app_controller.sha256 }}
+                        value: {{ .Values.bundle.containerRegistry }}/entando/entando-k8s-app-controller@sha256:{{ .Values.operator.relatedImages.entando_k8s_app_controller.sha256 }}
                       - name: RELATED_IMAGE_ENTANDO_K8S_APP_PLUGIN_LINK_CONTROLLER #{{ .Values.operator.relatedImages.entando_k8s_app_plugin_link_controller.version }}
-                        value: docker.io/entando/entando-k8s-app-plugin-link-controller@sha256:{{ .Values.operator.relatedImages.entando_k8s_app_plugin_link_controller.sha256 }}
+                        value: {{ .Values.bundle.containerRegistry }}/entando/entando-k8s-app-plugin-link-controller@sha256:{{ .Values.operator.relatedImages.entando_k8s_app_plugin_link_controller.sha256 }}
                       - name: RELATED_IMAGE_ENTANDO_K8S_DATABASE_SERVICE_CONTROLLER #{{ .Values.operator.relatedImages.entando_k8s_database_service_controller.version }}
-                        value: docker.io/entando/entando-k8s-database-service-controller@sha256:{{ .Values.operator.relatedImages.entando_k8s_database_service_controller.sha256 }}
+                        value: {{ .Values.bundle.containerRegistry }}/entando/entando-k8s-database-service-controller@sha256:{{ .Values.operator.relatedImages.entando_k8s_database_service_controller.sha256 }}
                       - name: RELATED_IMAGE_ENTANDO_K8S_DBJOB #{{ .Values.operator.relatedImages.entando_k8s_dbjob.version }}
-                        value: docker.io/entando/entando-k8s-dbjob@sha256:{{ .Values.operator.relatedImages.entando_k8s_dbjob.sha256 }}
+                        value: {{ .Values.bundle.containerRegistry }}/entando/entando-k8s-dbjob@sha256:{{ .Values.operator.relatedImages.entando_k8s_dbjob.sha256 }}
                       - name: RELATED_IMAGE_ENTANDO_K8S_KEYCLOAK_CONTROLLER #{{ .Values.operator.relatedImages.entando_k8s_keycloak_controller.version }}
-                        value: docker.io/entando/entando-k8s-keycloak-controller@sha256:{{ .Values.operator.relatedImages.entando_k8s_keycloak_controller.sha256 }}
+                        value: {{ .Values.bundle.containerRegistry }}/entando/entando-k8s-keycloak-controller@sha256:{{ .Values.operator.relatedImages.entando_k8s_keycloak_controller.sha256 }}
                       - name: RELATED_IMAGE_ENTANDO_K8S_PLUGIN_CONTROLLER #{{ .Values.operator.relatedImages.entando_k8s_plugin_controller.version }}
-                        value: docker.io/entando/entando-k8s-plugin-controller@sha256:{{ .Values.operator.relatedImages.entando_k8s_plugin_controller.sha256 }}
+                        value: {{ .Values.bundle.containerRegistry }}/entando/entando-k8s-plugin-controller@sha256:{{ .Values.operator.relatedImages.entando_k8s_plugin_controller.sha256 }}
                       - name: RELATED_IMAGE_ENTANDO_K8S_SERVICE #{{ .Values.operator.relatedImages.entando_k8s_service.version }}
-                        value: docker.io/entando/entando-k8s-service@sha256:{{ .Values.operator.relatedImages.entando_k8s_service.sha256 }}
+                        value: {{ .Values.bundle.containerRegistry }}/entando/entando-k8s-service@sha256:{{ .Values.operator.relatedImages.entando_k8s_service.sha256 }}
                       - name: RELATED_IMAGE_ENTANDO_REDHAT_SSO #{{ .Values.operator.relatedImages.entando_redhat_sso.version }}
-                        value: docker.io/entando/entando-redhat-sso@sha256:{{ .Values.operator.relatedImages.entando_redhat_sso.sha256 }}
+                        value: {{ .Values.bundle.containerRegistry }}/entando/entando-redhat-sso@sha256:{{ .Values.operator.relatedImages.entando_redhat_sso.sha256 }}
                     startupProbe:
                       exec:
                         command:
@@ -820,7 +820,7 @@ spec:
                 imagePullSecrets:
                   - name: entando-pull-secret
                 containers:
-                  - image: docker.io/entando/entando-k8s-service@sha256:{{ .Values.operator.relatedImages.entando_k8s_service.sha256 }}
+                  - image: {{ .Values.bundle.containerRegistry }}/entando/entando-k8s-service@sha256:{{ .Values.operator.relatedImages.entando_k8s_service.sha256 }}
                     imagePullPolicy: IfNotPresent
                     name: entando-k8s-service
                     ports:
