@@ -10,9 +10,10 @@ metadata:
         {"apiVersion":"entando.org/v1","kind":"EntandoDeBundle","metadata":{"name":"my-bundle","namespace":"my-namespace"},"spec":{"details":{"name":"my-bundle"}}},
         {"apiVersion":"entando.org/v1","kind":"EntandoDatabaseService","metadata":{"name":"my-entando-database-service","namespace":"my-namespace"},"spec":{"dbms":"postgresql","databaseName":"my_database","createDeployment":true}},
         {"apiVersion":"entando.org/v1","kind":"EntandoKeycloakServer","metadata":{"name":"my-keycloak","namespace":"my-namespace"},"spec":{"standardImage":"redhat-sso", "dbms":"postgresql","replicas":1,"environmentVariables":[]}},
-        {"apiVersion":"entando.org/v1","kind":"EntandoPlugin","metadata":{"name":"my-entando-plugin","namespace":"my-namespace"},"spec": {"dbms": "postgresql","healthCheckPath": "/management/health","image": "entando/entando-avatar-plugin:6.0.5","ingressHostName": "my-plugin.apps-crc.testing","ingressPath": "/avatarPlugin","replicas": 1,"roles": [{"code": "admin","name": "user"},{"code": "user","name": "user"}],"securityLevel": "strict"}},
-        {"apiVersion":"entando.org/v1","kind":"EntandoApp","metadata":{"name":"my-app","namespace":"my-namespace"},"spec":{"dbms":"postgresql","environmentVariables":[],"ingressHostName":"my-app.apps-crc.testing","replicas":1,"standardServerImage":"eap"}},
-        {"apiVersion":"entando.org/v1","kind":"EntandoAppPluginLink","metadata":{"name":"my-link","namespace":"my-namespace"},"spec":{"entandoAppName":"my-app","entandoPluginName":"my-plugin"}}
+        {"apiVersion":"entando.org/v1","kind":"EntandoPlugin","metadata":{"name":"my-entando-plugin","namespace":"my-namespace"},"spec": {"dbms": "postgresql","healthCheckPath": "/management/health","image": "entando/entando-avatar-plugin:6.0.5","ingressPath": "/avatarPlugin","replicas": 1,"roles": [{"code": "admin","name": "user"},{"code": "user","name": "user"}],"securityLevel": "strict"}},
+        {"apiVersion":"entando.org/v1","kind":"EntandoApp","metadata":{"name":"my-app","namespace":"my-namespace"},"spec":{"dbms":"postgresql","environmentVariables":[],"replicas":1,"standardServerImage":"eap"}},
+        {"apiVersion":"entando.org/v1","kind":"EntandoAppPluginLink","metadata":{"name":"my-link","namespace":"my-namespace"},"spec":{"entandoAppName":"my-app","entandoPluginName":"my-plugin"}},
+        {"apiVersion":"entando.org/v1","kind":"ProvidedCapability","metadata":{"name":"postgresql"},"spec":{"capability":"dbms","implementation":"postgresql","resolutionScopePreference":["Namespace","Dedicated","Cluster"]}}
       ]
     categories:  Application Runtime, Development Tools
     certified: 'false'
@@ -26,7 +27,7 @@ metadata:
     repository: ''
 spec:
   displayName: Entando Operator
-  maturity: beta
+  maturity: alpha
   version: {{ .Values.bundle.version }}
 {{- if .Values.bundle.replaces }}
   replaces: entando-k8s-operator.v{{ .Values.bundle.replaces}}
@@ -166,40 +167,51 @@ spec:
               - 'urn:alm:descriptor:com.tectonic.ui:select:mysql'
               - 'urn:alm:descriptor:com.tectonic.ui:select:postgresql'
               - 'urn:alm:descriptor:com.tectonic.ui:select:oracle'
-          - displayName: Deploy Directly
-            path: createDeployment
+          - displayName: Provisioning Strategy
+            path: provisioningStrategy
             x-descriptors:
-              - 'urn:alm:descriptor:com.tectonic.ui:booleanSwitch'
+              - 'urn:alm:descriptor:com.tectonic.ui:select:DeployDirectly'
+              - 'urn:alm:descriptor:com.tectonic.ui:select:UseExternal'
           - displayName: External Host Name
             path: host
             x-descriptors:
               - 'urn:alm:descriptor:text'
+              - 'urn:alm:descriptor:com.tectonic.ui:fieldDependency:provisioningStrategy:UseExternal'
           - displayName: Port
             path: port
             x-descriptors:
               - 'urn:alm:descriptor:com.tectonic.ui:number'
+              - 'urn:alm:descriptor:com.tectonic.ui:fieldDependency:provisioningStrategy:UseExternal'
           - displayName: Admin Secret
             path: secretName
             x-descriptors:
               - 'urn:alm:descriptor:io.kubernetes:Secret'
+              - 'urn:alm:descriptor:com.tectonic.ui:fieldDependency:provisioningStrategy:UseExternal'
           - displayName: Database Name
             path: databaseName
             x-descriptors:
               - 'urn:alm:descriptor:text'
+              - 'urn:alm:descriptor:com.tectonic.ui:fieldDependency:provisioningStrategy:UseExternal'
           - displayName: Storage Class
             path: storageClass
             x-descriptors:
               - 'urn:alm:descriptor:io.kubernetes:StorageClass'
-          - displayName: Replicas
-            path: replicas
+              - 'urn:alm:descriptor:com.tectonic.ui:advanced'
+          - displayName: Resource Requirements
+            path: resourceRequirements
             x-descriptors:
-              - 'urn:alm:descriptor:com.tectonic.ui:hidden'
+              - 'urn:alm:descriptor:com.tectonic.ui:resourceRequirements'
+              - 'urn:alm:descriptor:com.tectonic.ui:advanced'
           - displayName: HIDDEN FIELDS - replicas
             path: replicas
             x-descriptors:
               - 'urn:alm:descriptor:com.tectonic.ui:hidden'
           - displayName: HIDDEN FIELDS - serviceAccountToUse
             path: serviceAccountToUse
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:hidden'
+          - displayName:  HIDDEN FIELDS Deploy Directly
+            path: createDeployment
             x-descriptors:
               - 'urn:alm:descriptor:com.tectonic.ui:hidden'
         statusDescriptors:
@@ -279,6 +291,11 @@ spec:
             path: replicas
             x-descriptors:
             - 'urn:alm:descriptor:com.tectonic.ui:podCount'
+          - displayName: Resource Requirements
+            path: resourceRequirements
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:resourceRequirements'
+              - 'urn:alm:descriptor:com.tectonic.ui:advanced'
           - displayName: HIDDEN FIELDS -Storage Class
             path: storageClass
             x-descriptors:
@@ -327,7 +344,13 @@ spec:
             kind: Ingress
           - version: v1
             kind: PersistentVolumeClaim
-        specDescriptors: [ ]
+        specDescriptors:
+          - displayName: Resource Requirements
+            path: resourceRequirements
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:resourceRequirements'
+              - 'urn:alm:descriptor:com.tectonic.ui:advanced'
+
         statusDescriptors: [ ]
       - name: entandoapps.entando.org
         displayName: EntandoApp
@@ -358,6 +381,11 @@ spec:
             x-descriptors:
               - 'urn:alm:descriptor:com.tectonic.ui:select:wildfly'
               - 'urn:alm:descriptor:com.tectonic.ui:select:eap'
+          - displayName: Entando App Version
+            path: entandoAppVersion
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:select:6.3'
+              - 'urn:alm:descriptor:com.tectonic.ui:select:6.4'
           - displayName: Ingress Host Name
             path: ingressHostName
             x-descriptors:
@@ -373,38 +401,60 @@ spec:
             path: tlsSecretName
             x-descriptors:
               - 'urn:alm:descriptor:io.kubernetes:Secret'
+              - 'urn:alm:descriptor:com.tectonic.ui:advanced'
           - displayName: Replicas
             path: replicas
             x-descriptors:
               - 'urn:alm:descriptor:com.tectonic.ui:podCount'
+              - 'urn:alm:descriptor:com.tectonic.ui:advanced'
+          - displayName: Resource Requirements
+            path: resourceRequirements
+            x-descriptors:
+              - 'urn:alm:descriptor:com.tectonic.ui:resourceRequirements'
+              - 'urn:alm:descriptor:com.tectonic.ui:advanced'
           - displayName: Storage Class
             path: storageClass
             x-descriptors:
               - 'urn:alm:descriptor:io.kubernetes:StorageClass'
+              - 'urn:alm:descriptor:com.tectonic.ui:advanced'
           - displayName: Service Account to Use
             path: serviceAccountToUse
             x-descriptors:
               - 'urn:alm:descriptor:io.kubernetes:ServiceAccount'
+              - 'urn:alm:descriptor:com.tectonic.ui:advanced'
+          - displayName: ConfigMap Name
+            path: environmentVariables[0].valueFrom.configMapKeyRef.name
+            x-descriptors:
+              - 'urn:alm:descriptor:io.kubernetes:ConfigMap'
+          - displayName: Secret Name
+            path: environmentVariables[0].valueFrom.secretKeyRef.name
+            x-descriptors:
+              - 'urn:alm:descriptor:io.kubernetes:Secret'
           - displayName: Keycloak Namespace
             path: keycloakToUse.namespace
             x-descriptors:
-              - 'urn:alm:descriptor:text'
+              - 'urn:alm:descriptor:io.kubernetes:Namespace'
+              - 'urn:alm:descriptor:com.tectonic.ui:advanced'
           - displayName: Keycloak Name
             path: keycloakToUse.name
             x-descriptors:
               - 'urn:alm:descriptor:text'
+              - 'urn:alm:descriptor:com.tectonic.ui:advanced'
           - displayName: Keycloak Realm
             path: keycloakToUse.realm
             x-descriptors:
               - 'urn:alm:descriptor:text'
+              - 'urn:alm:descriptor:com.tectonic.ui:advanced'
           - displayName: Custom Server Image
             path: customServerImage
             x-descriptors:
               - 'urn:alm:descriptor:text'
+              - 'urn:alm:descriptor:com.tectonic.ui:advanced'
           - displayName: Custom Ingress Path
             path: ingressPath
             x-descriptors:
               - 'urn:alm:descriptor:text'
+              - 'urn:alm:descriptor:com.tectonic.ui:advanced'
           - displayName: HIDDEN FIELDS - ecrGitSshSecretName
             path: ecrGitSshSecretName
             x-descriptors:
@@ -505,12 +555,18 @@ spec:
       image: registry.redhat.io/rhel8/mysql-80@sha256:{{ .Values.operator.relatedImages.rhel8_mysql_80.sha256 }}
     - name: rhel8-postgresql-12 #{{ .Values.operator.relatedImages.rhel8_postgresql_12.version }}
       image: registry.redhat.io/rhel8/postgresql-12@sha256:{{ .Values.operator.relatedImages.rhel8_postgresql_12.sha256 }}
-    - name: app-builder #{{ .Values.operator.relatedImages.app_builder.version }}
-      image: {{ .Values.bundle.containerRegistry }}/entando/app-builder@sha256:{{ .Values.operator.relatedImages.app_builder.sha256 }}
-    - name: entando-component-manager #{{ .Values.operator.relatedImages.entando_component_manager.version }}
-      image: {{ .Values.bundle.containerRegistry }}/entando/entando-component-manager@sha256:{{ .Values.operator.relatedImages.entando_component_manager.sha256 }}
-    - name: entando-de-app-eap #{{ .Values.operator.relatedImages.entando_de_app_eap.version }}
-      image: {{ .Values.bundle.containerRegistry }}/entando/entando-de-app-eap@sha256:{{ .Values.operator.relatedImages.entando_de_app_eap.sha256 }}
+    - name: app-builder-6-3 #{{ .Values.operator.relatedImages.app_builder_6_3.version }}
+      image: {{ .Values.bundle.containerRegistry }}/entando/app-builder@sha256:{{ .Values.operator.relatedImages.app_builder_6_3.sha256 }}
+    - name: app-builder-6-4 #{{ .Values.operator.relatedImages.app_builder_6_4.version }}
+      image: {{ .Values.bundle.containerRegistry }}/entando/app-builder@sha256:{{ .Values.operator.relatedImages.app_builder_6_4.sha256 }}
+    - name: entando-component-manager-6-3 #{{ .Values.operator.relatedImages.entando_component_manager_6_3.version }}
+      image: {{ .Values.bundle.containerRegistry }}/entando/entando-component-manager@sha256:{{ .Values.operator.relatedImages.entando_component_manager_6_3.sha256 }}
+    - name: entando-component-manager-6-4 #{{ .Values.operator.relatedImages.entando_component_manager_6_4.version }}
+      image: {{ .Values.bundle.containerRegistry }}/entando/entando-component-manager@sha256:{{ .Values.operator.relatedImages.entando_component_manager_6_4.sha256 }}
+    - name: entando-de-app-eap-6-3 #{{ .Values.operator.relatedImages.entando_de_app_eap_6_3.version }}
+      image: {{ .Values.bundle.containerRegistry }}/entando/entando-de-app-eap@sha256:{{ .Values.operator.relatedImages.entando_de_app_eap_6_3.sha256 }}
+    - name: entando-de-app-eap-6-4 #{{ .Values.operator.relatedImages.entando_de_app_eap_6_4.version }}
+      image: {{ .Values.bundle.containerRegistry }}/entando/entando-de-app-eap@sha256:{{ .Values.operator.relatedImages.entando_de_app_eap_6_4.sha256 }}
     - name: entando-k8s-app-controller #{{ .Values.operator.relatedImages.entando_k8s_app_controller.version }}
       image: {{ .Values.bundle.containerRegistry }}/entando/entando-k8s-app-controller@sha256:{{ .Values.operator.relatedImages.entando_k8s_app_controller.sha256 }}
     - name: entando-k8s-app-plugin-link-controller #{{ .Values.operator.relatedImages.entando_k8s_app_plugin_link_controller.version }}
@@ -756,12 +812,18 @@ spec:
                         value: registry.redhat.io/rhel8/mysql-80@sha256:{{ .Values.operator.relatedImages.rhel8_mysql_80.sha256 }}
                       - name: RELATED_IMAGE_RHEL8_POSTGRESQL_12 #{{ .Values.operator.relatedImages.rhel8_postgresql_12.version }}
                         value: registry.redhat.io/rhel8/postgresql-12@sha256:{{ .Values.operator.relatedImages.rhel8_postgresql_12.sha256 }}
-                      - name: RELATED_IMAGE_APP_BUILDER #{{ .Values.operator.relatedImages.app_builder.version }}
-                        value: {{ .Values.bundle.containerRegistry }}/entando/app-builder@sha256:{{ .Values.operator.relatedImages.app_builder.sha256 }}
-                      - name: RELATED_IMAGE_ENTANDO_COMPONENT_MANAGER #{{ .Values.operator.relatedImages.entando_component_manager.version }}
-                        value: {{ .Values.bundle.containerRegistry }}/entando/entando-component-manager@sha256:{{ .Values.operator.relatedImages.entando_component_manager.sha256 }}
-                      - name: RELATED_IMAGE_ENTANDO_DE_APP_EAP #{{ .Values.operator.relatedImages.entando_de_app_eap.version }}
-                        value: {{ .Values.bundle.containerRegistry }}/entando/entando-de-app-eap@sha256:{{ .Values.operator.relatedImages.entando_de_app_eap.sha256 }}
+                      - name: RELATED_IMAGE_APP_BUILDER_6_3 #{{ .Values.operator.relatedImages.app_builder_6_3.version }}
+                        value: {{ .Values.bundle.containerRegistry }}/entando/app-builder@sha256:{{ .Values.operator.relatedImages.app_builder_6_3.sha256 }}
+                      - name: RELATED_IMAGE_APP_BUILDER_6_4 #{{ .Values.operator.relatedImages.app_builder_6_4.version }}
+                        value: {{ .Values.bundle.containerRegistry }}/entando/app-builder@sha256:{{ .Values.operator.relatedImages.app_builder_6_4.sha256 }}
+                      - name: RELATED_IMAGE_ENTANDO_COMPONENT_MANAGER_6_3 #{{ .Values.operator.relatedImages.entando_component_manager_6_3.version }}
+                        value: {{ .Values.bundle.containerRegistry }}/entando/entando-component-manager@sha256:{{ .Values.operator.relatedImages.entando_component_manager_6_3.sha256 }}
+                      - name: RELATED_IMAGE_ENTANDO_COMPONENT_MANAGER_6_4 #{{ .Values.operator.relatedImages.entando_component_manager_6_4.version }}
+                        value: {{ .Values.bundle.containerRegistry }}/entando/entando-component-manager@sha256:{{ .Values.operator.relatedImages.entando_component_manager_6_4.sha256 }}
+                      - name: RELATED_IMAGE_ENTANDO_DE_APP_EAP_6_3 #{{ .Values.operator.relatedImages.entando_de_app_eap_6_3.version }}
+                        value: {{ .Values.bundle.containerRegistry }}/entando/entando-de-app-eap@sha256:{{ .Values.operator.relatedImages.entando_de_app_eap_6_3.sha256 }}
+                      - name: RELATED_IMAGE_ENTANDO_DE_APP_EAP_6_4 #{{ .Values.operator.relatedImages.entando_de_app_eap_6_4.version }}
+                        value: {{ .Values.bundle.containerRegistry }}/entando/entando-de-app-eap@sha256:{{ .Values.operator.relatedImages.entando_de_app_eap_6_4.sha256 }}
                       - name: RELATED_IMAGE_ENTANDO_K8S_APP_CONTROLLER #{{ .Values.operator.relatedImages.entando_k8s_app_controller.version }}
                         value: {{ .Values.bundle.containerRegistry }}/entando/entando-k8s-app-controller@sha256:{{ .Values.operator.relatedImages.entando_k8s_app_controller.sha256 }}
                       - name: RELATED_IMAGE_ENTANDO_K8S_APP_PLUGIN_LINK_CONTROLLER #{{ .Values.operator.relatedImages.entando_k8s_app_plugin_link_controller.version }}

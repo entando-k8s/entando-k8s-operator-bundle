@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 export MY_VERSION=$(yq eval '.spec.version' manifests/k8s-116-and-later/community-deployment/entando-k8s-operator.v6.3.x.clusterserviceversion.yaml)
 echo $MY_VERSION
-export PREVIOUS_VERSIONS=()
+export PREVIOUS_VERSIONS=("6.4.0-pr1-41" "6.4.0-pr1-42")
 for V in ${PREVIOUS_VERSIONS[@]}; do
   BUNDLES="${BUNDLES}docker.io/entandobuilduser/entando-k8s-operator-bundle:${V},"
 done

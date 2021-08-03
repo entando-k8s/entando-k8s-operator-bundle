@@ -16,24 +16,32 @@ kind: ConfigMap
 metadata:
   name: entando-docker-image-info
 data:
-  app-builder: >-
-    {"version":"6.3.93","executable-type":"n/a","registry":"docker.io","organization":"entando"}
+  app-builder-6-3: >-
+    {"version":"6.3.93","executable-type":"n/a","registry":"docker.io","organization":"entando","repository":"app-builder"}
+  app-builder-6-4: >-
+    {"version":"6.3.93","executable-type":"n/a","registry":"docker.io","organization":"entando","repository":"app-builder"}
   busybox: >-
     {"version":"latest","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-avatar-plugin: >-
     {"version":"6.0.5","executable-type":"jvm","registry":"docker.io","organization":"entando"}
-  entando-component-manager: >-
-    {"version":"6.3.26","executable-type":"jvm","registry":"docker.io","organization":"entando"}
-  entando-de-app-eap: >-
-    {"version":"6.3.68","executable-type":"jvm","registry":"docker.io","organization":"entando"}
-  entando-de-app-wildfly: >-
-    {"version":"6.3.68","executable-type":"jvm","registry":"docker.io","organization":"entando"}
+  entando-component-manager-6-3: >-
+    {"version":"6.3.26","executable-type":"jvm","registry":"docker.io","organization":"entando","repository":"entando-component-manager"}
+  entando-component-manager-6-4: >-
+    {"version":"6.3.26","executable-type":"jvm","registry":"docker.io","organization":"entando","repository":"entando-component-manager"}
+  entando-de-app-eap-6-3: >-
+    {"version":"6.3.68","executable-type":"jvm","registry":"docker.io","organization":"entando","repository":"entando-de-app-eap"}
+  entando-de-app-eap-6-4: >-
+    {"version":"6.3.68","executable-type":"jvm","registry":"docker.io","organization":"entando","repository":"entando-de-app-eap"}
+  entando-de-app-wildfly-6-3: >-
+    {"version":"6.3.68","executable-type":"jvm","registry":"docker.io","organization":"entando","repository":"entando-de-app-wildfly"}
+  entando-de-app-wildfly-6-4: >-
+    {"version":"6.3.68","executable-type":"jvm","registry":"docker.io","organization":"entando","repository":"entando-de-app-wildfly"}
   entando-k8s-app-controller: >-
-    {"version":"0.0.0-SNAPSHOT-PR-32-47","executable-type":"jvm","registry":"docker.io","organization":"entando"}
+    {"version":"0.0.0-SNAPSHOT-PR-32-52","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-app-plugin-link-controller: >-
     {"version":"0.0.0-SNAPSHOT-PR-15-16","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-database-service-controller: >-
-    {"version":"0.0.0-SNAPSHOT-PR-10-21","executable-type":"jvm","registry":"docker.io","organization":"entando"}
+    {"version":"0.0.0-SNAPSHOT-PR-10-23","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-dbjob: >-
     {"version":"6.3.8","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-keycloak-controller: >-
@@ -41,7 +49,7 @@ data:
   entando-k8s-plugin-controller: >-
     {"version":"0.0.0-SNAPSHOT-PR-27-21","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-k8s-service: >-
-    {"version":"0.0.0-SNAPSHOT-4","executable-type":"jvm","registry":"docker.io","organization":"entando"}
+    {"version":"0.0.0-SNAPSHOT-PR-26-5","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-keycloak: >-
     {"version":"6.3.9","executable-type":"","registry":"docker.io","organization":"entando"}
   entando-process-driven-plugin: >-
@@ -420,7 +428,7 @@ spec:
             failureThreshold: 1
             timeoutSeconds: 1
           image: >-
-            docker.io/entando/entando-k8s-service:0.0.0-SNAPSHOT-4
+            docker.io/entando/entando-k8s-service:0.0.0-SNAPSHOT-PR-26-5
       serviceAccount: entando-operator
 
 ---
@@ -450,15 +458,4 @@ spec:
 
 ---
 # Source: entando-k8s-operator-bundle/templates/entando-k8s-operator.v6.3.x.clusterserviceversion.yaml
-
----
-# Source: entando-k8s-operator-bundle/templates/test.txt
-Registry: registry.connect.redhat.com
-
-Repository: entando/entando-de-app-eap
-
-Image Type: container
-
-Digest:
-sha256:14a786ea3e8a12e060ed6f231b1a591a219a2a08feb3d11f26ee17dccb256f04
 
