@@ -47,29 +47,29 @@ operator:
       sha256: ab557ec733d384c202112125784f7db05276e529d9b77ce490d541dac68a1ac1
       version: 6.3.68
     entando_k8s_app_controller:
-      sha256: 983d112752873dfca8b20f05ce35046040cd883db19e9c89ad64ba162549c050
-      version: 0.0.0-SNAPSHOT-PR-32-52
+      sha256: 655483f8515a445967fd1c522b6310df869004129a19343d115e30e01db3c436
+      version: 0.0.0-SNAPSHOT-PR-32-53
     entando_k8s_app_plugin_link_controller:
-      sha256: ca0500fbee00caef5969a78279583e1ae3ebd4edc75462fb65785861954e208e
-      version: 0.0.0-SNAPSHOT-PR-15-16
+      sha256: 28bce6fd610b96021b47599e1b65245493b42b003fbc1e831aae1a29a4808786
+      version: 0.0.0-SNAPSHOT-PR-15-17
     entando_k8s_controller_coordinator:
-      sha256: 2be3b284b3902efe37d4e346590758e7b6031d5d8b8aa0750d92f8855fc6c9d9
-      version: 0.0.0-SNAPSHOT-PR-75-45
+      sha256: 7382ec22a9bf4f4b1dcb6203fd82f13fcfbb0bad237aba9400d76cdb96ccda53
+      version: 0.0.0-SNAPSHOT-B39
     entando_k8s_database_service_controller:
-      sha256: 328f0034ef6f41ef25f04c0284ee97a3925126de8275761b4c76048255c5157f
-      version: 0.0.0-SNAPSHOT-PR-10-23
+      sha256: 42713fafb3070eaeefc85a64c0c62d8ccd57f32977e176200d82e0ed05dcd92c
+      version: 0.0.0-SNAPSHOT-PR-10-24
     entando_k8s_dbjob:
       sha256: 8ae47dbf93201965106663299f06daad544982fa244d4a0f365a1b717727e5ed
       version: 6.3.8
     entando_k8s_keycloak_controller:
-      sha256: d868da4d74b6dc1304a671e3800ec856cc9bcf3187c8bdbbb526bca347f11691
-      version: 0.0.0-SNAPSHOT-PR-28-30
+      sha256: cec29e06ea98cf8694435dc3eb9a8540ebb6b53e6e447369474f75e2dc0c4ed1
+      version: 0.0.0-SNAPSHOT-PR-28-32
     entando_k8s_plugin_controller:
-      sha256: d6632a956634a9ebc8a03077ba5788fbab25854a46626154fd3262c9f53c1dc8
-      version: 0.0.0-SNAPSHOT-PR-27-21
+      sha256: 01f015c6ee859dac075bcab6ea944c8d5ed599446b2819b3f8a3b2dc95dd67b4
+      version: 0.0.0-SNAPSHOT-PR-27-23
     entando_k8s_service:
-      sha256: de3abd7b032e87596fc83b4d278b758deb70504b0a2ec8a9db26ab9983542ea4
-      version: 0.0.0-SNAPSHOT-PR-26-5
+      sha256: dfa37055b1ba3cb28d2a38a8c9aa0729ba75acf481734b046b5ea4519c3746f2
+      version: 0.0.0-SNAPSHOT-PR-26-7
     entando_keycloak:
       sha256: 36383301348c15526deac7d378a2f1a8a216c419697f3255e6d183a9cd53e323
       version: 6.3.9
