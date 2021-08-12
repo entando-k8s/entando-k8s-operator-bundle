@@ -1,6 +1,6 @@
 bundle:
-  version: 6.4.0-pr1-43
-  replaces: 6.4.0-pr1-42
+  version: 6.4.0-pr1-53
+  replaces: 6.4.0-pr1-45
   olmDisabled: true
   communityOnly: true
   containerRegistry: registry.connect.redhat.com
@@ -32,8 +32,8 @@ operator:
       sha256: 026030b67330e61a08000f899a819e3e1691047faeca52d213248612147a462a
       version: 6.3.26
     entando_component_manager_6_4:
-      sha256: 026030b67330e61a08000f899a819e3e1691047faeca52d213248612147a462a
-      version: 6.3.26
+      sha256: c807bf8033a73217b717b1d506ef5ac1184a54ae833b77511520cb8aaa1da3f4
+      version: 0.0.0-SNAPSHOT-PR-135-25
     entando_de_app_eap_6_3:
       sha256: cb382354c75731ff6e29b26197ad92c9934bf80fe8dee95635807a2ea7a6ca35
       version: 6.3.68
@@ -47,8 +47,8 @@ operator:
       sha256: ab557ec733d384c202112125784f7db05276e529d9b77ce490d541dac68a1ac1
       version: 6.3.68
     entando_k8s_app_controller:
-      sha256: 655483f8515a445967fd1c522b6310df869004129a19343d115e30e01db3c436
-      version: 0.0.0-SNAPSHOT-PR-32-53
+      sha256: 5bf256d9ae8cf9de975538bb8742c2717d9e12709b39acc2def411fd3f30c054
+      version: 0.0.0-SNAPSHOT-PR-32-56
     entando_k8s_app_plugin_link_controller:
       sha256: 28bce6fd610b96021b47599e1b65245493b42b003fbc1e831aae1a29a4808786
       version: 0.0.0-SNAPSHOT-PR-15-17
@@ -68,8 +68,8 @@ operator:
       sha256: 01f015c6ee859dac075bcab6ea944c8d5ed599446b2819b3f8a3b2dc95dd67b4
       version: 0.0.0-SNAPSHOT-PR-27-23
     entando_k8s_service:
-      sha256: dfa37055b1ba3cb28d2a38a8c9aa0729ba75acf481734b046b5ea4519c3746f2
-      version: 0.0.0-SNAPSHOT-PR-26-7
+      sha256: 2ef2a30af13777a9a9d69334aaafa367898cc5a8d4880cc0f4d0350546a60bca
+      version: 6.4.0
     entando_keycloak:
       sha256: 36383301348c15526deac7d378a2f1a8a216c419697f3255e6d183a9cd53e323
       version: 6.3.9
