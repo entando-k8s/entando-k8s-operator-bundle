@@ -790,10 +790,6 @@ spec:
                         value: "true"
                       - name: ENTANDO_K8S_OPERATOR_VERSION
                         value: {{ .Values.bundle.version }}
-  {{- if .Values.bundle.replaces }}
-                      - name: ENTANDO_K8S_OPERATOR_VERSION_TO_REPLACE
-                        value: {{ .Values.bundle.replaces }}
-  {{- end }}
                       - name: ENTANDO_K8S_OPERATOR_DEPLOYMENT_TYPE
                         value: olm
                       - name: OPERATOR_NAME
