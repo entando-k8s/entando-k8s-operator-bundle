@@ -1,5 +1,5 @@
 bundle:
-  version: 6.4.0-pr1-59
+  version: 6.4.0-pr1-60
 #  replaces: 6.4.0-pr1-45
   olmDisabled: true
   communityOnly: true
@@ -21,7 +21,7 @@ operator:
       sha256: b1b36ed310050e1a04cb6c05e1a08d13232ba3ea2f5b74a7c17dcbae3e052cd0
       version: 6.3.93
     app_builder_6_4:
-      sha256: dab393cc13763cb5e07b38f34c3ecc27f6555dc57f8542cdd84ecd3aa266b353
+      sha256: 507f4272c7b8fa8bfca555cd07ac44012e1c020d65bee9bad1d926d7c4549b40
       version: 0.0.0-SNAPSHOT-6.4.0
     busybox:
       sha256: 400ee2ed939df769d4681023810d2e4fb9479b8401d97003c710d0e20f7c49c6
