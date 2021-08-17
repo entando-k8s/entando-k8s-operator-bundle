@@ -70,7 +70,7 @@ spec:
                 on the port specified on this property. If no value is provided, it
                 defaults to the default port of the DBMS in question.
               type: integer
-            database:
+            databaseName:
               description: >
                 If 'spec.createDeployment' is false, this is the name of the database
                 that this database service will connect to. If 'spec.createDeployment'
