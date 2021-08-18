@@ -2,6 +2,7 @@ dependencies:
   - alias: operator
     name: entando-k8s-controller-coordinator
 #    repository: file://../entando-k8s-controller-coordinator/charts/entando-k8s-controller-coordinator
+#    version: 0.0.1
     condition: bundle.olmDisabled
     repository: https://chartmuseum-jx.apps.serv.run
-    version: 6.4.0
+    version: 6.4.3

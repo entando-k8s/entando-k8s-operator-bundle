@@ -6,6 +6,7 @@ bundle:
   containerRegistry: registry.connect.redhat.com
 operator:
   generateClusterRoles: false
+  namespacePlaceholder: entando-cluster-operator
   imagePullSecrets:
     - redhat-registry
     - entando-pull-secret
