@@ -25,7 +25,7 @@ data:
   entando-avatar-plugin: >-
     {"version":"6.0.5","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-component-manager-6-3: >-
-    {"version":"6.3.26","executable-type":"jvm","registry":"docker.io","organization":"entando","repository":"entando-component-manager"}
+    {"version":"0.0.0-SNAPSHOT-PR-135-25","executable-type":"jvm","registry":"docker.io","organization":"entando","repository":"entando-component-manager"}
   entando-component-manager-6-4: >-
     {"version":"0.0.0-SNAPSHOT-PR-135-25","executable-type":"jvm","registry":"docker.io","organization":"entando","repository":"entando-component-manager"}
   entando-de-app-eap-6-3: >-
@@ -274,7 +274,7 @@ spec:
       port: 8084
       targetPort: 8084
   selector:
-    k8s-app: entando-k8s-service
+    deployment: entando-k8s-service
 
 ---
 # Source: entando-k8s-operator-bundle/charts/operator/templates/deployment.yaml
@@ -282,37 +282,26 @@ apiVersion: "extensions/v1beta1"
 kind: Deployment
 metadata:
   name: entando-operator
-  labels:
-    draft: draft-app
-    chart: "operator-6.4.3"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      draft: draft-app
-      app: entando-operator
+      deployment: entando-operator
   template:
     metadata:
       labels:
-        draft: draft-app
-        app: entando-operator
+        deployment: entando-operator
     spec:
       serviceAccountName: entando-operator
       volumes:
       containers:
         - name: operator
-          image: "docker.io/entando/entando-k8s-controller-coordinator:6.4.3"
+          image: "entando/entando-k8s-controller-coordinator:6.4.3"
           imagePullPolicy: Always
           volumeMounts:
           env:
             - name: ENTANDO_K8S_OPERATOR_DEPLOYMENT_TYPE
               value: 'helm'
-            - name: ENTANDO_POD_READINESS_TIMEOUT_SECONDS
-              value: '2000'
-            - name: ENTANDO_POD_COMPLETION_TIMEOUT_SECONDS
-              value: '2000'
-            - name: ENTANDO_POD_SHUTDOWN_TIMEOUT_SECONDS
-              value: '2000'
             - name: ENTANDO_NAMESPACES_TO_OBSERVE
               valueFrom:
                 fieldRef:
@@ -321,10 +310,22 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: spec.serviceAccountName
+            - name: ENTANDO_DISABLE_KEYCLOAK_SSL_REQUIREMENT
+              value: "true"
+            - name: ENTANDO_K8S_OPERATOR_FORCE_DB_PASSWORD_RESET
+              value: "true"
+            - name: ENTANDO_K8S_OPERATOR_GC_CONTROLLER_PODS
+              value: "true"
             - name: ENTANDO_K8S_OPERATOR_IMPOSE_LIMITS
               value: "false"
             - name: ENTANDO_K8S_OPERATOR_SECURITY_MODE
               value: "strict"
+            - name: ENTANDO_POD_COMPLETION_TIMEOUT_SECONDS
+              value: "2000"
+            - name: ENTANDO_POD_READINESS_TIMEOUT_SECONDS
+              value: "2000"
+            - name: ENTANDO_POD_SHUTDOWN_TIMEOUT_SECONDS
+              value: "2000"
             - name: ENTANDO_TIMEOUT_ADJUSTMENT_RATIO
               value: "2.0"
           livenessProbe:

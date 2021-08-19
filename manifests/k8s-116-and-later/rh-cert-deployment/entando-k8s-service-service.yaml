@@ -11,4 +11,4 @@ spec:
       port: 8084
       targetPort: 8084
   selector:
-    k8s-app: entando-k8s-service
+    deployment: entando-k8s-service

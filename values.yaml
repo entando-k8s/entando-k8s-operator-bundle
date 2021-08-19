@@ -1,5 +1,5 @@
 bundle:
-  version: 6.4.0-pr1-60
+  version: 6.4.0-pr1-61
 #  replaces: 6.4.0-pr1-45
   olmDisabled: true
   communityOnly: true
@@ -31,8 +31,8 @@ operator:
       sha256: 3ff5425ca1b27c609614879bf1c8a25df4e6c0c560caa683d272eccd6090cee6
       version: 6.0.5
     entando_component_manager_6_3:
-      sha256: 026030b67330e61a08000f899a819e3e1691047faeca52d213248612147a462a
-      version: 6.3.26
+      sha256: c807bf8033a73217b717b1d506ef5ac1184a54ae833b77511520cb8aaa1da3f4
+      version: 0.0.0-SNAPSHOT-PR-135-25
     entando_component_manager_6_4:
       sha256: c807bf8033a73217b717b1d506ef5ac1184a54ae833b77511520cb8aaa1da3f4
       version: 0.0.0-SNAPSHOT-PR-135-25

@@ -752,11 +752,11 @@ spec:
             replicas: 1
             selector:
               matchLabels:
-                k8s-app: entando-operator
+                deployment: entando-operator
             template:
               metadata:
                 labels:
-                  k8s-app: entando-operator
+                  deployment: entando-operator
               spec:
                 imagePullSecrets:
                   - name: entando-pull-secret
@@ -871,11 +871,11 @@ spec:
             replicas: 1
             selector:
               matchLabels:
-                k8s-app: entando-k8s-service
+                deployment: entando-k8s-service
             template:
               metadata:
                 labels:
-                  k8s-app: entando-k8s-service
+                  deployment: entando-k8s-service
               spec:
                 imagePullSecrets:
                   - name: entando-pull-secret
