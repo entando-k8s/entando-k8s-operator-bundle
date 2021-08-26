@@ -48,26 +48,32 @@ operator:
       sha256: cdbd9c90bfed8b56f4cfc8b7e76f8a3ea7126f1c1b679a7bcaaaed5f58f71c44
       version: 6.4.6
     entando_k8s_app_controller:
-      sha256: 70975aa76c170cfbb5c5d700d71b511388f5c59a2f1ffc6d597372a358fea7e8
-      version: 6.4.0
+      sha256: 7331d76fc1347b8483794aaca732e0fe8e832a311d506ec67b30b1fe84560adb
+      version: 6.4.1
     entando_k8s_app_plugin_link_controller:
-      sha256: c965e58e13061522cf8d61ce9704f96c62b64ba477492248a9d22390012d70b1
-      version: 6.4.0
+      sha256: 296baaa274063bdb44ced90bcf533e79203fe48fe6197980544ffa4da126d3ff
+      version: 6.4.1
+    entando_k8s_cluster_infrastructure_controller:
+      sha256: 86dbea6696349d7b2393e12bacef4d1acec2dd3f8551e397fa26c92706a18dd3
+      version: 6.3.7
+    entando_k8s_composite_app_controller:
+      sha256: 4bc6797bb41b3e407b64530c3cff7a78f3fc2c22863caad9c606ccd650310b61
+      version: 6.3.11
     entando_k8s_controller_coordinator:
-      sha256: c52ac4c546cd5321aa546d7e548fb9e4f1dca8870c528599829099f30e1919f9
-      version: 6.4.1
+      sha256: 2ade9c674e618e7523eec07ce287d87a463b8e3c847e45dcf7a803fa5462d9cd
+      version: 6.4.3
     entando_k8s_database_service_controller:
-      sha256: 17e6703376ea13a5d507835d14b7c0e6f3357651ad2fd19959eee67792fbf0ab
-      version: 6.4.1
+      sha256: 23443d3432ceb08e3b18b5e6d5b3c6bdae620a5db143e168a4b89f2901b2c3d0
+      version: 6.4.2
     entando_k8s_dbjob:
       sha256: 165a3dc6f0c0f0de7ffb5fb8c40bb3ef01936ee11f5086c2a5b7e23dfe475af7
       version: 6.4.0
     entando_k8s_keycloak_controller:
-      sha256: 05e644d89dc475fe31ad4b7742e2e934830ef7ba72410b9c80eee71f66dc059f
-      version: 6.4.0
+      sha256: 31ba22f5761119b5fedeabd73a3f7ef28eefac7786c90c4317b44e5a4935bc51
+      version: 6.4.1
     entando_k8s_plugin_controller:
-      sha256: 5990b3f3bdf9c20e881360bb692e04069b2fa7325d941076d44fa52d094918c9
-      version: 6.4.0
+      sha256: 4d31e13cfdc7d935f507474f6a8078081dcbf5af3aee454492ecc00b21f960a8
+      version: 6.4.1
     entando_k8s_service:
       sha256: 2ef2a30af13777a9a9d69334aaafa367898cc5a8d4880cc0f4d0350546a60bca
       version: 6.4.0
