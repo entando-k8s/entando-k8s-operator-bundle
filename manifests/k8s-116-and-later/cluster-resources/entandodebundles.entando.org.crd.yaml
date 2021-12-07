@@ -2,6 +2,8 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   name: entandodebundles.entando.org
+  labels:
+    entando.org/crd-of-interest: EntandoDeBundle
 spec:
   group: entando.org
   scope: Namespaced
@@ -69,7 +71,7 @@ spec:
               properties:
                 observedGeneration:
                   type: number
-                entandoDeploymentPhase:
+                phase:
                   type: string
                 serverStatuses:
                   type: object

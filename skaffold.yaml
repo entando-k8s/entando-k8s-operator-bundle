@@ -12,12 +12,12 @@ build:
 deploy:
   kubectl: {}
 profiles:
-  - name: internal
+  - name: community
     build:
       artifacts:
-        - image: entando/entando-k8s-operator-bundle-internal
+        - image: entando/entando-k8s-operator-bundle-community
           docker:
-            dockerfile: Dockerfile.internal
+            dockerfile: Dockerfile.community
   - name: rh-cert
     build:
       artifacts:

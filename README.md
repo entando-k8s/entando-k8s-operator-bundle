@@ -14,7 +14,7 @@ metadata:
   namespace: openshift-marketplace
 spec:
   displayName: Entando Catalog
-  image: docker.io/entando/entando-k8s-index:latest
+  image: docker.io/entandobuilduser/entando-k8s-index:latest
   sourceType: grpc
   updateStrategy:
     registryPoll:

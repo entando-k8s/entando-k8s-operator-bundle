@@ -39,7 +39,7 @@ writeAllResourcesForVersion k8s-116-and-later
 writeAllResourcesForVersion k8s-before-116
 rm out -rf 2>/dev/null
 mkdir out
-helm template --set bundle.internalOnly=true,bundle.olmDisabled=false ./ --output-dir=out
-mv ./out/entando-k8s-operator-bundle/templates/*.yaml ./manifests/k8s-116-and-later/olm-deployment/ -f
-helm template --set bundle.internalOnly=false,bundle.olmDisabled=false ./ --output-dir=out
+helm template --set bundle.containerRegistry=registry.hub.docker.com,bundle.communityOnly=true,bundle.olmDisabled=false ./ --output-dir=out
+mv ./out/entando-k8s-operator-bundle/templates/*.yaml ./manifests/k8s-116-and-later/community-deployment/ -f
+helm template --set bundle.containerRegistry=registry.hub.docker.com,bundle.communityOnly=false,bundle.olmDisabled=false ./ --output-dir=out
 mv ./out/entando-k8s-operator-bundle/templates/*.yaml ./manifests/k8s-116-and-later/rh-cert-deployment/ -f
