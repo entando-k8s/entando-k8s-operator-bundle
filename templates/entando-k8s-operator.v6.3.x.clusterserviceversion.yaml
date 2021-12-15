@@ -37,33 +37,33 @@ spec:
     ## Entando
 
 
-    The Entando platform accelerates the development and lifecycle 
-    management of fully modularized applications on Kubernetes. It 
-    provides tools to help developers create and manage applications 
+    The Entando platform accelerates the development and lifecycle
+    management of fully modularized applications on Kubernetes. It
+    provides tools to help developers create and manage applications
     using modular frontend and backend components.
-    
-    The Entando Operator automates the installation, provisioning, and 
-    configuration management of the components that make up an Entando 
-    application. Specifically, the operator manages the following custom 
+
+    The Entando Operator automates the installation, provisioning, and
+    configuration management of the components that make up an Entando
+    application. Specifically, the operator manages the following custom
     resources:
 
-    **EntandoKeycloakServers** for centralized authentication of frontend 
-    and backend components. The operator can deploy Keycloak, or in certified 
-    environments, Red Hat SSO servers that can then be used by subsequent 
+    **EntandoKeycloakServers** for centralized authentication of frontend
+    and backend components. The operator can deploy Keycloak, or in certified
+    environments, Red Hat SSO servers that can then be used by subsequent
     deployments as an OpenID Connect provider.
 
     **EntandoApps** for hosting an Entando application. EntandoApps are hosted
-    on Wildfly or JBoss EAP containers, and can also be used to deploy custom 
+    on Wildfly or JBoss EAP containers, and can also be used to deploy custom
     EntandoApp containers.
 
     **EntandoPlugins** for deploying microservices to customize or enhance your
-    EntandoApp. Entando microservice plugins are deployed to your cluster, and 
+    EntandoApp. Entando microservice plugins are deployed to your cluster, and
     then linked to one or more EntandoApps.
 
     ## Using the Operator
 
-    The Entando Operator can be deployed using the default settings without any 
-    configuration. Once deployed, the operator can be customized by editing 
+    The Entando Operator can be deployed using the default settings without any
+    configuration. Once deployed, the operator can be customized by editing
     the *configmap* and secrets.
 
     ### ConfigMap: entando-operator-config
@@ -621,6 +621,7 @@ spec:
                 - persistentvolumeclaims
                 - serviceaccounts
                 - events
+                - limitranges
               verbs:
                 - create
                 - get
