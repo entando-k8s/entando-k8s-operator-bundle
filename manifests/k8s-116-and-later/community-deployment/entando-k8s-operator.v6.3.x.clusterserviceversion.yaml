@@ -4,7 +4,7 @@
 apiVersion: operators.coreos.com/v1alpha1
 kind: ClusterServiceVersion
 metadata:
-  name: entando-k8s-operator.v6.4.0-pr1-77
+  name: entando-k8s-operator.v6.3.4
   namespace: placeholder
   annotations:
     alm-examples: >-
@@ -30,7 +30,7 @@ metadata:
 spec:
   displayName: Entando Operator
   maturity: alpha
-  version: 6.4.0-pr1-77
+  version: 6.3.4
   skips: []
   description: >
     ## Entando
@@ -787,7 +787,7 @@ spec:
                       - name: ENTANDO_DISABLE_KEYCLOAK_SSL_REQUIREMENT
                         value: "true"
                       - name: ENTANDO_K8S_OPERATOR_VERSION
-                        value: 6.4.0-pr1-77
+                        value: 6.3.4
                       - name: ENTANDO_K8S_OPERATOR_DEPLOYMENT_TYPE
                         value: olm
                       - name: OPERATOR_NAME
