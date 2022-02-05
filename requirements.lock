@@ -1,6 +1,6 @@
 dependencies:
 - name: entando-k8s-controller-coordinator
   repository: file://./tmp/entando-k8s-controller-coordinator/charts/entando-k8s-controller-coordinator
-  version: 7.0.0-ENG-2969-PR-81
-digest: sha256:94a752967e65a62654b668f007a913a2fe0c197999f762676e83a736b9c5322d
-generated: "2022-01-13T18:47:04.711467211+01:00"
+  version: 7.0.0-ENG-3175-PR-86
+digest: sha256:99973d50344e9cd3e8cd1ac213969579c9f6b8c4c757b47cf43624a6f40e0e28
+generated: "2022-02-05T19:26:02.462949829+01:00"

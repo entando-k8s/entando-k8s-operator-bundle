@@ -71,8 +71,12 @@ if [ "$CONTROLLER_COORDINATOR_VERSION" != "-" ]; then
     rm -rf "$CLONE_DIR"
     git clone "https://github.com/entando-k8s/entando-k8s-controller-coordinator" "$CLONE_DIR" \
     && cd "$CLONE_DIR" \
-    && git checkout "v$CONTROLLER_COORDINATOR_VERSION" || {
-      echo "Unable to checkout the controller coordinator branch or tag \"v$CONTROLLER_COORDINATOR_VERSION\""
+    && (
+      git checkout "v${CONTROLLER_COORDINATOR_VERSION}" 2>/dev/null \
+      || git checkout "v${CONTROLLER_COORDINATOR_VERSION}+KB-develop" 2>/dev/null
+    ) ||
+      {
+      echo "ERROR: Unable to checkout the controller coordinator branch or tag \"v$CONTROLLER_COORDINATOR_VERSION\""
       exit 1
     }
     
@@ -83,12 +87,13 @@ if [ "$CONTROLLER_COORDINATOR_VERSION" != "-" ]; then
       _sed_i "s|{{$1}}|$2|g" "./charts/entando-k8s-controller-coordinator/Chart.yaml"
       _sed_i "s|{{$1}}|$2|g" "./charts/entando-k8s-controller-coordinator/values.yaml"
     }
+
     
     _set_all "ENTANDO_PROJECT_VERSION" "$CONTROLLER_COORDINATOR_VERSION"
-    _set_all "ENTANDO_IMAGE_TAG" "v$CONTROLLER_COORDINATOR_VERSION"
+    _set_all "ENTANDO_IMAGE_TAG" "$CONTROLLER_COORDINATOR_VERSION"
     _set_all "ENTANDO_IMAGE_REPO" "entando/entando-k8s-controller-coordinator"
     _set_all "ENTANDO_OPT_TEST_*" "null"
-  )
+  ) || exit "$?"
 fi
 
 echo "> Updating the help dependencies"

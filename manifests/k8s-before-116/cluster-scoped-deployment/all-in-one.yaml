@@ -1591,11 +1591,11 @@ data:
   entando-k8s-service: >-
     {"version":"7.0.1","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-keycloak: >-
-    {"version":"7.0.0-ENG-3139-PR-22","executable-type":"","registry":"docker.io","organization":"entando"}
+    {"version":"7.0.0-ENG-3203-PR-24","executable-type":"","registry":"docker.io","organization":"entando"}
   entando-process-driven-plugin: >-
     {"version":"6.0.50","executable-type":"jvm","registry":"docker.io","organization":"entando"}
   entando-redhat-sso: >-
-    {"version":"7.0.0-ENG-3032-PR-21","executable-type":"","registry":"docker.io","organization":"entando"}
+    {"version":"7.0.0-ENG-3203-PR-24","executable-type":"","registry":"docker.io","organization":"entando"}
   mysql-80-centos7: >-
     {"version":"latest","executable-type":"jvm","registry":"docker.io","organization":"centos"}
   postgresql-12-centos7: >-
@@ -1837,7 +1837,7 @@ spec:
       volumes:
       containers:
         - name: operator
-          image: "entando/entando-k8s-controller-coordinator:v7.0.0-ENG-2969-PR-81"
+          image: "entando/entando-k8s-controller-coordinator:7.0.0-ENG-3175-PR-86"
           imagePullPolicy: Always
           volumeMounts:
           env:
