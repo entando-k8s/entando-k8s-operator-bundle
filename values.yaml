@@ -15,8 +15,8 @@ operator:
       sha256: 570bce7dc649ac7ac85e7ecb196aabc281c77a94590aa7df7d9746869ce757ea
       version: latest
     rhel8_postgresql_12:
-      sha256: f4e5c728b644bf1888ec8086424852ed74b5596a511be29e636fb10218fc9b6f
-      version: latest
+      sha256: 1347ad22a76d95637547178ab5fd4aff56d6de4c9dd2c5c31fd91e12cdbf4702
+      version: 14.1.0-ENG-3150-PR-4
     app_builder_6_3:
       sha256: b1b36ed310050e1a04cb6c05e1a08d13232ba3ea2f5b74a7c17dcbae3e052cd0
       version: 6.3.93
