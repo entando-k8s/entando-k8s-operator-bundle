@@ -1,3 +1,5 @@
+#!/bin/bash
+
 #This script searches for the previous version of the CSV in the CSV manifests and replaces it with the latest
 #version as determined by the pipeline.
 new_version=$1
