@@ -2179,9 +2179,9 @@ spec:
             - name: ENTANDO_K8S_OPERATOR_SECURITY_MODE
               value: "strict"
             - name: ENTANDO_POD_COMPLETION_TIMEOUT_SECONDS
-              value: "600"
+              value: "2000"
             - name: ENTANDO_POD_READINESS_TIMEOUT_SECONDS
-              value: "600"
+              value: "2000"
           startupProbe:
             exec:
               command:
@@ -2214,7 +2214,7 @@ spec:
             requests:
               cpu: 400m
               memory: 512Mi
-          terminationGracePeriodSeconds: 
+          terminationGracePeriodSeconds:
 
 ---
 # Source: entando-k8s-operator-bundle/charts/operator/templates/operator-clusterrole.yaml
