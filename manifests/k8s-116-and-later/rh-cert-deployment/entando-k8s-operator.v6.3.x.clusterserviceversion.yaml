@@ -771,7 +771,7 @@ spec:
                           fieldRef:
                             fieldPath: spec.serviceAccountName
                       - name: RELATED_IMAGE_RHEL8_MYSQL_80 #8.0.28-ENG-3209-PR-1
-                        value: registry.redhat.io/rhel8/mysql-80@sha256:d419a0055a0f57ff117f38307ef8b70f22634b819259b2d661a9b6d7f455285d
+                        value: registry.hub.docker.com/entando/entando-mysql-ubi@sha256:d419a0055a0f57ff117f38307ef8b70f22634b819259b2d661a9b6d7f455285d
                       - name: RELATED_IMAGE_RHEL8_POSTGRESQL_12 #14.1.0-ENG-3150-PR-4
                         value: registry.hub.docker.com/entando/entando-postgres-ubi@sha256:bfa6f0b202e063855cabd71bf56db9a85fb086e1bf32b20b95be96c480adab60
                       - name: RELATED_IMAGE_APP_BUILDER_6_3 #6.3.93-hotfix.1
