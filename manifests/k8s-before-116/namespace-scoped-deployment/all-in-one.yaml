@@ -1606,9 +1606,9 @@ data:
   entando-redhat-sso: >-
     {"version":"7.0.0-ENG-3203-PR-25","executable-type":"","registry":"registry.hub.docker.com","organization":"entando"}
   mysql-80-centos7: >-
-    {"version":"latest","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-mysql-rocky"}
+    {"version":"8.0.28-ENG-3372-PR-2","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-mysql-rocky"}
   postgresql-12-centos7: >-
-    {"version":"latest","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-postgres-rocky"}
+    {"version":"14.1.0-ENG-3150-PR-4","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-postgres-rocky"}
   rhel8-mysql-80: >-
     {"version":"8.0.28-ENG-3372-PR-2","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando",,"repository":"entando-mysql-ubi"}
   rhel8-postgresql-12: >-

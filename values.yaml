@@ -1,5 +1,5 @@
 bundle:
-  version: 7.0.0-pre2
+  version: 7.0.0-pre3
   olmDisabled: true
   communityOnly: true
   containerRegistry: registry.connect.redhat.com
@@ -59,11 +59,11 @@ operator:
       sha256: 4bc6797bb41b3e407b64530c3cff7a78f3fc2c22863caad9c606ccd650310b61
       version: 6.3.11
     entando_k8s_controller_coordinator:
-      sha256: b8d0ee7f80f09ca932b0245a6074a47d8cc34aca030bf874f110d233f86e1507
-      version: 7.0.0-ENG-3364-PR-90
+      sha256: 7419dbc4ea38fcde9f8c04de783f0dc84b6845e62fa0147e465fe6ed51ecb8c0
+      version: 7.0.0-ENG-3143-PR-91
     entando_k8s_database_service_controller:
-      sha256: 986912e10d681ab5f0d08cd6e209ed459994d04aca38afa8d971437b4069d83e
-      version: 7.0.0-ENG-3280-PR-21
+      sha256: e3efc42898bbe685ec77c7d5a8bbff9f019c06d0d5aed86bf0a657e43dcfbf3d
+      version: 7.0.0-ENG-3143-PR-22
     entando_k8s_dbjob:
       sha256: 19a8e9e75e94526e35342936db8e0d44d4f5f84017857939f5c2f7337ecb7155
       version: 7.0.0-ENG-3280-PR-20
@@ -85,9 +85,9 @@ operator:
     entando_redhat_sso:
       sha256: d7cf04dca6525e0a4b6fe93069bdbd846098ac13a400dd9ca2d828ed845fe076
       version: 7.0.0-ENG-3203-PR-25
-    mysql_57_centos7:
+    mysql_80_centos7:
       sha256: 26e0039051ca5124e902a983efbbe6f2f74cd4941e350778860bf4e8051c3398
       version: 8.0.28-ENG-3372-PR-2
-    postgresql_96_centos7:
+    postgresql_12_centos7:
       sha256: f015e2182bbd4aaccbdaed9c53f8bfd1f575bfef9aa4eba0f207be73313556d1
       version: 14.1.0-ENG-3150-PR-4
