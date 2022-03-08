@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-#!/usr/bin/env bash
 export MY_VERSION=$(yq eval '.spec.version' manifests/k8s-116-and-later/community-deployment/entando-k8s-operator.v6.3.x.clusterserviceversion.yaml)
 
 echo "> Found version $MY_VERSION"
@@ -11,7 +10,7 @@ for V in ${PREVIOUS_VERSIONS[@]}; do
   BUNDLES="${BUNDLES}docker.io/${REGISTRY_ORG}/entando-k8s-operator-bundle:${V},"
 done
 BUNDLES="${BUNDLES}docker.io/${REGISTRY_ORG}/entando-k8s-operator-bundle:${MY_VERSION}"
-echo $BUNDLES
+echo "$BUNDLES"
 
 
 docker build . -f "Dockerfile.community" -t "$REGISTRY_ORG/entando-k8s-operator-bundle:${MY_VERSION}"
@@ -21,7 +20,7 @@ docker push "$REGISTRY_ORG/entando-k8s-operator-bundle:${MY_VERSION}"
 
 operator-sdk bundle validate "docker.io/${REGISTRY_ORG}/entando-k8s-operator-bundle:${MY_VERSION}"
 
-echo opm index add \
+opm index add \
   --bundles "${BUNDLES}" \
   --tag "docker.io/${REGISTRY_ORG}/entando-k8s-index:${MY_VERSION}" \
   --container-tool "$OPM_CONTAINER_TOOL"

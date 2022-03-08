@@ -10,6 +10,7 @@
 #This script should ideally be executed when releasing the Entando Operator so that we can ensure that
 #all the different deployments and quickstarts using the Operator use exactly the same combination of image versions
 
+VERSION_PREFIX="KB"; [ "$1" == "--snapshot" ] && { VERSION_PREFIX="BB"; shift; }
 mkdir -p tmp
 
 echo "> Extracting the contoller coordinator from ./values.yaml"
@@ -73,9 +74,10 @@ if [ "$CONTROLLER_COORDINATOR_VERSION" != "-" ]; then
     && cd "$CLONE_DIR" \
     && (
       git checkout "v${CONTROLLER_COORDINATOR_VERSION}" 2>/dev/null \
-      || git checkout "v${CONTROLLER_COORDINATOR_VERSION}+KB-develop" 2>/dev/null
+      || git checkout "v${CONTROLLER_COORDINATOR_VERSION}+${VERSION_PREFIX}-develop" 2>/dev/null
     ) ||
-      {
+    {
+      echo "~~~"
       echo "ERROR: Unable to checkout the controller coordinator branch or tag \"v$CONTROLLER_COORDINATOR_VERSION\""
       exit 1
     }

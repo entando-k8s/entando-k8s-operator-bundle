@@ -1,16 +1,13 @@
 apiVersion: operators.coreos.com/v1alpha1
 kind: CatalogSource
 metadata:
-  creationTimestamp: '2022-02-23T13:14:15Z'
-  generation: 1
-  name: entando-catalog7
+  name: entando-catalog7-pre2
   namespace: openshift-marketplace
-  resourceVersion: '8188999'
-  uid: 379e2799-280f-4343-9c5a-63fe2f02358f
 spec:
-  displayName: Entando Catalog pre1
-  image: 'registry.hub.docker.com/entandobuilduser/entando-k8s-index:7.0.0-pre1b'
+  displayName: Entando Catalog pre2
+  image: registry.hub.docker.com/entandobuilduser/entando-k8s-index@sha256:90fe564573511bb7d71c5e8e262c48d468c165d2eb3c4f093712cc5993ff6d0c
   sourceType: grpc
   updateStrategy:
     registryPoll:
       interval: 5m
+
