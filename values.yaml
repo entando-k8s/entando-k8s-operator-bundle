@@ -14,7 +14,7 @@ operator:
       sha256: b5324522c93cb00d8b8c316847893fb6344efa4f1c960c669051d662caa2e957
       version: 8.0.28-ENG-3372-PR-2
     rhel8_postgresql_12:
-      sha256: bfa6f0b202e063855cabd71bf56db9a85fb086e1bf32b20b95be96c480adab60
+      sha256: 4afb32f133d4064d06926228217a62ecad56dcab57a33170d49849d2dbc7a5be
       version: 14.1.0-ENG-3150-PR-4
     app_builder_6_3:
       sha256: 3bc6411823e01931328b4a696b9751750060af51577108bd628981ad71ba54ed
@@ -89,5 +89,5 @@ operator:
       sha256: 26e0039051ca5124e902a983efbbe6f2f74cd4941e350778860bf4e8051c3398
       version: 8.0.28-ENG-3372-PR-2
     postgresql_12_centos7:
-      sha256: f015e2182bbd4aaccbdaed9c53f8bfd1f575bfef9aa4eba0f207be73313556d1
-      version: 14.1.0-ENG-3150-PR-4
+      sha256: 6b3ff4f853e21a9cc7ecdbe6b719294165c20d4791c25f8e6330b0371b87a0d9
+      version: 14.1.0-ENG-3407-PR-5

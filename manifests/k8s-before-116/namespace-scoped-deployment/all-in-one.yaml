@@ -1586,7 +1586,7 @@ data:
   entando-de-app-wildfly-6-4: >-
     {"version":"7.0.0-ENG-3351-PR-340","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-de-app-wildfly"}
   entando-k8s-app-controller: >-
-    {"version":"7.0.0-ENG-3334-PR-47","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
+    {"version":"7.0.0-ENG-3380-PR-48","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
   entando-k8s-app-plugin-link-controller: >-
     {"version":"7.0.0-ENG-3280-PR-26","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
   entando-k8s-database-service-controller: >-
@@ -1608,7 +1608,7 @@ data:
   mysql-80-centos7: >-
     {"version":"8.0.28-ENG-3372-PR-2","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-mysql-rocky"}
   postgresql-12-centos7: >-
-    {"version":"14.1.0-ENG-3150-PR-4","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-postgres-rocky"}
+    {"version":"14.1.0-ENG-3407-PR-5","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-postgres-rocky"}
   rhel8-mysql-80: >-
     {"version":"8.0.28-ENG-3372-PR-2","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando",,"repository":"entando-mysql-ubi"}
   rhel8-postgresql-12: >-
