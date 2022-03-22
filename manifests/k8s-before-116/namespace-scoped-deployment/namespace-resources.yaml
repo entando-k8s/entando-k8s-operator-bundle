@@ -36,7 +36,7 @@ data:
   app-builder-6-3: >-
     {"version":"6.3.93-hotfix.1","executable-type":"n/a","registry":"registry.hub.docker.com","organization":"entando","repository":"app-builder"}
   app-builder-6-4: >-
-    {"version":"7.0.0-ENG-3431-PR-1270","executable-type":"n/a","registry":"registry.hub.docker.com","organization":"entando","repository":"app-builder"}
+    {"version":"7.0.0-ENG-3463-PR-1272","executable-type":"n/a","registry":"registry.hub.docker.com","organization":"entando","repository":"app-builder"}
   busybox: >-
     {"version":"latest","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
   entando-avatar-plugin: >-
@@ -283,7 +283,7 @@ spec:
       volumes:
       containers:
         - name: operator
-          image: "entando/entando-k8s-controller-coordinator:7.0.0-ENG-3272-PR-93"
+          image: "entando/entando-k8s-controller-coordinator:7.0.0-ENG-3386-PR-94"
           imagePullPolicy: Always
           volumeMounts:
           env:
@@ -362,7 +362,7 @@ spec:
         - resources:
             limits:
               cpu: '1'
-              memory: 768Mi
+              memory: 900Mi
             requests:
               cpu: 250m
               memory: 192Mi
