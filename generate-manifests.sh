@@ -68,19 +68,21 @@ echo "> Cloning the contoller coordinator"
 
 if [ "$CONTROLLER_COORDINATOR_VERSION" != "-" ]; then
   (
+    ERR=false
     CLONE_DIR="tmp/entando-k8s-controller-coordinator"
     rm -rf "$CLONE_DIR"
-    git clone "https://github.com/entando-k8s/entando-k8s-controller-coordinator" "$CLONE_DIR" \
-    && cd "$CLONE_DIR" \
-    && (
-      git checkout "v${CONTROLLER_COORDINATOR_VERSION}" 2>/dev/null \
-      || git checkout "v${CONTROLLER_COORDINATOR_VERSION}+${VERSION_PREFIX}-develop" 2>/dev/null
-    ) ||
-    {
+    if git clone "https://github.com/entando-k8s/entando-k8s-controller-coordinator" "$CLONE_DIR"; then
+      cd "$CLONE_DIR" && (
+        git checkout "v${CONTROLLER_COORDINATOR_VERSION}" 2>/dev/null \
+        || git checkout "v${CONTROLLER_COORDINATOR_VERSION}+${VERSION_PREFIX}-develop" 2>/dev/null
+      ) || ERR=true
+    fi
+
+    if $ERR || [ "$(git describe --tags)" != "v${CONTROLLER_COORDINATOR_VERSION}" ]; then
       echo "~~~"
       echo "ERROR: Unable to checkout the controller coordinator branch or tag \"v$CONTROLLER_COORDINATOR_VERSION\""
       exit 1
-    }
+    fi
     
     _set_all() {
       _sed_i "s|{{$1}}|$2|g" "./charts/preview/Chart.yaml"
@@ -111,21 +113,35 @@ function writeClusterResourceToFile {
     echo -e "\n---" >> $2
   done
 }
+
 function writeAllResourcesForVersion {
   local k8s_version=$1
-  local output_dir=./manifests/${k8s_version}/namespace-scoped-deployment
-  rm $output_dir/*.yaml 2>/dev/null
+  
   if [ $k8s_version == "k8s-before-116" ]; then
     support_openshift_311="true"
   else
     support_openshift_311="false"
   fi
+  
+  # ~~~ NAMESPACE SCOPED ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  local output_dir=./manifests/${k8s_version}/namespace-scoped-deployment
+  rm $output_dir/*.yaml 2>/dev/null
+  
+  # CLUSTER RESOURCES
   writeClusterResourceToFile ${k8s_version} ${output_dir}/cluster-resources.yaml
+  
+  # NAMESPACE RESOURCES
   _helm_template entando --set operator.supportOpenshift311=${support_openshift_311},operator.clusterScope=false,bundle.olmDisabled=true ./  >> ${output_dir}/namespace-resources.yaml
+  
+  # ALL-IN-ONE
   writeClusterResourceToFile ${k8s_version} ${output_dir}/all-in-one.yaml
   _helm_template entando --set operator.supportOpenshift311=${support_openshift_311},operator.clusterScope=false,bundle.olmDisabled=true ./  >> ${output_dir}/all-in-one.yaml
+  
+  # ~~~ CLUSTER SCOPED ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   output_dir=./manifests/${k8s_version}/cluster-scoped-deployment
   rm $output_dir/*.yaml 2>/dev/null
+  
+  # ALL-IN-ONE
   writeClusterResourceToFile ${k8s_version} ${output_dir}/all-in-one.yaml
   _helm_template entando --set operator.supportOpenshift311=${support_openshift_311},operator.clusterScope=true,bundle.olmDisabled=true ./  >> ${output_dir}/all-in-one.yaml
 }

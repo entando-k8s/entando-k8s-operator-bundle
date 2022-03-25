@@ -55,9 +55,9 @@ INDEX_URL="${INDEX_URL/:*/@$SHA}"
 NAME="$(echo "entando-catalog-${MY_STABLE_VERSION}" | sed 's/\./-/g')"
 
 cat ./samples/catalog-source.yaml \
-  | sed "s/{NAME}/${NAME}/" \
-  | sed "s/{DISPLAY-NAME}/Entando Catalog ${MY_STABLE_VERSION}/" \
-  | sed "s|{IMAGE}|${INDEX_URL}|" \
+  | sed "s/{{NAME}}/${NAME}/" \
+  | sed "s/{{DISPLAY-NAME}}/Entando Catalog ${MY_STABLE_VERSION}/" \
+  | sed "s|{{IMAGE}}|${INDEX_URL}|" \
   > ./tmp/catalog-source.yaml
 
 echo "> done"

@@ -116,8 +116,6 @@ spec:
   maintainers:
     - name: support
       email: dev@entando.com
-    - name: author
-      email: a.barnard@entando.com
   provider:
     name: 'Entando, Inc'
   labels: { }
@@ -125,7 +123,7 @@ spec:
     matchLabels: { }
   links:
     - name: Documentation
-      url: 'https://dev.entando.org/v6.3/docs/'
+      url: 'https://dev.entando.org/v7.0/docs/'
     - name: Support
       url: 'https://www.entando.com/'
   icon:
