@@ -116,8 +116,6 @@ spec:
   maintainers:
     - name: support
       email: dev@entando.com
-    - name: author
-      email: a.barnard@entando.com
   provider:
     name: 'Entando, Inc'
   labels: { }
@@ -125,7 +123,7 @@ spec:
     matchLabels: { }
   links:
     - name: Documentation
-      url: 'https://dev.entando.org/v6.3/docs/'
+      url: 'https://dev.entando.org/v7.0/docs/'
     - name: Support
       url: 'https://www.entando.com/'
   icon:
@@ -384,8 +382,7 @@ spec:
           - displayName: Entando App Version
             path: entandoAppVersion
             x-descriptors:
-              - 'urn:alm:descriptor:com.tectonic.ui:select:6.3'
-              - 'urn:alm:descriptor:com.tectonic.ui:select:6.4'
+              - 'urn:alm:descriptor:com.tectonic.ui:select:7.0'
           - displayName: Ingress Host Name
             path: ingressHostName
             x-descriptors:
@@ -552,9 +549,9 @@ spec:
 {{- if .Values.bundle.communityOnly }}
   relatedImages:
     - name: rhel8-mysql-80 #{{ .Values.operator.relatedImages.rhel8_mysql_80.version }}
-      image: registry.redhat.io/rhel8/mysql-80@sha256:{{ .Values.operator.relatedImages.rhel8_mysql_80.sha256 }}
+      image: {{ .Values.bundle.containerRegistry }}/entando/entando-mysql-rocky@sha256:{{ .Values.operator.relatedImages.rhel8_mysql_80.sha256 }}
     - name: rhel8-postgresql-12 #{{ .Values.operator.relatedImages.rhel8_postgresql_12.version }}
-      image: registry.redhat.io/rhel8/postgresql-12@sha256:{{ .Values.operator.relatedImages.rhel8_postgresql_12.sha256 }}
+      image: {{ .Values.bundle.containerRegistry }}/entando/entando-postgres-rocky@sha256:{{ .Values.operator.relatedImages.rhel8_postgresql_12.sha256 }}
     - name: app-builder-6-3 #{{ .Values.operator.relatedImages.app_builder_6_3.version }}
       image: {{ .Values.bundle.containerRegistry }}/entando/app-builder@sha256:{{ .Values.operator.relatedImages.app_builder_6_3.sha256 }}
     - name: app-builder-6-4 #{{ .Values.operator.relatedImages.app_builder_6_4.version }}
@@ -808,9 +805,9 @@ spec:
                           fieldRef:
                             fieldPath: spec.serviceAccountName
                       - name: RELATED_IMAGE_RHEL8_MYSQL_80 #{{ .Values.operator.relatedImages.rhel8_mysql_80.version }}
-                        value: registry.redhat.io/rhel8/mysql-80@sha256:{{ .Values.operator.relatedImages.rhel8_mysql_80.sha256 }}
+                        value: {{ .Values.bundle.containerRegistry }}/entando/entando-mysql-ubi@sha256:{{ .Values.operator.relatedImages.rhel8_mysql_80.sha256 }}
                       - name: RELATED_IMAGE_RHEL8_POSTGRESQL_12 #{{ .Values.operator.relatedImages.rhel8_postgresql_12.version }}
-                        value: registry.redhat.io/rhel8/postgresql-12@sha256:{{ .Values.operator.relatedImages.rhel8_postgresql_12.sha256 }}
+                        value: {{ .Values.bundle.containerRegistry }}/entando/entando-postgres-ubi@sha256:{{ .Values.operator.relatedImages.rhel8_postgresql_12.sha256 }}
                       - name: RELATED_IMAGE_APP_BUILDER_6_3 #{{ .Values.operator.relatedImages.app_builder_6_3.version }}
                         value: {{ .Values.bundle.containerRegistry }}/entando/app-builder@sha256:{{ .Values.operator.relatedImages.app_builder_6_3.sha256 }}
                       - name: RELATED_IMAGE_APP_BUILDER_6_4 #{{ .Values.operator.relatedImages.app_builder_6_4.version }}
