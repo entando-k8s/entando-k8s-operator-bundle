@@ -569,6 +569,7 @@ spec:
                 - ''
               resources:
                 - pods/exec
+                - pods/log
               verbs:
                 - get
             - apiGroups:
@@ -645,6 +646,7 @@ spec:
                 - ''
               resources:
                 - pods/exec
+                - pods/log
               verbs:
                 - get
             - apiGroups:
