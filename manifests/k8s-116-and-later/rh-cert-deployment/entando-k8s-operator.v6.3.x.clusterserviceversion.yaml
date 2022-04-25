@@ -796,7 +796,7 @@ spec:
                       - name: RELATED_IMAGE_ENTANDO_K8S_KEYCLOAK_CONTROLLER #7.0.1
                         value: registry.hub.docker.com/entando/entando-k8s-keycloak-controller@sha256:52ac57fcd6d902cce097509416943b43227f3f26835acac55bb273b8210829c9
                       - name: RELATED_IMAGE_ENTANDO_K8S_PLUGIN_CONTROLLER #7.0.1
-                        value: registry.hub.docker.com/entando/entando-k8s-plugin-controller@sha256:b639d5d2a591de26cc6edb8a66cc9bd07c4fcf7d78474de0a43039d961b26b06
+                        value: registry.hub.docker.com/entando/entando-k8s-plugin-controller@sha256:420474cd08ac02e0ad68145cd3ad916650ee1073fe0cf976973cf1544cf7b4c6
                       - name: RELATED_IMAGE_ENTANDO_K8S_SERVICE #7.0.0
                         value: registry.hub.docker.com/entando/entando-k8s-service@sha256:af8c97500b0ffdbba9faa94b8763682e772f97f593053e5019008fa181e86bf9
                       - name: RELATED_IMAGE_ENTANDO_REDHAT_SSO #7.0.0
