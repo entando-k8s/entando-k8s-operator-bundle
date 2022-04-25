@@ -77,8 +77,12 @@ if [ "$CONTROLLER_COORDINATOR_VERSION" != "-" ]; then
         || git checkout "v${CONTROLLER_COORDINATOR_VERSION}+${VERSION_PREFIX}-develop" 2>/dev/null
       ) || ERR=true
     fi
-
-    if $ERR || [ "$(git describe --tags)" != "v${CONTROLLER_COORDINATOR_VERSION}" ]; then
+    
+    if [ -z "$(git tag --points-at HEAD | grep "^v${CONTROLLER_COORDINATOR_VERSION}$")" ]; then
+      ERR=true
+    fi
+    
+    if $ERR; then
       echo "~~~"
       echo "ERROR: Unable to checkout the controller coordinator branch or tag \"v$CONTROLLER_COORDINATOR_VERSION\""
       exit 1
