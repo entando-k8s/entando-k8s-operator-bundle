@@ -1,5 +1,5 @@
 bundle:
-  version: 7.0.2-pre1
+  version: 7.0.2-pre2
   olmDisabled: true
   communityOnly: true
   containerRegistry: registry.connect.redhat.com
@@ -20,7 +20,7 @@ operator:
       sha256: 3bc6411823e01931328b4a696b9751750060af51577108bd628981ad71ba54ed
       version: 6.3.93-hotfix.1
     app_builder_6_4:
-      sha256: d1337bc11c12194028f735090b75dcfde5df6df63061d497e12c1800e7454e91
+      sha256: 9d54b125b96c861dcf4af311dc47e1f54ee58810c3b16bd50b9f4a15fcf85edd
       version: 7.0.2
     busybox:
       sha256: 14d4f50961544fdb669075c442509f194bdc4c0e344bde06e35dbd55af842a38
@@ -74,7 +74,7 @@ operator:
       sha256: 8fa2a1f44ca9b94797bb5d65d409c58d924cabb60dada6bd2cb1a654adf605e3
       version: 7.0.2
     entando_k8s_service:
-      sha256: 2638927f6cea1f03ca1bd49c5850f0a95e552775969e6084cd168060b2552047
+      sha256: d1e022d6c1eb1f20268372493115fb34066b52245995eee11b77b7c36bc66431
       version: 7.0.2
     entando_process_driven_plugin:
       sha256: 18db1afb892393c1dcf7c36e5a4bbd1d6bc60029014094178ce1acb5dd1f68a4
