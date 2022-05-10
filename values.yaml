@@ -1,5 +1,5 @@
 bundle:
-  version: 7.0.1
+  version: 6.5.0
   olmDisabled: true
   communityOnly: true
   containerRegistry: registry.connect.redhat.com
@@ -20,8 +20,8 @@ operator:
       sha256: 3bc6411823e01931328b4a696b9751750060af51577108bd628981ad71ba54ed
       version: 6.3.93-hotfix.1
     app_builder_6_4:
-      sha256: 34d398d9dabfdd95df55dedebedbe987e38b3375f1bcf39fbc53f3bf602417cc
-      version: 7.0.0
+      sha256: 3bc6411823e01931328b4a696b9751750060af51577108bd628981ad71ba54ed
+      version: 6.3.93-hotfix.1
     busybox:
       sha256: 14d4f50961544fdb669075c442509f194bdc4c0e344bde06e35dbd55af842a38
       version: latest
@@ -38,14 +38,14 @@ operator:
       sha256: 8b5657c42b435cb5e22d40b783a5c69afeb63d7c9d14b201ca16fce91f4c06f5
       version: 6.3.68-fix.3-ENG-3332-PR-335
     entando_de_app_eap_6_4:
-      sha256: 4784ed25e5a2d83d0324d0f9930807eaf888de67dc3bed6c89a7275e49260840
-      version: 7.0.0
+      sha256: 71c13bca21b52a8cbad26fe11dac6250a938d3d6fc5aecfe245d604bbc509914
+      version: 6.3.68-fix.3-ENG-3332-PR-335
     entando_de_app_wildfly_6_3:
       sha256: 71c13bca21b52a8cbad26fe11dac6250a938d3d6fc5aecfe245d604bbc509914
       version: 6.3.68-fix.3-ENG-3332-PR-335
     entando_de_app_wildfly_6_4:
-      sha256: 6c2f91fabf7e5e1a2790361a936fbc9d189e574d9a83a4104bdc58af302a6034
-      version: 7.0.0
+      sha256: 71c13bca21b52a8cbad26fe11dac6250a938d3d6fc5aecfe245d604bbc50991471c13bca21b52a8cbad26fe11dac6250a938d3d6fc5aecfe245d604bbc509914
+      version: 6.3.68-fix.3-ENG-3332-PR-335
     entando_k8s_app_controller:
       sha256: b169374ebe44a65508273c771c10046baaaecd5b42c73f5883b3a8d7262d449b
       version: 7.0.1
@@ -68,7 +68,7 @@ operator:
       sha256: b1001a561b41c89a7732416bb0fba14ca5091ef0dcf8d15240757bf6b7737690
       version: 7.0.0
     entando_k8s_keycloak_controller:
-      sha256: 52ac57fcd6d902cce097509416943b43227f3f26835acac55bb273b8210829c9
+      sha256: add3073e4fae2e0f8aeb25ad2ff982d45e5f54661b69712180305d199047fdc4
       version: 7.0.1
     entando_k8s_plugin_controller:
       sha256: 420474cd08ac02e0ad68145cd3ad916650ee1073fe0cf976973cf1544cf7b4c6
