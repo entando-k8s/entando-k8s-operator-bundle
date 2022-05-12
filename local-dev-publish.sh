@@ -12,6 +12,28 @@
 # For typical use:
 #  OPM_CONTAINER_TOOL=docker ./local-dev-publish.sh
 
+function retrieveSha256 {
+  #echo "retrieve sha256 from $1 with $OPM_CONTAINER_TOOL"
+  case "$OPM_CONTAINER_TOOL" in
+    docker)
+      local ret
+      ret=$(docker inspect --format='{{index .RepoDigests 0}}' "$1" | cut -d '@' -f 2)
+      echo "$ret"
+    ;;
+    podman)
+      #this is needed to force donwload and registration of remote repository digest
+      podman image rm "$1" 1>&2
+      podman image pull "$1" 1>&2
+      local ret
+      ret=$(podman inspect --format='{{index .RepoDigests 0}}' "$1" | cut -d '@' -f 2)
+      echo "$ret"
+    ;;
+    *)
+    echo "Unrecognized container tool $OPM_CONTAINER_TOOL" 1>&2
+    exit 1;;
+  esac  
+}
+
 export MY_VERSION=$(yq eval '.spec.version' manifests/k8s-116-and-later/community-deployment/entando-k8s-operator.v6.3.x.clusterserviceversion.yaml)
 
 echo "> Found version $MY_VERSION"
@@ -45,15 +67,7 @@ opm index add \
 
 [ "$?" != 0 ] && { echo "### Error building the operator bundle index" 1>&2; exit 1; }
 
-RESFILE="$(mktemp)"
-trap 'rm -f "$RESFILE"' EXIT
-
-"$OPM_CONTAINER_TOOL" push "$INDEX_URL" | while read -r line; do
-  if [[ "$line" == *"digest: sha256:"* ]]; then
-    echo "$line" | cut -d ' ' -f 3 > "$RESFILE"
-  fi
-  echo "$line"
-done
+"$OPM_CONTAINER_TOOL" push "$INDEX_URL"
 
 [ "$?" != 0 ] && { echo "### Error pushing the operator index" 1>&2; exit 1; }
 
@@ -64,7 +78,10 @@ mkdir -p tmp
 echo "> Generating catalog source under ./tmp/catalog-source.yaml"
 
 MY_STABLE_VERSION="$(echo "$MY_VERSION" | sed -E 's/([^.]*\.[^.])*\.[^-]*/\1/')"
-SHA="$(cat "$RESFILE")"
+
+SHA="$(retrieveSha256 "$INDEX_URL")"
+echo "  found sha $SHA"
+
 INDEX_URL="${INDEX_URL/:*/@$SHA}"
 NAME="$(echo "entando-catalog-${MY_STABLE_VERSION}" | sed 's/\./-/g')"
 
