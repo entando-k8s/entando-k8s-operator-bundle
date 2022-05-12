@@ -68,8 +68,8 @@ operator:
       sha256: b1001a561b41c89a7732416bb0fba14ca5091ef0dcf8d15240757bf6b7737690
       version: 7.0.0
     entando_k8s_keycloak_controller:
-      sha256: add3073e4fae2e0f8aeb25ad2ff982d45e5f54661b69712180305d199047fdc4
-      version: 7.0.1
+      sha256: c23248ae0a35dab52edd76e3f65e35625faa293d6c13f389d650535f89cd42cc
+      version: 7.0.2-ENG-3691-PR-53
     entando_k8s_plugin_controller:
       sha256: 420474cd08ac02e0ad68145cd3ad916650ee1073fe0cf976973cf1544cf7b4c6
       version: 7.0.1
