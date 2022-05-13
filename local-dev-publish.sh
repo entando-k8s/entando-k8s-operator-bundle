@@ -77,8 +77,7 @@ mkdir -p tmp
 
 echo "> Generating catalog source under ./tmp/catalog-source.yaml"
 
-MY_STABLE_VERSION="$(echo "$MY_VERSION" | sed -E 's/([^.]*\.[^.])*\.[^-]*/\1/')"
-
+MY_STABLE_VERSION="$(echo "$MY_VERSION" | sed -E 's/([^.]*\.[^.]\.[^.])*\.[^-]*/\1/')"
 SHA="$(retrieveSha256 "$INDEX_URL")"
 echo "  found sha $SHA"
 
