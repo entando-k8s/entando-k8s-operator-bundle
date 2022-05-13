@@ -17,7 +17,7 @@ function retrieveSha256 {
   case "$OPM_CONTAINER_TOOL" in
     docker)
       local ret
-      ret=$(docker inspect --format='{{index .RepoDigests 0}}' "$1" | cut -d '@' -f 2)
+      ret="$(docker inspect --format='{{index .RepoDigests 0}}' "$1" | cut -d '@' -f 2)"
       echo "$ret"
     ;;
     podman)
@@ -25,7 +25,7 @@ function retrieveSha256 {
       podman image rm "$1" 1>&2
       podman image pull "$1" 1>&2
       local ret
-      ret=$(podman inspect --format='{{index .RepoDigests 0}}' "$1" | cut -d '@' -f 2)
+      ret="$(podman inspect --format='{{index .RepoDigests 0}}' "$1" | cut -d '@' -f 2)"
       echo "$ret"
     ;;
     *)
