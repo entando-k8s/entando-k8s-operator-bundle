@@ -49,7 +49,7 @@ mkdir -p tmp
 
 echo "> Generating catalog source under ./tmp/catalog-source.yaml"
 
-MY_STABLE_VERSION="$(echo "$MY_VERSION" | sed -E 's/([^.]*\.[^.])*\.[^-]*/\1/')"
+MY_STABLE_VERSION="$(echo "$MY_VERSION" | sed -E 's/([^.]*\.[^.]\.[^.])*\.[^-]*/\1/')"
 SHA="$(cat "$RESFILE")"
 INDEX_URL="${INDEX_URL/:*/@$SHA}"
 NAME="$(echo "entando-catalog-${MY_STABLE_VERSION}" | sed 's/\./-/g')"
