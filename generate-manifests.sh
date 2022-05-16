@@ -11,6 +11,7 @@
 #all the different deployments and quickstarts using the Operator use exactly the same combination of image versions
 
 VERSION_PREFIX="KB"; [ "$1" == "--snapshot" ] && { VERSION_PREFIX="BB"; shift; }
+REQUESTED_VERSION=""; [ "$1" == "--version" ] && { REQUESTED_VERSION="$2"; shift 2; }
 mkdir -p tmp
 
 echo "> Extracting the contoller coordinator from ./values.yaml"
@@ -36,8 +37,14 @@ fi
 
 HELM_MAJOR_VERSION="$(helm version | sed -E 's/.*:"v+([0-9]*).*/\1/')"
 
+if [ -n "$REQUESTED_VERSION" ]; then
+  cp values.yaml tmp/
+  cat tmp/values.yaml | sed -E 's/^  version: ([0-9A-Za-z.]*).*/  version: '$REQUESTED_VERSION'/' > values.yaml
+  cat "values.yaml"
+fi
+
 case "$HELM_MAJOR_VERSION" in
-  2) 
+  2)
     _helm_template() {
       helm template --name "$@" || {
         echo "<!> Error detected during helm template <!>"
@@ -77,17 +84,17 @@ if [ "$CONTROLLER_COORDINATOR_VERSION" != "-" ]; then
         || git checkout "v${CONTROLLER_COORDINATOR_VERSION}+${VERSION_PREFIX}-develop" 2>/dev/null
       ) || ERR=true
     fi
-    
+
     if [ -z "$(git tag --points-at HEAD | grep "^v${CONTROLLER_COORDINATOR_VERSION}$")" ]; then
       ERR=true
     fi
-    
+
     if $ERR; then
       echo "~~~"
       echo "ERROR: Unable to checkout the controller coordinator branch or tag \"v$CONTROLLER_COORDINATOR_VERSION\""
       exit 1
     fi
-    
+
     _set_all() {
       _sed_i "s|{{$1}}|$2|g" "./charts/preview/Chart.yaml"
       _sed_i "s|{{$1}}|$2|g" "./charts/preview/values.yaml"
@@ -96,7 +103,7 @@ if [ "$CONTROLLER_COORDINATOR_VERSION" != "-" ]; then
       _sed_i "s|{{$1}}|$2|g" "./charts/entando-k8s-controller-coordinator/values.yaml"
     }
 
-    
+
     _set_all "ENTANDO_PROJECT_VERSION" "$CONTROLLER_COORDINATOR_VERSION"
     _set_all "ENTANDO_IMAGE_TAG" "$CONTROLLER_COORDINATOR_VERSION"
     _set_all "ENTANDO_IMAGE_REPO" "entando/entando-k8s-controller-coordinator"
@@ -120,31 +127,31 @@ function writeClusterResourceToFile {
 
 function writeAllResourcesForVersion {
   local k8s_version=$1
-  
+
   if [ $k8s_version == "k8s-before-116" ]; then
     support_openshift_311="true"
   else
     support_openshift_311="false"
   fi
-  
+
   # ~~~ NAMESPACE SCOPED ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   local output_dir=./manifests/${k8s_version}/namespace-scoped-deployment
   rm $output_dir/*.yaml 2>/dev/null
-  
+
   # CLUSTER RESOURCES
   writeClusterResourceToFile ${k8s_version} ${output_dir}/cluster-resources.yaml
-  
+
   # NAMESPACE RESOURCES
   _helm_template entando --set operator.supportOpenshift311=${support_openshift_311},operator.clusterScope=false,bundle.olmDisabled=true ./  >> ${output_dir}/namespace-resources.yaml
-  
+
   # ALL-IN-ONE
   writeClusterResourceToFile ${k8s_version} ${output_dir}/all-in-one.yaml
   _helm_template entando --set operator.supportOpenshift311=${support_openshift_311},operator.clusterScope=false,bundle.olmDisabled=true ./  >> ${output_dir}/all-in-one.yaml
-  
+
   # ~~~ CLUSTER SCOPED ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   output_dir=./manifests/${k8s_version}/cluster-scoped-deployment
   rm $output_dir/*.yaml 2>/dev/null
-  
+
   # ALL-IN-ONE
   writeClusterResourceToFile ${k8s_version} ${output_dir}/all-in-one.yaml
   _helm_template entando --set operator.supportOpenshift311=${support_openshift_311},operator.clusterScope=true,bundle.olmDisabled=true ./  >> ${output_dir}/all-in-one.yaml

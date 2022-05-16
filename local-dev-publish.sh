@@ -31,7 +31,7 @@ function retrieveSha256 {
     *)
     echo "Unrecognized container tool $OPM_CONTAINER_TOOL" 1>&2
     exit 1;;
-  esac  
+  esac
 }
 
 export MY_VERSION=$(yq eval '.spec.version' manifests/k8s-116-and-later/community-deployment/entando-k8s-operator.v6.3.x.clusterserviceversion.yaml)
@@ -77,8 +77,7 @@ mkdir -p tmp
 
 echo "> Generating catalog source under ./tmp/catalog-source.yaml"
 
-MY_STABLE_VERSION="$(echo "$MY_VERSION" | sed -E 's/([^.]*\.[^.])*\.[^-]*/\1/')"
-
+MY_STABLE_VERSION="$(echo "$MY_VERSION" | sed -E 's/([^.]*\.[^.]\.[^.])*\.[^-]*/\1/')"
 SHA="$(retrieveSha256 "$INDEX_URL")"
 echo "  found sha $SHA"
 
