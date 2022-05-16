@@ -44,7 +44,7 @@ operator:
       sha256: 71c13bca21b52a8cbad26fe11dac6250a938d3d6fc5aecfe245d604bbc509914
       version: 6.3.68-fix.3-ENG-3332-PR-335
     entando_de_app_wildfly_6_4:
-      sha256: 71c13bca21b52a8cbad26fe11dac6250a938d3d6fc5aecfe245d604bbc50991471c13bca21b52a8cbad26fe11dac6250a938d3d6fc5aecfe245d604bbc509914
+      sha256: 71c13bca21b52a8cbad26fe11dac6250a938d3d6fc5aecfe245d604bbc509914
       version: 6.3.68-fix.3-ENG-3332-PR-335
     entando_k8s_app_controller:
       sha256: b169374ebe44a65508273c771c10046baaaecd5b42c73f5883b3a8d7262d449b
@@ -80,8 +80,8 @@ operator:
       sha256: 18db1afb892393c1dcf7c36e5a4bbd1d6bc60029014094178ce1acb5dd1f68a4
       version: 6.0.50-fix.1
     entando_keycloak:
-      sha256: e251ba0bf83c529bd1818d4b78cc74ed25b6573d8dc55f59d72b86194932c3ac
-      version: 7.0.1
+      sha256: 36383301348c15526deac7d378a2f1a8a216c419697f3255e6d183a9cd53e323
+      version: 6.3.9
     entando_redhat_sso:
       sha256: d91c8472a8676d884e789758391cfc36dbfc89318e5293e82d04411160bd132a
       version: 7.0.0
