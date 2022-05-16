@@ -11,6 +11,7 @@
 #all the different deployments and quickstarts using the Operator use exactly the same combination of image versions
 
 VERSION_PREFIX="KB"; [ "$1" == "--snapshot" ] && { VERSION_PREFIX="BB"; shift; }
+REQUESTED_VERSION=""; [ "$1" == "--version" ] && { REQUESTED_VERSION="$2"; shift 2; }
 mkdir -p tmp
 
 echo "> Extracting the contoller coordinator from ./values.yaml"
@@ -35,6 +36,12 @@ if [ "${CONTROLLER_COORDINATOR_VERSION:0:1}" == 'v' ]; then
 fi
 
 HELM_MAJOR_VERSION="$(helm version | sed -E 's/.*:"v+([0-9]*).*/\1/')"
+
+if [ -n "$REQUESTED_VERSION" ]; then
+  cp values.yaml tmp/
+  cat tmp/values.yaml | sed -E 's/^  version: ([0-9A-Za-z.]*).*/  version: '$REQUESTED_VERSION'/' > values.yaml
+  cat "values.yaml"
+fi
 
 case "$HELM_MAJOR_VERSION" in
   2) 
