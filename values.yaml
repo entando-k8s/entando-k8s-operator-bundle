@@ -1,5 +1,5 @@
 bundle:
-  version: 6.5.0-eng-3686
+  version: 6.5.0
   olmDisabled: true
   communityOnly: true
   containerRegistry: registry.connect.redhat.com
