@@ -15,7 +15,7 @@ operator:
       version: 1-189
       registry: registry.redhat.io
       organization: rhel8
-      repository: mysql80
+      repository: mysql-80
     rhel8_postgresql_12:
       sha256: fa920188f567e51d75aacd723f0964026e42ac060fed392036e8d4b3c7a8129f
       version: 1-109
