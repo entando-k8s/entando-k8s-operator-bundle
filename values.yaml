@@ -1,5 +1,5 @@
 bundle:
-  version: 6.5.0
+  version: 6.5.0-eng-3686
   olmDisabled: true
   communityOnly: true
   containerRegistry: registry.connect.redhat.com
@@ -11,11 +11,17 @@ operator:
     - entando-pull-secret
   relatedImages:
     rhel8_mysql_80:
-      sha256: 1a39393059a9d42b1539de2eae489133e81a18142e3b27c06c53158444ba876b
-      version: 8.0.28
+      sha256: 1dfdc3499ec8dea5d9a275214b498dd1ea13464dbefa8bdae4e6d42c6692b4c6
+      version: 1-189
+      registry: registry.redhat.io
+      organization: rhel8
+      repository: mysql-80
     rhel8_postgresql_12:
-      sha256: 5da64777195aba69c4d5cfaa27a87d376d43c9fb5c0e25afa985c41ea356b050
-      version: 14.1.0
+      sha256: fa920188f567e51d75aacd723f0964026e42ac060fed392036e8d4b3c7a8129f
+      version: 1-109
+      registry: registry.redhat.io
+      organization: rhel8
+      repository: postgresql-12
     app_builder_6_3:
       sha256: 3bc6411823e01931328b4a696b9751750060af51577108bd628981ad71ba54ed
       version: 6.3.93-hotfix.1
@@ -60,7 +66,7 @@ operator:
       version: 6.3.11
     entando_k8s_controller_coordinator:
       sha256: 4c225f00914cb8db345358e9bfb2e2dce3370b5b51189d552b9f2fd3646cc666
-      version: 7.0.2
+      version: 7.0.2-ENG-3686
     entando_k8s_database_service_controller:
       sha256: d6ca8e1c9b1b257bf6234205852557d20605aa6e3e968e1a304360f3db03e78d
       version: 7.0.2
@@ -86,8 +92,12 @@ operator:
       sha256: 3692adb3694b3bf278bed7a678c9d0eaa0aba8e3e3ed4117ca04156525bcac72
       version: 6.3.9
     mysql_80_centos7:
-      sha256: b637364c42a02ceed8fe66851299ed008ed613c4b93e9ac8b170e6235bf8ad93
-      version: 8.0.28
+      sha256: c1ff5d9af7bb39556a70a5983284956d86f4416c910d36962b71048f8c6a2b11
+      version: 20210423-5849b27
+      organization: centos
+      repository: mysql-80-centos7
     postgresql_12_centos7:
-      sha256: 62c4a020c772a0107b1d64302e3022ea413dbeba72b061acae41f98f4230337f
-      version: 14.1.0
+      sha256: be8803d45d64870f8dfd018f3110af62e2e1558d64191faea461005e1bd03243
+      version: 20210722-70dc4d3
+      organization: centos
+      repository: postgresql-12-centos7
