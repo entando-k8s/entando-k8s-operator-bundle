@@ -69,7 +69,7 @@ operator:
       version: 7.0.2
     entando_k8s_keycloak_controller:
       sha256: c23248ae0a35dab52edd76e3f65e35625faa293d6c13f389d650535f89cd42cc
-      version: 7.0.2-ENG-3691-PR-53
+      version: 6.5.0-ENG-3691-PR-53
     entando_k8s_plugin_controller:
       sha256: 8fa2a1f44ca9b94797bb5d65d409c58d924cabb60dada6bd2cb1a654adf605e3
       version: 7.0.2
