@@ -1,3 +1,74 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: entando-crd-viewer
+  labels:
+    # Add these permissions to the "view" default role.
+    rbac.authorization.k8s.io/aggregate-to-view: "true"
+rules:
+  - apiGroups:
+      - apiextensions.k8s.io
+    resources:
+      - customresourcedefinitions
+    resourceNames:
+      - entandoapppluginlinks.entando.org
+      - entandoapps.entando.org
+      - entandodatabaseservices.entando.org
+      - entandodebundles.entando.org
+      - entandokeycloakservers.entando.org
+      - entandoplugins.entando.org
+      - providedcapabilities.entando.org
+    verbs:
+      - get
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: entando-crd-viewer
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: entando-crd-viewer
+subjects:
+  - kind: Group
+    name: system:serviceaccounts
+
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: entando-editor
+  labels:
+    # Add these permissions to the "edit" default role.
+    rbac.authorization.k8s.io/aggregate-to-edit: "true"
+rules:
+  - apiGroups:
+      - entando.org
+    resources:
+      - "*"
+    verbs:
+      - "*"
+
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: entando-viewer
+  labels:
+    # Add these permissions to the "view" default role.
+    rbac.authorization.k8s.io/aggregate-to-view: "true"
+rules:
+  - apiGroups:
+      - entando.org
+    resources:
+      - "*"
+    verbs:
+      - "get"
+      - "list"
+      - "watch"
+
+---
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
@@ -362,43 +433,6 @@ spec:
               x-kubernetes-preserve-unknown-fields: true
 
 ---
-kind: ClusterRole
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: entando-crd-viewer
-  labels:
-    # Add these permissions to the "view" default role.
-    rbac.authorization.k8s.io/aggregate-to-view: "true"
-rules:
-  - apiGroups:
-      - apiextensions.k8s.io
-    resources:
-      - customresourcedefinitions
-    resourceNames:
-      - entandoapppluginlinks.entando.org
-      - entandoapps.entando.org
-      - entandodatabaseservices.entando.org
-      - entandodebundles.entando.org
-      - entandokeycloakservers.entando.org
-      - entandoplugins.entando.org
-      - providedcapabilities.entando.org
-    verbs:
-      - get
-
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: entando-crd-viewer
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: entando-crd-viewer
-subjects:
-  - kind: Group
-    name: system:serviceaccounts
-
----
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
@@ -720,22 +754,6 @@ spec:
             serverStatuses:
               type: object
               x-kubernetes-preserve-unknown-fields: true
-
----
-kind: ClusterRole
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: entando-editor
-  labels:
-    # Add these permissions to the "edit" default role.
-    rbac.authorization.k8s.io/aggregate-to-edit: "true"
-rules:
-  - apiGroups:
-      - entando.org
-    resources:
-      - "*"
-    verbs:
-      - "*"
 
 ---
 apiVersion: apiextensions.k8s.io/v1beta1
@@ -1354,24 +1372,6 @@ spec:
               x-kubernetes-preserve-unknown-fields: true
 
 ---
-kind: ClusterRole
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: entando-viewer
-  labels:
-    # Add these permissions to the "view" default role.
-    rbac.authorization.k8s.io/aggregate-to-view: "true"
-rules:
-  - apiGroups:
-      - entando.org
-    resources:
-      - "*"
-    verbs:
-      - "get"
-      - "list"
-      - "watch"
-
----
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -1531,15 +1531,6 @@ spec:
 
 ---
 ---
-# Source: entando-k8s-operator-bundle/charts/operator/templates/operator-serviceaccount.yaml
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: entando-operator
-imagePullSecrets:
-  - name: redhat-registry
-  - name: entando-pull-secret
----
 # Source: entando-k8s-operator-bundle/charts/operator/templates/entando-empty-tls-secret.yaml
 apiVersion: v1
 stringData:
@@ -1549,6 +1540,7 @@ kind: Secret
 metadata:
   name: entando-empty-tls-secret
 type: kubernetes.io/tls
+
 ---
 # Source: entando-k8s-operator-bundle/charts/operator/templates/docker-image-info-configmap.yaml
 apiVersion: v1
@@ -1604,8 +1596,20 @@ data:
     {"version":"8.0.28","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando",,"repository":"entando-mysql-ubi"}
   rhel8-postgresql-12: >-
     {"version":"14.1.0","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-postgres-ubi"}
+
+---
+# Source: entando-k8s-operator-bundle/charts/operator/templates/operator-serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: entando-operator
+imagePullSecrets:
+  - name: redhat-registry
+  - name: entando-pull-secret
+
 ---
 # Source: entando-k8s-operator-bundle/charts/operator/templates/operator-clusterrole.yaml
+
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -1689,8 +1693,10 @@ rules:
       - "routes/custom-host"
     verbs:
       - "*"
+
 ---
 # Source: entando-k8s-operator-bundle/charts/operator/templates/operator-clusterrolebinding.yaml
+
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
@@ -1780,6 +1786,7 @@ rules:
       - "routes/custom-host"
     verbs:
       - "*"
+
 ---
 # Source: entando-k8s-operator-bundle/charts/operator/templates/operator-rolebinding.yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -1793,6 +1800,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: entando-operator
+
 ---
 # Source: entando-k8s-operator-bundle/charts/operator/templates/entando-k8s-service-service.yaml
 kind: Service
@@ -1807,6 +1815,7 @@ spec:
       targetPort: 8084
   selector:
     deployment: entando-k8s-service
+
 ---
 # Source: entando-k8s-operator-bundle/templates/entando-k8s-service-service.yaml
 kind: Service
@@ -1821,6 +1830,7 @@ spec:
       targetPort: 8084
   selector:
     deployment: entando-k8s-service
+
 ---
 # Source: entando-k8s-operator-bundle/charts/operator/templates/deployment.yaml
 apiVersion: "extensions/v1beta1"
@@ -1891,7 +1901,8 @@ spec:
             timeoutSeconds: 3
           resources:
             null
-          terminationGracePeriodSeconds:
+          terminationGracePeriodSeconds: 
+
 ---
 # Source: entando-k8s-operator-bundle/charts/operator/templates/entando-k8s-service-deployment.yaml
 kind: Deployment
@@ -1956,3 +1967,41 @@ spec:
           image: >-
             docker.io/entando/entando-k8s-service:7.0.0
       serviceAccount: entando-operator
+
+---
+# Source: entando-k8s-operator-bundle/charts/operator/templates/default-pod-viewer-rolebinding.yaml
+
+---
+# Source: entando-k8s-operator-bundle/charts/operator/templates/entando-editor-clusterrole.yaml
+
+---
+# Source: entando-k8s-operator-bundle/charts/operator/templates/ingress-viewer-clusterrole.yaml
+
+---
+# Source: entando-k8s-operator-bundle/charts/operator/templates/plugin-role.yaml
+
+
+---
+# Source: entando-k8s-operator-bundle/charts/operator/templates/plugin-rolebinding.yaml
+
+
+---
+# Source: entando-k8s-operator-bundle/charts/operator/templates/plugin-serviceaccount.yaml
+
+
+---
+# Source: entando-k8s-operator-bundle/charts/operator/templates/pod-viewer-clusterrole.yaml
+
+---
+# Source: entando-k8s-operator-bundle/charts/operator/templates/pod-viewer-role.yaml
+
+---
+# Source: entando-k8s-operator-bundle/templates/docker-image-info-configmap.yaml
+
+---
+# Source: entando-k8s-operator-bundle/templates/entando-empty-tls-secret.yaml
+
+---
+# Source: entando-k8s-operator-bundle/templates/entando-k8s-operator.v6.3.x.clusterserviceversion.yaml
+
+
