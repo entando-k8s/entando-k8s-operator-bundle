@@ -1290,14 +1290,6 @@ spec:
                     It will prefix the name and namespace of the EntandoPlugin to this default routing suffix.
                   type: string
                   pattern: '^([A-Za-z0-9-]{1,63}\.)*[[A-Za-z0-9-]{1,63}$'
-                customIngressHostName:
-                  description: >
-                    An optional custom hostname that will be used to access this EntandoPlugin microservice from outside the cluster. The Entando
-                    Operator will create an Ingress reflecting this hostname, and expose the microservice on the
-                    path specified in 'EntandoPlugin.spec.customIngressPath' on
-                    this host. If omitted, the Entando Operator will ignore it.
-                  type: string
-                  pattern: '^([A-Za-z0-9-]{1,63}\.)*[[A-Za-z0-9-]{1,63}$'
                 ingressPath:
                   description: >
                     The path that will be used to expose this EntandoPlugin microservice on the ingress host
@@ -1308,7 +1300,7 @@ spec:
                 customIngressPath:
                   description: >
                     An optional custom path that will be used to expose this EntandoPlugin microservice on the ingress host
-                    specified in 'EntandoPlugin.spec.customIngressHostname'.
+                    specified in 'EntandoPlugin.spec.ingressHostname'.
                   type: string
                 tlsSecretName:
                   description: >

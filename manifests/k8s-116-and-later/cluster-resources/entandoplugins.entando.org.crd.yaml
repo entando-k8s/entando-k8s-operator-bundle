@@ -83,8 +83,8 @@ spec:
                   type: string
                 customIngressPath:
                   description: >
-                    An optional custom path that will be used to expose this EntandoPlugin microservice on the ingress host
-                    specified in 'EntandoPlugin.spec.ingressHostname'.
+                    An optional custom path that will be used to expose this EntandoPlugin microservice on the ingress
+                    host specified in 'EntandoPlugin.spec.ingressHostname'.
                   type: string
                 tlsSecretName:
                   description: >
