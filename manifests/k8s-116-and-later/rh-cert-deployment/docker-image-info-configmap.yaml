@@ -1,5 +1,6 @@
 ---
 # Source: entando-k8s-operator-bundle/templates/docker-image-info-configmap.yaml
+
 apiVersion: v1
 kind: ConfigMap
 metadata:
