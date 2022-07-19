@@ -1,0 +1,45 @@
+name: Run tests
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+env:
+  ENTANDO_OPT_DOCKER_PASSWORD: "${{ secrets.ENTANDO_OPT_DOCKER_PASSWORD }}"
+  ENTANDO_OPT_DOCKER_USERNAME: "${{ secrets.ENTANDO_OPT_DOCKER_USERNAME }}"
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: prerequirements
+        run: |
+          # HELM
+          #curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+          set -x
+          
+          # OLM
+          curl -sLO "https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/stable-4.8/opm-linux-4.8.39.tar.gz"
+          tar xvfz "opm-linux-4.8.39.tar.gz"
+          chmod +x opm && mv opm /usr/local/bin/
+          docker login registry.hub.docker.com \
+            --username "$ENTANDO_OPT_DOCKER_USERNAME" \
+            --password-stdin <<< "$ENTANDO_OPT_DOCKER_PASSWORD"
+          
+          # OPERATOR SDK
+          export OPERATOR_SDK_DL_URL="https://github.com/operator-framework/operator-sdk/releases/download/v1.20.0"
+          curl -sLO "${OPERATOR_SDK_DL_URL}/operator-sdk_${OS}_${ARCH}"
+          chmod +x "operator-sdk_${OS}_${ARCH}" && sudo mv "operator-sdk_${OS}_${ARCH}" /usr/local/bin/operator-sdk
+      - name: Manifest update
+        run: |
+          VERSION_TAG="$(git tag --points-at HEAD)"
+          ./generate-manifests.sh --version "${VERSION_TAG:1}"
+      - name: publish OLM
+        run: |
+          OPM_CONTAINER_TOOL=docker ./local-dev-publish.sh
+          echo "~~~"
+          cat ./tmp/catalog-source.yaml
