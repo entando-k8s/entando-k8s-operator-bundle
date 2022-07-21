@@ -1,4 +1,22 @@
 ---
+# Source: entando-k8s-operator-bundle/charts/operator/templates/operator-serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: entando-operator
+imagePullSecrets:
+  - name: redhat-registry
+  - name: entando-pull-secret
+---
+# Source: entando-k8s-operator-bundle/charts/operator/templates/plugin-serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: entando-plugin
+imagePullSecrets:
+  - name: redhat-registry
+  - name: entando-pull-secret
+---
 # Source: entando-k8s-operator-bundle/charts/operator/templates/entando-empty-tls-secret.yaml
 apiVersion: v1
 stringData:
@@ -8,7 +26,6 @@ kind: Secret
 metadata:
   name: entando-empty-tls-secret
 type: kubernetes.io/tls
-
 ---
 # Source: entando-k8s-operator-bundle/charts/operator/templates/docker-image-info-configmap.yaml
 apiVersion: v1
@@ -19,7 +36,7 @@ data:
   app-builder-6-3: >-
     {"version":"6.3.93-hotfix.1","executable-type":"n/a","registry":"registry.hub.docker.com","organization":"entando","repository":"app-builder"}
   app-builder-6-4: >-
-    {"version":"7.0.2","executable-type":"n/a","registry":"registry.hub.docker.com","organization":"entando","repository":"app-builder"}
+    {"version":"7.1.0-ENG-3983-PR-1359","executable-type":"n/a","registry":"registry.hub.docker.com","organization":"entando","repository":"app-builder"}
   busybox: >-
     {"version":"latest","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
   entando-avatar-plugin: >-
@@ -27,29 +44,29 @@ data:
   entando-component-manager-6-3: >-
     {"version":"6.3.26-fix.1","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-component-manager"}
   entando-component-manager-6-4: >-
-    {"version":"7.0.2","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-component-manager"}
+    {"version":"7.1.0-ENG-3940-PR-222","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-component-manager"}
   entando-de-app-eap-6-3: >-
     {"version":"6.3.68-fix.3-ENG-3332-PR-335","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-de-app-eap"}
   entando-de-app-eap-6-4: >-
-    {"version":"7.0.2","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-de-app-eap"}
+    {"version":"7.1.0-ENG-3917-PR-404","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-de-app-eap"}
   entando-de-app-wildfly-6-3: >-
     {"version":"6.3.68-fix.3-ENG-3332-PR-335","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-de-app-wildfly"}
   entando-de-app-wildfly-6-4: >-
-    {"version":"7.0.2","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-de-app-wildfly"}
+    {"version":"7.1.0-ENG-3917-PR-404","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-de-app-wildfly"}
   entando-k8s-app-controller: >-
-    {"version":"7.0.2","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
+    {"version":"7.1.0-ENG-3942-PR-63","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
   entando-k8s-app-plugin-link-controller: >-
-    {"version":"7.0.2","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
+    {"version":"7.1.0-ENG-3957-PR-40","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
   entando-k8s-database-service-controller: >-
-    {"version":"7.0.2","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
+    {"version":"7.0.2-ENG-3564-PR-29","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
   entando-k8s-dbjob: >-
     {"version":"7.0.2","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
   entando-k8s-keycloak-controller: >-
     {"version":"7.0.2","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
   entando-k8s-plugin-controller: >-
-    {"version":"7.0.2","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
+    {"version":"7.1.0-ENG-3957-PR-61","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
   entando-k8s-service: >-
-    {"version":"7.0.2","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
+    {"version":"7.1.0-ENG-3943-PR-50","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
   entando-keycloak: >-
     {"version":"7.0.1","executable-type":"","registry":"registry.hub.docker.com","organization":"entando"}
   entando-process-driven-plugin: >-
@@ -59,33 +76,11 @@ data:
   mysql-80-centos7: >-
     {"version":"8.0.28","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-mysql-rocky"}
   postgresql-12-centos7: >-
-    {"version":"14.1.0","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-postgres-rocky"}
+    {"version":"14.1.0","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-mysql-rocky"}
   rhel8-mysql-80: >-
     {"version":"8.0.28","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando",,"repository":"entando-mysql-ubi"}
   rhel8-postgresql-12: >-
     {"version":"14.1.0","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-postgres-ubi"}
-
----
-# Source: entando-k8s-operator-bundle/charts/operator/templates/operator-serviceaccount.yaml
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: entando-operator
-imagePullSecrets:
-  - name: redhat-registry
-  - name: entando-pull-secret
-
----
-# Source: entando-k8s-operator-bundle/charts/operator/templates/plugin-serviceaccount.yaml
-
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: entando-plugin
-imagePullSecrets:
-  - name: redhat-registry
-  - name: entando-pull-secret
-
 ---
 # Source: entando-k8s-operator-bundle/charts/operator/templates/operator-role.yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -163,10 +158,8 @@ rules:
       - "routes/custom-host"
     verbs:
       - "*"
-
 ---
 # Source: entando-k8s-operator-bundle/charts/operator/templates/plugin-role.yaml
-
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
@@ -188,10 +181,8 @@ rules:
       - get
       - delete
       - update
-
 ---
 # Source: entando-k8s-operator-bundle/charts/operator/templates/pod-viewer-role.yaml
-
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
@@ -207,7 +198,6 @@ rules:
       - "watch"
 ---
 # Source: entando-k8s-operator-bundle/charts/operator/templates/default-pod-viewer-rolebinding.yaml
-
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
@@ -232,10 +222,8 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: entando-operator
-
 ---
 # Source: entando-k8s-operator-bundle/charts/operator/templates/plugin-rolebinding.yaml
-
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
@@ -247,7 +235,6 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: entando-plugin
-
 ---
 # Source: entando-k8s-operator-bundle/charts/operator/templates/entando-k8s-service-service.yaml
 kind: Service
@@ -262,7 +249,6 @@ spec:
       targetPort: 8084
   selector:
     deployment: entando-k8s-service
-
 ---
 # Source: entando-k8s-operator-bundle/templates/entando-k8s-service-service.yaml
 kind: Service
@@ -277,7 +263,6 @@ spec:
       targetPort: 8084
   selector:
     deployment: entando-k8s-service
-
 ---
 # Source: entando-k8s-operator-bundle/charts/operator/templates/deployment.yaml
 apiVersion: "extensions/v1"
@@ -298,7 +283,7 @@ spec:
       volumes:
       containers:
         - name: operator
-          image: "entando/entando-k8s-controller-coordinator:7.0.2"
+          image: "entando/entando-k8s-controller-coordinator:7.0.3-ENG-3686-PR-103"
           imagePullPolicy: Always
           volumeMounts:
           env:
@@ -350,8 +335,7 @@ spec:
             timeoutSeconds: 3
           resources:
             null
-          terminationGracePeriodSeconds: 
-
+          terminationGracePeriodSeconds:
 ---
 # Source: entando-k8s-operator-bundle/charts/operator/templates/entando-k8s-service-deployment.yaml
 kind: Deployment
@@ -416,32 +400,5 @@ spec:
             successThreshold: 1
             timeoutSeconds: 1
           image: >-
-            docker.io/entando/entando-k8s-service:7.0.2
+            docker.io/entando/entando-k8s-service:7.1.0-ENG-3943-PR-50
       serviceAccount: entando-operator
-
----
-# Source: entando-k8s-operator-bundle/charts/operator/templates/entando-editor-clusterrole.yaml
-
----
-# Source: entando-k8s-operator-bundle/charts/operator/templates/ingress-viewer-clusterrole.yaml
-
----
-# Source: entando-k8s-operator-bundle/charts/operator/templates/operator-clusterrole.yaml
-
-
----
-# Source: entando-k8s-operator-bundle/charts/operator/templates/operator-clusterrolebinding.yaml
-
----
-# Source: entando-k8s-operator-bundle/charts/operator/templates/pod-viewer-clusterrole.yaml
-
----
-# Source: entando-k8s-operator-bundle/templates/docker-image-info-configmap.yaml
-
----
-# Source: entando-k8s-operator-bundle/templates/entando-empty-tls-secret.yaml
-
----
-# Source: entando-k8s-operator-bundle/templates/entando-k8s-operator.v6.3.x.clusterserviceversion.yaml
-
-
