@@ -1,5 +1,5 @@
 bundle:
-  version: 7.1.0-pre1
+  version: 7.1.0-pre2
   olmDisabled: true
   communityOnly: true
   containerRegistry: registry.connect.redhat.com
@@ -20,8 +20,8 @@ operator:
       sha256: 3bc6411823e01931328b4a696b9751750060af51577108bd628981ad71ba54ed
       version: 6.3.93-hotfix.1
     app_builder_6_4:
-      sha256: 08dbd12f19be8f4ab439c6e364413a0028f15dea841cca992c403be3dd1c2d94
-      version: 7.1.0-ENG-3983-PR-1359
+      sha256: 741d84884921b84cbb30c0cfe49790ba44480f4c0659d309320199520e053321
+      version: 7.1.0-ENG-3949-PR-1358
     busybox:
       sha256: 14d4f50961544fdb669075c442509f194bdc4c0e344bde06e35dbd55af842a38
       version: latest
@@ -32,8 +32,8 @@ operator:
       sha256: d48eacfe8a123aefac60390b5417da1ec5aab0378c21fadb66b567adde01ce61
       version: 6.3.26-fix.1
     entando_component_manager_6_4:
-      sha256: 5a68c72498c59b28cced3bfb505db9e9decccd851f92699dfe0cd4789931ff7d
-      version: 7.1.0-ENG-3940-PR-222
+      sha256: 8e3c1aac93ff17773aaac8a6e548926cd6bb4d67521b0aef67234471a900e7a5
+      version: 7.1.0-ENG-3993-PR-226
     entando_de_app_eap_6_3:
       sha256: 8b5657c42b435cb5e22d40b783a5c69afeb63d7c9d14b201ca16fce91f4c06f5
       version: 6.3.68-fix.3-ENG-3332-PR-335
