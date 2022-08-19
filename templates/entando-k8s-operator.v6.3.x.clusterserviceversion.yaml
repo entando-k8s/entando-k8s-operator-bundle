@@ -888,9 +888,6 @@ spec:
                         containerPort: 8084
                         protocol: TCP
                     resources:
-                      limits:
-                        cpu: 1000m
-                        memory: 1024Mi
                       requests:
                         cpu: 250m
                         memory: 128Mi

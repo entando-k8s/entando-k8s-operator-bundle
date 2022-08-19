@@ -60,7 +60,7 @@ operator:
       version: 6.3.11
     entando_k8s_controller_coordinator:
       sha256: 05e3a9304517adaa248367c67b127d0d1bb38d8c4e71a7dfe9fc4f1556eee20b
-      version: 7.1.0
+      version: v7.1.0-ENG-3374-PR-112
     entando_k8s_database_service_controller:
       sha256: 0628ea11f51b3bf4269a2b07f8a3caa3b1def095902b9fde3e72b66e9615fdf5
       version: 7.1.0
