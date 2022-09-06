@@ -797,6 +797,8 @@ spec:
                         value: redhat
                       - name: ENTANDO_K8S_OPERATOR_FORCE_DB_PASSWORD_RESET
                         value: "true"
+                      - name: ENTANDO_K8S_OPERATOR_IMPOSE_LIMITS
+                        value: "false"
                       - name: ENTANDO_K8S_OPERATOR_SERVICEACCOUNT
                         valueFrom:
                           fieldRef:
