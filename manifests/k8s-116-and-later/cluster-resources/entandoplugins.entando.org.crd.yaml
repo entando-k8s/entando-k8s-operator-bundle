@@ -57,7 +57,7 @@ spec:
                     postgresql, embedded or none.
                     Only 1 replica of the container is supported if embedded is selected. If
                     Oracle is selected it must be created manually, the operator does not deploy Oracle instances.
-                    See [here] (https://dev.entando.org/v6.3/docs/concepts/operator-intro.html#database-deployment) for how the operator will create and configure the DBMS.
+                    See [here] (https://dev.entando.org/v7.1/docs/concepts/operator-intro.html#database-deployment) for how the operator will create and configure the DBMS.
                   type: string
                   pattern: '^(mysql|oracle|postgresql|embedded|none)$'
                 storageClass:
