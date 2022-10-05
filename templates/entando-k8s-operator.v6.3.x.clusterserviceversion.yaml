@@ -123,7 +123,7 @@ spec:
     matchLabels: { }
   links:
     - name: Documentation
-      url: 'https://dev.entando.org/v7.0/docs/'
+      url: 'https://developer.entando.com/v{{ (semver .Values.bundle.version).Major }}.{{ (semver .Values.bundle.version).Minor }}/docs/'
     - name: Support
       url: 'https://www.entando.com/'
   icon:
@@ -515,7 +515,7 @@ spec:
         displayName: EntandoDeBundle
         kind: EntandoDeBundle
         description: >-
-          The EntandoDeBundle custom resource defines a bundle that can be deployed to the Entando Component Repository. See [here](https://dev.entando.org/v6.3/tutorials/ecr/publish-simple-bundle.html#build-and-publish-a-simple-bundle) for instructions on creating and deploying bundles.
+          The EntandoDeBundle custom resource defines a bundle that can be deployed to the local Hub. See [here](https://developer.entando.com/v{{ (semver .Values.bundle.version).Major }}.{{ (semver .Values.bundle.version).Minor }}/docs/create/pb/publish-simple-bundle.html) for instructions on creating and deploying bundles.
         version: v1
         resources:
         specDescriptors: [ ]
