@@ -20,8 +20,8 @@ operator:
       sha256: 3bc6411823e01931328b4a696b9751750060af51577108bd628981ad71ba54ed
       version: 6.3.93-hotfix.1
     app_builder_6_4:
-      sha256: b09c3d47d667f0f58c1837e6427b37231f90a6c71b9e62c2bbc5c2633b9b3a55
-      version: 7.1.0
+      sha256: 5a57cf883e1fc9cccac3a8412cdcf36e7f83d9f71264f64b71882bd49a03dd26
+      version: 7.1.1
     busybox:
       sha256: 14d4f50961544fdb669075c442509f194bdc4c0e344bde06e35dbd55af842a38
       version: latest
