@@ -1,5 +1,5 @@
 bundle:
-  version: 7.1.1
+  version: 7.1.2
   olmDisabled: true
   communityOnly: true
   containerRegistry: registry.connect.redhat.com
@@ -20,8 +20,8 @@ operator:
       sha256: 3bc6411823e01931328b4a696b9751750060af51577108bd628981ad71ba54ed
       version: 6.3.93-hotfix.1
     app_builder_6_4:
-      sha256: 33ea636090352a919735aa44cc2aaf2c79e8cb15b19216574964ec41c98f5c58
-      version: 7.1.1
+      sha256: b0fb7d680eeebb87bfce7fababe04145f46308f028c70b2e2b516d4ccd859077
+      version: 7.1.2
     busybox:
       sha256: 14d4f50961544fdb669075c442509f194bdc4c0e344bde06e35dbd55af842a38
       version: latest
@@ -32,20 +32,20 @@ operator:
       sha256: d48eacfe8a123aefac60390b5417da1ec5aab0378c21fadb66b567adde01ce61
       version: 6.3.26-fix.1
     entando_component_manager_6_4:
-      sha256: 13d9ba8a9a3cb52f4f999ece27f3ba8470fabd77a8c31290b5fdcc615e1dff11
-      version: 7.1.1
+      sha256: c610d5f80c0a9cd7b6f4d2d511815b81113609bde4a7fbcd68e86924d73d9afc
+      version: 7.1.2
     entando_de_app_eap_6_3:
       sha256: 8b5657c42b435cb5e22d40b783a5c69afeb63d7c9d14b201ca16fce91f4c06f5
       version: 6.3.68-fix.3-ENG-3332-PR-335
     entando_de_app_eap_6_4:
-      sha256: 21c87b5f0069e38b864211427a39d6d135205d81e24371ddc987f50faa0c21b0
-      version: 7.1.1
+      sha256: 8955a39c57981179b1ace8ca7ebe38975aaed5fd9c21789ec3f898b4ef4d0041
+      version: 7.1.2
     entando_de_app_wildfly_6_3:
       sha256: 71c13bca21b52a8cbad26fe11dac6250a938d3d6fc5aecfe245d604bbc509914
       version: 6.3.68-fix.3-ENG-3332-PR-335
     entando_de_app_wildfly_6_4:
-      sha256: ee2966c9cc6fe3a258f8113af8801e830a0029181b23abebfc30cb8f16cdd14f
-      version: 7.1.1
+      sha256: 6e8c01964192881526369080ced2691a93a46e4410e344d1715a90cb64cb04db
+      version: 7.1.2
     entando_k8s_app_controller:
       sha256: cb26f9f1ab53401cc6a5ac7f5ba6e72ec27ec56e8357644262dabb20cc3c6566
       version: 7.1.1
@@ -74,8 +74,8 @@ operator:
       sha256: 1084d03bd9ecf2a720390b7e1543f60b43c4baa523b97a85e7e54590d81d2574
       version: 7.1.1
     entando_k8s_service:
-      sha256: df0473993a7eb6dd71fd06dcd3b31efebd470e9c9962fb2ccc85e6ee356de3cd
-      version: 7.1.1
+      sha256: f90e82c4625624a5af12c0522356daca5ffb91abd07c88bb81b2aa0e8d027fb2
+      version: 7.1.2
     entando_process_driven_plugin:
       sha256: 18db1afb892393c1dcf7c36e5a4bbd1d6bc60029014094178ce1acb5dd1f68a4
       version: 6.0.50-fix.1
