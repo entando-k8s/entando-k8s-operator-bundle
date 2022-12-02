@@ -1,74 +1,3 @@
-kind: ClusterRole
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: entando-crd-viewer
-  labels:
-    # Add these permissions to the "view" default role.
-    rbac.authorization.k8s.io/aggregate-to-view: "true"
-rules:
-  - apiGroups:
-      - apiextensions.k8s.io
-    resources:
-      - customresourcedefinitions
-    resourceNames:
-      - entandoapppluginlinks.entando.org
-      - entandoapps.entando.org
-      - entandodatabaseservices.entando.org
-      - entandodebundles.entando.org
-      - entandokeycloakservers.entando.org
-      - entandoplugins.entando.org
-      - providedcapabilities.entando.org
-    verbs:
-      - get
-
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: entando-crd-viewer
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: entando-crd-viewer
-subjects:
-  - kind: Group
-    name: system:serviceaccounts
-
----
-kind: ClusterRole
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: entando-editor
-  labels:
-    # Add these permissions to the "edit" default role.
-    rbac.authorization.k8s.io/aggregate-to-edit: "true"
-rules:
-  - apiGroups:
-      - entando.org
-    resources:
-      - "*"
-    verbs:
-      - "*"
-
----
-kind: ClusterRole
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: entando-viewer
-  labels:
-    # Add these permissions to the "view" default role.
-    rbac.authorization.k8s.io/aggregate-to-view: "true"
-rules:
-  - apiGroups:
-      - entando.org
-    resources:
-      - "*"
-    verbs:
-      - "get"
-      - "list"
-      - "watch"
-
----
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -203,7 +132,7 @@ spec:
                     The database management system (DBMS) to use for persistence of this EntandoApp. 
                     Can be any of mysql, oracle  postgresql, embedded or none. Only 1 replica of the container is supported if embedded is selected. If Oracle is selected it must be created manually, the operator does not deploy Oracle instances.
 
-                    See [here] (https://dev.entando.org/v6.3/docs/concepts/operator-intro.html#database-deployment) for how the operator will create and configure the DBMS.
+                    See [here] (https://developer.entando.com/next/docs/consume/operator-intro.html#database-deployment) for how the operator will create and configure the DBMS.
                   type: string
                   pattern: '^(mysql|oracle|postgresql|embedded|none)$'
                 storageClass:
@@ -217,7 +146,7 @@ spec:
                     path specified in 'EntandoApp.spec.ingressPath' on
                     this host. If omitted, the Entando Operator will automatically generate a hostname.
 
-                    See [here] (https://dev.entando.org/v6.3/docs/concepts/operator-intro.html#ingress-path-generation) for how the operator will create and configure the Ingress.
+                    See [here] (https://developer.entando.com/next/docs/consume/operator-intro.html#ingress-path-generation) for how the operator will create and configure the Ingress.
                   type: string
                   pattern: '^([A-Za-z0-9-]{1,63}\.)*[[A-Za-z0-9-]{1,63}$'
                 ingressPath:
@@ -231,7 +160,7 @@ spec:
                 tlsSecretName:
                   description: >
                     The name of a standard Kubernetes TLS Secret, assumed to be in the same Namespace as the EntandoApp being created.
-                    See [here](https://dev.entando.org/v6.3/docs/concepts/operator-intro.html#tls-secret-creation) for details and instructions on
+                    See [here](https://developer.entando.com/next/docs/consume/operator-intro.html#tls-secret-creation) for details and instructions on
                     creating a secret for your Entando applications.
                   type: string
                   pattern: '^([a-z])+([a-z0-9-\.])*[a-z0-9]$'
@@ -471,6 +400,43 @@ spec:
   scope: Namespaced
 
 ---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: entando-crd-viewer
+  labels:
+    # Add these permissions to the "view" default role.
+    rbac.authorization.k8s.io/aggregate-to-view: "true"
+rules:
+  - apiGroups:
+      - apiextensions.k8s.io
+    resources:
+      - customresourcedefinitions
+    resourceNames:
+      - entandoapppluginlinks.entando.org
+      - entandoapps.entando.org
+      - entandodatabaseservices.entando.org
+      - entandodebundles.entando.org
+      - entandokeycloakservers.entando.org
+      - entandoplugins.entando.org
+      - providedcapabilities.entando.org
+    verbs:
+      - get
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: entando-crd-viewer
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: entando-crd-viewer
+subjects:
+  - kind: Group
+    name: system:serviceaccounts
+
+---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -520,7 +486,7 @@ spec:
                     The database management system (DBMS) to make available as a Kubernetes Service.
                     Can be oracle, mysql or postgresql. Only 1 replica of the container is supported if embedded is selected. If
                     Oracle is selected it must be created manually, the operator does not deploy Oracle instances.
-                    See [here](https://dev.entando.org/v6.3/docs/concepts/operator-intro.html#database-deployment) for how the operator will create and configure the DBMS.
+                    See [here](https://developer.entando.com/next/docs/consume/operator-intro.html#database-deployment) for how the operator will create and configure the DBMS.
                   type: string
                   pattern: ^(mysql|oracle|postgresql)$
                 storageClass:
@@ -863,6 +829,22 @@ spec:
                   x-kubernetes-preserve-unknown-fields: true
 
 ---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: entando-editor
+  labels:
+    # Add these permissions to the "edit" default role.
+    rbac.authorization.k8s.io/aggregate-to-edit: "true"
+rules:
+  - apiGroups:
+      - entando.org
+    resources:
+      - "*"
+    verbs:
+      - "*"
+
+---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -924,7 +906,7 @@ spec:
 
                      Only 1 replica of the container is supported if embedded is selected. If
                      Oracle is selected it must be created manually, the operator does not deploy Oracle instances.
-                     See [here](https://dev.entando.org/v6.3/docs/concepts/operator-intro.html#database-deployment) for how the operator will create and configure the DBMS.
+                     See [here](https://developer.entando.com/next/docs/consume/operator-intro.html#database-deployment) for how the operator will create and configure the DBMS.
                   type: string
                   pattern: ^(mysql|oracle|postgresql|embedded|none)$
                 storageClass:
@@ -939,7 +921,7 @@ spec:
                     Keycloak on the '/auth' path on this host. If omitted, the operator will generate a default host
                     path.
 
-                    See [here] (https://dev.entando.org/v6.3/docs/concepts/operator-intro.html#ingress-path-generation) for how the operator will create and configure the Ingress.
+                    See [here] (https://developer.entando.com/next/docs/consume/operator-intro.html#ingress-path-generation) for how the operator will create and configure the Ingress.
 
                   type: string
                   pattern: '^([A-Za-z0-9-]{1,63}\.)*[[A-Za-z0-9-]{1,63}$'
@@ -947,7 +929,7 @@ spec:
                   description: >
                     The name of a standard Kubernetes TLS Secret, assumed to be
                     in the same Namespace as the EntandoKeycloakServer being
-                    created. See (here) [https://dev.entando.org/v6.3/docs/concepts/operator-intro.html#tls-secret-creation] for details and instructions on
+                    created. See (here) [https://developer.entando.com/next/docs/consume/operator-intro.html#tls-secret-creation] for details and instructions on
                     creating a secret for your Entando applications.
 
                   type: string
@@ -1273,7 +1255,7 @@ spec:
                     postgresql, embedded or none.
                     Only 1 replica of the container is supported if embedded is selected. If
                     Oracle is selected it must be created manually, the operator does not deploy Oracle instances.
-                    See [here] (https://dev.entando.org/v6.3/docs/concepts/operator-intro.html#database-deployment) for how the operator will create and configure the DBMS.
+                    See [here] (https://developer.entando.com/next/docs/consume/operator-intro.html#database-deployment) for how the operator will create and configure the DBMS.
                   type: string
                   pattern: '^(mysql|oracle|postgresql|embedded|none)$'
                 storageClass:
@@ -1299,8 +1281,8 @@ spec:
                   type: string
                 customIngressPath:
                   description: >
-                    An optional custom path that will be used to expose this EntandoPlugin microservice on the ingress host
-                    specified in 'EntandoPlugin.spec.ingressHostname'.
+                    An optional custom path that will be used to expose this EntandoPlugin microservice on the ingress
+                    host specified in 'EntandoPlugin.spec.ingressHostname'.
                   type: string
                 tlsSecretName:
                   description: >
@@ -1579,6 +1561,24 @@ spec:
   scope: Namespaced
 
 ---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: entando-viewer
+  labels:
+    # Add these permissions to the "view" default role.
+    rbac.authorization.k8s.io/aggregate-to-view: "true"
+rules:
+  - apiGroups:
+      - entando.org
+    resources:
+      - "*"
+    verbs:
+      - "get"
+      - "list"
+      - "watch"
+
+---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -1749,6 +1749,15 @@ spec:
 
 ---
 ---
+# Source: entando-k8s-operator-bundle/charts/operator/templates/operator-serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: entando-operator
+imagePullSecrets:
+  - name: redhat-registry
+  - name: entando-pull-secret
+---
 # Source: entando-k8s-operator-bundle/charts/operator/templates/entando-empty-tls-secret.yaml
 apiVersion: v1
 stringData:
@@ -1758,7 +1767,6 @@ kind: Secret
 metadata:
   name: entando-empty-tls-secret
 type: kubernetes.io/tls
-
 ---
 # Source: entando-k8s-operator-bundle/charts/operator/templates/docker-image-info-configmap.yaml
 apiVersion: v1
@@ -1769,7 +1777,7 @@ data:
   app-builder-6-3: >-
     {"version":"6.3.93-hotfix.1","executable-type":"n/a","registry":"registry.hub.docker.com","organization":"entando","repository":"app-builder"}
   app-builder-6-4: >-
-    {"version":"7.0.2","executable-type":"n/a","registry":"registry.hub.docker.com","organization":"entando","repository":"app-builder"}
+    {"version":"7.1.2","executable-type":"n/a","registry":"registry.hub.docker.com","organization":"entando","repository":"app-builder"}
   busybox: >-
     {"version":"latest","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
   entando-avatar-plugin: >-
@@ -1777,35 +1785,35 @@ data:
   entando-component-manager-6-3: >-
     {"version":"6.3.26-fix.1","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-component-manager"}
   entando-component-manager-6-4: >-
-    {"version":"7.0.2","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-component-manager"}
+    {"version":"7.1.2","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-component-manager"}
   entando-de-app-eap-6-3: >-
     {"version":"6.3.68-fix.3-ENG-3332-PR-335","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-de-app-eap"}
   entando-de-app-eap-6-4: >-
-    {"version":"7.0.2","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-de-app-eap"}
+    {"version":"7.1.2","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-de-app-eap"}
   entando-de-app-wildfly-6-3: >-
     {"version":"6.3.68-fix.3-ENG-3332-PR-335","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-de-app-wildfly"}
   entando-de-app-wildfly-6-4: >-
-    {"version":"7.0.2","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-de-app-wildfly"}
+    {"version":"7.1.2","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-de-app-wildfly"}
   entando-k8s-app-controller: >-
-    {"version":"7.0.2","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
+    {"version":"7.1.1","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
   entando-k8s-app-plugin-link-controller: >-
-    {"version":"7.0.2","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
+    {"version":"7.1.0","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
   entando-k8s-database-service-controller: >-
-    {"version":"7.0.2","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
+    {"version":"7.1.0","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
   entando-k8s-dbjob: >-
-    {"version":"7.0.2","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
+    {"version":"7.1.0","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
   entando-k8s-keycloak-controller: >-
-    {"version":"7.0.2","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
+    {"version":"7.1.1","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
   entando-k8s-plugin-controller: >-
-    {"version":"7.0.2","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
+    {"version":"7.1.1","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
   entando-k8s-service: >-
-    {"version":"7.0.2","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
+    {"version":"7.1.2","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
   entando-keycloak: >-
-    {"version":"7.0.1","executable-type":"","registry":"registry.hub.docker.com","organization":"entando"}
+    {"version":"7.1.1","executable-type":"","registry":"registry.hub.docker.com","organization":"entando"}
   entando-process-driven-plugin: >-
     {"version":"6.0.50-fix.1","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
   entando-redhat-sso: >-
-    {"version":"7.0.0","executable-type":"","registry":"registry.hub.docker.com","organization":"entando"}
+    {"version":"7.1.1","executable-type":"","registry":"registry.hub.docker.com","organization":"entando"}
   mysql-80-centos7: >-
     {"version":"8.0.28","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-mysql-rocky"}
   postgresql-12-centos7: >-
@@ -1814,20 +1822,8 @@ data:
     {"version":"8.0.28","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando",,"repository":"entando-mysql-ubi"}
   rhel8-postgresql-12: >-
     {"version":"14.1.0","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-postgres-ubi"}
-
----
-# Source: entando-k8s-operator-bundle/charts/operator/templates/operator-serviceaccount.yaml
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: entando-operator
-imagePullSecrets:
-  - name: redhat-registry
-  - name: entando-pull-secret
-
 ---
 # Source: entando-k8s-operator-bundle/charts/operator/templates/operator-clusterrole.yaml
-
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -1911,10 +1907,8 @@ rules:
       - "routes/custom-host"
     verbs:
       - "*"
-
 ---
 # Source: entando-k8s-operator-bundle/charts/operator/templates/operator-clusterrolebinding.yaml
-
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
@@ -2004,7 +1998,6 @@ rules:
       - "routes/custom-host"
     verbs:
       - "*"
-
 ---
 # Source: entando-k8s-operator-bundle/charts/operator/templates/operator-rolebinding.yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -2018,7 +2011,6 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: entando-operator
-
 ---
 # Source: entando-k8s-operator-bundle/charts/operator/templates/entando-k8s-service-service.yaml
 kind: Service
@@ -2033,7 +2025,6 @@ spec:
       targetPort: 8084
   selector:
     deployment: entando-k8s-service
-
 ---
 # Source: entando-k8s-operator-bundle/templates/entando-k8s-service-service.yaml
 kind: Service
@@ -2048,7 +2039,6 @@ spec:
       targetPort: 8084
   selector:
     deployment: entando-k8s-service
-
 ---
 # Source: entando-k8s-operator-bundle/charts/operator/templates/deployment.yaml
 apiVersion: "apps/v1"
@@ -2069,7 +2059,7 @@ spec:
       volumes:
       containers:
         - name: operator
-          image: "entando/entando-k8s-controller-coordinator:7.0.2"
+          image: "entando/entando-k8s-controller-coordinator:7.1.1"
           imagePullPolicy: Always
           volumeMounts:
           env:
@@ -2126,8 +2116,7 @@ spec:
             timeoutSeconds: 3
           resources:
             null
-          terminationGracePeriodSeconds: 
-
+          terminationGracePeriodSeconds:
 ---
 # Source: entando-k8s-operator-bundle/charts/operator/templates/entando-k8s-service-deployment.yaml
 kind: Deployment
@@ -2197,43 +2186,5 @@ spec:
             failureThreshold: 1
             timeoutSeconds: 1
           image: >-
-            docker.io/entando/entando-k8s-service:7.0.2
+            docker.io/entando/entando-k8s-service:7.1.2
       serviceAccount: entando-operator
-
----
-# Source: entando-k8s-operator-bundle/charts/operator/templates/default-pod-viewer-rolebinding.yaml
-
----
-# Source: entando-k8s-operator-bundle/charts/operator/templates/entando-editor-clusterrole.yaml
-
----
-# Source: entando-k8s-operator-bundle/charts/operator/templates/ingress-viewer-clusterrole.yaml
-
----
-# Source: entando-k8s-operator-bundle/charts/operator/templates/plugin-role.yaml
-
-
----
-# Source: entando-k8s-operator-bundle/charts/operator/templates/plugin-rolebinding.yaml
-
-
----
-# Source: entando-k8s-operator-bundle/charts/operator/templates/plugin-serviceaccount.yaml
-
-
----
-# Source: entando-k8s-operator-bundle/charts/operator/templates/pod-viewer-clusterrole.yaml
-
----
-# Source: entando-k8s-operator-bundle/charts/operator/templates/pod-viewer-role.yaml
-
----
-# Source: entando-k8s-operator-bundle/templates/docker-image-info-configmap.yaml
-
----
-# Source: entando-k8s-operator-bundle/templates/entando-empty-tls-secret.yaml
-
----
-# Source: entando-k8s-operator-bundle/templates/entando-k8s-operator.v6.3.x.clusterserviceversion.yaml
-
-

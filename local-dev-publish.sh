@@ -45,9 +45,10 @@ export PREVIOUS_VERSIONS=()
 for V in ${PREVIOUS_VERSIONS[@]}; do
   BUNDLES="${BUNDLES}${REGISTRY}/${REGISTRY_ORG}/entando-k8s-operator-bundle:${V},"
 done
-BUNDLES="${BUNDLES}${REGISTRY}/${REGISTRY_ORG}/entando-k8s-operator-bundle:${MY_VERSION}"
+NEW_BUNDLE_BASE_IMAGE="${BUNDLES}${REGISTRY}/${REGISTRY_ORG}/entando-k8s-operator-bundle"
+NEW_BUNDLE_BASE_IMAGE="$($OPM_CONTAINER_TOOL inspect --format='{{index .RepoDigests 0}}' "${NEW_BUNDLE_BASE_IMAGE}:${MY_VERSION}")"
+BUNDLES="${BUNDLES}${NEW_BUNDLE_BASE_IMAGE}"
 echo "$BUNDLES"
-
 
 echo "> Build operator bundle image"
 docker build . -f "Dockerfile.community" -t "${REGISTRY}/$REGISTRY_ORG/entando-k8s-operator-bundle:${MY_VERSION}"
@@ -77,7 +78,7 @@ mkdir -p tmp
 
 echo "> Generating catalog source under ./tmp/catalog-source.yaml"
 
-MY_STABLE_VERSION="$(echo "$MY_VERSION" | sed -E 's/([^.]*\.[^.]\.[^.])*\.[^-]*/\1/')"
+MY_STABLE_VERSION="$(echo "$MY_VERSION" | sed -E 's/([^.]*\.[^.]*\.[^.]*).*\.[^-]*/\1/')"
 SHA="$(retrieveSha256 "$INDEX_URL")"
 echo "  found sha $SHA"
 
