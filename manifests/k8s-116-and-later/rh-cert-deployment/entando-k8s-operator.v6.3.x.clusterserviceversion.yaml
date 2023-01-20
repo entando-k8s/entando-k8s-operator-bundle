@@ -3,7 +3,7 @@
 apiVersion: operators.coreos.com/v1alpha1
 kind: ClusterServiceVersion
 metadata:
-  name: entando-k8s-operator.v7.1.3
+  name: entando-k8s-operator.v7.1.4
   namespace: placeholder
   annotations:
     alm-examples: >-
@@ -22,14 +22,14 @@ metadata:
     description: >-
       Processes EntandoKeycloakServer, EntandoApp and EntandoPlugin custom
       resources and deploys the relevant containers in the Kubernetes cluster.
-    containerImage: registry.hub.docker.com/entando/entando-k8s-controller-coordinator@sha256:1040049faeb21a05971e328de3660a744980ddab9705744dc0a32e1e66f3251f
+    containerImage: registry.hub.docker.com/entando/entando-k8s-controller-coordinator@sha256:982104a54919363159f8995d6f75b7fd419a8baef0afe2dc887ed3d653282d4a
     support: ''
     capabilities: Basic Install
     repository: ''
 spec:
   displayName: Entando Operator
   maturity: alpha
-  version: 7.1.3
+  version: 7.1.4
   skips: []
   description: >
     ## Entando
@@ -724,7 +724,7 @@ spec:
                 imagePullSecrets:
                   - name: entando-pull-secret
                 containers:
-                  - image: registry.hub.docker.com/entando/entando-k8s-controller-coordinator@sha256:1040049faeb21a05971e328de3660a744980ddab9705744dc0a32e1e66f3251f
+                  - image: registry.hub.docker.com/entando/entando-k8s-controller-coordinator@sha256:982104a54919363159f8995d6f75b7fd419a8baef0afe2dc887ed3d653282d4a
                     imagePullPolicy: IfNotPresent
                     name: entando-operator
                     resources:
@@ -752,7 +752,7 @@ spec:
                       - name: ENTANDO_DISABLE_KEYCLOAK_SSL_REQUIREMENT
                         value: "true"
                       - name: ENTANDO_K8S_OPERATOR_VERSION
-                        value: 7.1.3
+                        value: 7.1.4
                       - name: ENTANDO_K8S_OPERATOR_DEPLOYMENT_TYPE
                         value: olm
                       - name: OPERATOR_NAME

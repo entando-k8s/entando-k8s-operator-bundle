@@ -2033,7 +2033,7 @@ spec:
       volumes:
       containers:
         - name: operator
-          image: "entando/entando-k8s-controller-coordinator:7.1.1"
+          image: "entando/entando-k8s-controller-coordinator:7.1.4-ENG-4491-PR-123"
           imagePullPolicy: Always
           volumeMounts:
           env:
@@ -2092,7 +2092,6 @@ spec:
             timeoutSeconds: 3
           resources:
             null
-          terminationGracePeriodSeconds:
 ---
 # Source: entando-k8s-operator-bundle/charts/operator/templates/entando-k8s-service-deployment.yaml
 kind: Deployment
