@@ -1,5 +1,5 @@
 bundle:
-  version: 7.1.3
+  version: 7.1.4
   olmDisabled: true
   communityOnly: true
   containerRegistry: registry.connect.redhat.com
@@ -59,8 +59,8 @@ operator:
       sha256: 4bc6797bb41b3e407b64530c3cff7a78f3fc2c22863caad9c606ccd650310b61
       version: 6.3.11
     entando_k8s_controller_coordinator:
-      sha256: 1040049faeb21a05971e328de3660a744980ddab9705744dc0a32e1e66f3251f
-      version: 7.1.1
+      sha256: 982104a54919363159f8995d6f75b7fd419a8baef0afe2dc887ed3d653282d4a
+      version: 7.1.4-ENG-4491-PR-123
     entando_k8s_database_service_controller:
       sha256: 5366bc2d847ca6a4d68eaa516082991a6b4affc802d5b8ea5a0a33bfbdc8aa68
       version: 7.1.1
