@@ -1,0 +1,13 @@
+name: RELEASE
+
+on:
+  workflow_dispatch:
+
+jobs:
+  download-operator-bundle:
+    name: Download entando-k8s-operator-bundle
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+          ref: develop
