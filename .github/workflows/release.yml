@@ -3,10 +3,10 @@ name: RELEASE
 on:
   workflow_dispatch:
     inputs:
-      - name: param1
+      param1:
         description: 'The first parameter'
         required: true
-      - name: param2
+      param2:
         description: 'The second parameter'
         required: false
 
@@ -22,5 +22,5 @@ jobs:
     - name: Run script
       run: |
         echo "Running script..."
-        echo "Param1 value: ${{ inputs.param1 }}"
-        echo "Param2 value: ${{ inputs.param2 }}"
+        echo "Param1 value: ${{ github.event.inputs.param1 }}"
+        echo "Param2 value: ${{ github.event.inputs.param2 }}"
