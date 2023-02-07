@@ -3,12 +3,168 @@ name: RELEASE
 on:
   workflow_dispatch:
     inputs:
-      param1:
-        description: 'The first parameter'
+      rhel8_mysql_80_sha256:
         required: true
-      param2:
-        description: 'The second parameter'
-        required: false
+        default: '1def587ff04c2a7736bcd4764c1fb50b0613aa915a3e7aeec5087e2a546275c7'
+      rhel8_mysql_80_version:
+        required: true
+        default: '8.0.29'
+      rhel8_postgresql_12_sha256:
+        required: true
+        default: '5da64777195aba69c4d5cfaa27a87d376d43c9fb5c0e25afa985c41ea356b050'
+      rhel8_postgresql_12_version:
+        required: true
+        default: '14.1.0'
+      app_builder_6_3_sha256:
+        required: true
+        default: '3bc6411823e01931328b4a696b9751750060af51577108bd628981ad71ba54ed'
+      app_builder_6_3_version: 
+        required: true
+        default: '6.3.93-hotfix.1'
+      app_builder_6_4_sha256:
+        required: true
+        default: 'cfaba3e6e385c2d7e2fc08a9092f05aa665d45d19d4fcbdea31579b43fa2e46d'
+      app_builder_6_4_version:
+        required: true
+        default: '7.1.3'
+      busybox_sha256:
+        required: true
+        default: '14d4f50961544fdb669075c442509f194bdc4c0e344bde06e35dbd55af842a38'
+      busybox_version:
+        required: true
+        default: 'latest'
+      entando_avatar_plugin_sha256:
+        required: true
+        default: '3ff5425ca1b27c609614879bf1c8a25df4e6c0c560caa683d272eccd6090cee6'
+      entando_avatar_plugin_version:
+        required: true
+        default: '6.0.5'
+      entando_component_manager_6_3_sha256:
+        required: true
+        default: 'd48eacfe8a123aefac60390b5417da1ec5aab0378c21fadb66b567adde01ce61'
+      entando_component_manager_6_3_version:
+        required: true
+        default: '6.3.26-fix.1'
+      entando_component_manager_6_4_sha256:
+        required: true
+        default: 'c5c79ee993b21074afe8e6db6fab2e83a122cdad34d76c8ada2013dbc945dc02'
+      entando_component_manager_6_4_version:
+        required: true
+        default: '7.1.3'
+      entando_de_app_eap_6_3_sha256:
+        required: true
+        default: '8b5657c42b435cb5e22d40b783a5c69afeb63d7c9d14b201ca16fce91f4c06f5'
+      entando_de_app_eap_6_3_version:
+        required: true
+        default: '6.3.68-fix.3-ENG-3332-PR-335'
+      entando_de_app_eap_6_4_sha256:
+        required: true
+        default: '0b4c4b64141b34315c6cac4af44693c22c7e7a79c1936ae7c48c3559f119befc'
+      entando_de_app_eap_6_4_version:
+        required: true
+        default: '7.1.3'
+      entando_de_app_wildfly_6_3_sha256:
+        required: true
+        default: '71c13bca21b52a8cbad26fe11dac6250a938d3d6fc5aecfe245d604bbc509914'
+      entando_de_app_wildfly_6_3_version:
+        required: true
+        default: '6.3.68-fix.3-ENG-3332-PR-335'
+      entando_de_app_wildfly_6_4_sha256:
+        required: true
+        default: '84ad92ee2b9f9c67a74ac82eb2a95493e6b16207916ffc3ca0c44d52b10d7de2'
+      entando_de_app_wildfly_6_4_version:
+        required: true
+        default: '7.1.3'
+      entando_k8s_app_controller_sha256:
+        required: true
+        default: '596b9959e23d3cc46a804f06cb981ff877d612677f1c231b38d85a7d011681a2'
+      entando_k8s_app_controller_version:
+        required: true
+        default: '7.1.3'
+      entando_k8s_app_plugin_link_controller_sha256:
+        required: true
+        default: 'd9e9cdcbf2abec4b0d1253955d4dffd01de284d32f40ac42ec18aa3e94e32db4'
+      entando_k8s_app_plugin_link_controller_version:
+        required: true
+        default: '7.1.0'
+      entando_k8s_cluster_infrastructure_controller_sha256:
+        required: true
+        default: '86dbea6696349d7b2393e12bacef4d1acec2dd3f8551e397fa26c92706a18dd3'
+      entando_k8s_cluster_infrastructure_controller_version:
+        required: true
+        default: '6.3.7'
+      entando_k8s_composite_app_controller_sha256:
+        required: true
+        default: '4bc6797bb41b3e407b64530c3cff7a78f3fc2c22863caad9c606ccd650310b61'
+      entando_k8s_composite_app_controller_version:
+        required: true
+        default: '6.3.11'
+      entando_k8s_controller_coordinator_sha256:
+        required: true
+        default: '1040049faeb21a05971e328de3660a744980ddab9705744dc0a32e1e66f3251f'
+      entando_k8s_controller_coordinator_version:
+        required: true
+        default: '7.1.1'
+      entando_k8s_database_service_controller_sha256:
+        required: true
+        default: '5366bc2d847ca6a4d68eaa516082991a6b4affc802d5b8ea5a0a33bfbdc8aa68'
+      entando_k8s_database_service_controller_version:
+        required: true
+        default: '7.1.1'
+      entando_k8s_dbjob_sha256:
+        required: true
+        default: 'd05ee184e833fd7e614c62700ae6816a29da8f70ec836c84f96c2a00a791a29a'
+      entando_k8s_dbjob_version:
+        required: true
+        default: '7.1.1'
+      entando_k8s_keycloak_controller_sha256:
+        required: true
+        default: '9d6c62787a6eeb1000e0ddec5a35e327a175a67e5126f18e18b3e0b629094404'
+      entando_k8s_keycloak_controller_version:
+        required: true
+        default: '7.1.1'
+      entando_k8s_plugin_controller_sha256:
+        required: true
+        default: '1084d03bd9ecf2a720390b7e1543f60b43c4baa523b97a85e7e54590d81d2574'
+      entando_k8s_plugin_controller_version:
+        required: true
+        default: '7.1.1'
+      entando_k8s_service_sha256:
+        required: true
+        default: 'f90e82c4625624a5af12c0522356daca5ffb91abd07c88bb81b2aa0e8d027fb2'
+      entando_k8s_service_version:
+        required: true
+        default: '7.1.2'
+      entando_process_driven_plugin_sha256:
+        required: true
+        default: '18db1afb892393c1dcf7c36e5a4bbd1d6bc60029014094178ce1acb5dd1f68a4'
+      entando_process_driven_plugin_version:
+        required: true
+        default: '6.0.50-fix.1'
+      entando_keycloak_sha256:
+        required: true
+        default: '4b5b81a6f233e070a747541ec1fa30cdaeca78feefa1542cb117aaaf2079863c'
+      entando_keycloak_version:
+        required: true
+        default: '7.1.1'
+      entando_redhat_sso_sha256:
+        required: true
+        default: 'b5afae1e933d432ccab84e31a9140f8fd2a51517b95a3a373a29bbe88a62d900'
+      entando_redhat_sso_version:
+        required: true
+        default: '7.1.1'
+      mysql_80_centos7_sha256:
+        required: true
+        default: '62c60139c609d69d135815e6ab59cc73933ef476aafbf51d2bdedaed3b950147'
+      mysql_80_centos7_version:
+        required: true
+        default: '8.0.29'
+      postgresql_12_centos7_sha256:
+        required: true
+        default: '62c4a020c772a0107b1d64302e3022ea413dbeba72b061acae41f98f4230337f'
+      postgresql_12_centos7_version:
+        required: true
+        default: '14.1.0'
 
 jobs:
   download-operator-bundle:
