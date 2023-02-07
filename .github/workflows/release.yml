@@ -15,8 +15,8 @@ jobs:
           ref: develop
     - name: Echo payload
       run: |
-        echo ${{ github.event.client_payload }}
+        echo ${{ toJson(github.event.client_payload) }}
     - name: Run script
       run: |
-        echo "rhel8_mysql_80. sha = ${{ github.event.payload.relatedImages.rhel8_mysql_80.sha }}, version = ${{ github.event.payload.relatedImages.rhel8_mysql_80.version }}"
-        echo "rhel8_mysql_80. sha = ${{ github.event.payload.relatedImages.rhel8_postgresql_12.sha }}, version = ${{ github.event.payload.relatedImages.rhel8_postgresql_12.version }}"
+        echo "rhel8_mysql_80: sha = ${{ github.event.client_payload.relatedImages.rhel8_mysql_80.sha }}, version = ${{ github.event.client_payload.relatedImages.rhel8_mysql_80.version }}"
+        echo "rhel8_postgresql_12: sha = ${{ github.event.client_payload.relatedImages.rhel8_postgresql_12.sha }}, version = ${{ github.event.client_payload.relatedImages.rhel8_postgresql_12.version }}"
