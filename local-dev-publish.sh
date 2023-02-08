@@ -41,14 +41,11 @@ echo "> Found version $MY_VERSION"
 [ -z "$REGISTRY_ORG" ] && REGISTRY_ORG="entandobuilduser"
 [ -z "$OPM_CONTAINER_TOOL" ] && OPM_CONTAINER_TOOL="docker"
 
-export PREVIOUS_VERSIONS=()
-for V in ${PREVIOUS_VERSIONS[@]}; do
-  BUNDLES="${BUNDLES}${REGISTRY}/${REGISTRY_ORG}/entando-k8s-operator-bundle:${V},"
-done
-NEW_BUNDLE_BASE_IMAGE="${BUNDLES}${REGISTRY}/${REGISTRY_ORG}/entando-k8s-operator-bundle"
-NEW_BUNDLE_BASE_IMAGE="$($OPM_CONTAINER_TOOL inspect --format='{{index .RepoDigests 0}}' "${NEW_BUNDLE_BASE_IMAGE}:${MY_VERSION}")"
-BUNDLES="${BUNDLES}${NEW_BUNDLE_BASE_IMAGE}"
-echo "$BUNDLES"
+#export PREVIOUS_VERSIONS=()
+#for V in ${PREVIOUS_VERSIONS[@]}; do
+#  BUNDLES="${BUNDLES}${REGISTRY}/${REGISTRY_ORG}/entando-k8s-operator-bundle:${V},"
+#done
+
 
 echo "> Build operator bundle image"
 docker build . -f "Dockerfile.community" -t "${REGISTRY}/$REGISTRY_ORG/entando-k8s-operator-bundle:${MY_VERSION}"
@@ -60,6 +57,11 @@ operator-sdk bundle validate "${REGISTRY}/${REGISTRY_ORG}/entando-k8s-operator-b
 
 echo "> Build operator index image"
 INDEX_URL="${REGISTRY}/${REGISTRY_ORG}/entando-k8s-index:${MY_VERSION}"
+
+NEW_BUNDLE_BASE_IMAGE="${BUNDLES}${REGISTRY}/${REGISTRY_ORG}/entando-k8s-operator-bundle"
+NEW_BUNDLE_BASE_IMAGE="$($OPM_CONTAINER_TOOL inspect --format='{{index .RepoDigests 0}}' "${NEW_BUNDLE_BASE_IMAGE}:${MY_VERSION}")"
+BUNDLES="${BUNDLES}${NEW_BUNDLE_BASE_IMAGE}"
+echo "$BUNDLES"
 
 opm index add \
   --bundles "${BUNDLES}" \
