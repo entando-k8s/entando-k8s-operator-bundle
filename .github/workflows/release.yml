@@ -48,8 +48,7 @@ jobs:
           ref: develop
     - name: Create release branch
       run: |
-        ls -la
-        checkout -b ${{ github.event.client_payload.releaseTag }}"
+        git checkout -b ${{ github.event.client_payload.releaseTag }}"
         cat values.yaml
     - name: Overide values.yaml with what came in the client_payload
       run: |
