@@ -20,8 +20,8 @@ operator:
       sha256: 3bc6411823e01931328b4a696b9751750060af51577108bd628981ad71ba54ed
       version: 6.3.93-hotfix.1
     app_builder_6_4:
-      sha256: cfaba3e6e385c2d7e2fc08a9092f05aa665d45d19d4fcbdea31579b43fa2e46d
-      version: 7.1.3
+      sha256: c193874c7d99d27b5710cfe637dc1bde9e6ea1d128a1df22d209ce0c1ef18558
+      version: 7.1.4
     busybox:
       sha256: 14d4f50961544fdb669075c442509f194bdc4c0e344bde06e35dbd55af842a38
       version: latest
@@ -38,13 +38,13 @@ operator:
       sha256: 8b5657c42b435cb5e22d40b783a5c69afeb63d7c9d14b201ca16fce91f4c06f5
       version: 6.3.68-fix.3-ENG-3332-PR-335
     entando_de_app_eap_6_4:
-      sha256: b4d68bd8d841eaac360a5ecbeea591bf9b54686c622c2ca7e4723cd293edaeb5
+      sha256: a65a290c393ad4326ad644f9ca9d81c82894671124c9fed3094487636e3c50bd
       version: 7.1.4
     entando_de_app_wildfly_6_3:
       sha256: 71c13bca21b52a8cbad26fe11dac6250a938d3d6fc5aecfe245d604bbc509914
       version: 6.3.68-fix.3-ENG-3332-PR-335
     entando_de_app_wildfly_6_4:
-      sha256: 9455e893dbaad4985474a10237e10461a5f150e304d3395d50a23908f8f3437f
+      sha256: fbe3839d7730f1045551b20ea7c45732c202a33347317608628dddbd4f57a378
       version: 7.1.4
     entando_k8s_app_controller:
       sha256: 596b9959e23d3cc46a804f06cb981ff877d612677f1c231b38d85a7d011681a2
