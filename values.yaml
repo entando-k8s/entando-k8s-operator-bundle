@@ -38,13 +38,13 @@ operator:
       sha256: 8b5657c42b435cb5e22d40b783a5c69afeb63d7c9d14b201ca16fce91f4c06f5
       version: 6.3.68-fix.3-ENG-3332-PR-335
     entando_de_app_eap_6_4:
-      sha256: a65a290c393ad4326ad644f9ca9d81c82894671124c9fed3094487636e3c50bd
+      sha256: 1a1ab9eea4d2fb27faa99becb065ab8eb791fb1222e3a136e7d8fd6fa25854cc
       version: 7.1.4
     entando_de_app_wildfly_6_3:
       sha256: 71c13bca21b52a8cbad26fe11dac6250a938d3d6fc5aecfe245d604bbc509914
       version: 6.3.68-fix.3-ENG-3332-PR-335
     entando_de_app_wildfly_6_4:
-      sha256: fbe3839d7730f1045551b20ea7c45732c202a33347317608628dddbd4f57a378
+      sha256: bcf0025eb29e7cc49d623570e13f70530d6aa8145163195a294d8366d182b084
       version: 7.1.4
     entando_k8s_app_controller:
       sha256: 596b9959e23d3cc46a804f06cb981ff877d612677f1c231b38d85a7d011681a2
