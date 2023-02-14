@@ -1,0 +1,133 @@
+name: Entando Release
+
+on:
+  repository_dispatch:
+    types: [entando-release]
+
+jobs:
+  update-operator-bundle-values:
+    name: Update values.yaml
+    runs-on: ubuntu-latest
+    env:
+      # URL of the DockerHub repositories configuration file
+      DOCKER_HUB_REPOS_CONFIG_URL: global-config/docker-hub-repositories.json
+      # Release tag specified in the repository_dispatch payload
+      RELEASE_TAG: ${{ github.event.client_payload.release_tag }}
+      # Release branch specified in the repository_dispatch payload
+      RELEASE_BRANCH: ${{ github.event.client_payload.release_branch }}
+      # GitHub token
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+    steps:
+    # Checkout the catalyst-infra-templates repository
+    - name: Checkout catalyst-infra-templates
+      uses: actions/checkout@v3
+      with:
+        repository: entando/catalyst-infra-templates
+        ref: IT-225-update-values-yaml-workflow
+        
+    # Load Docker Hub repositories configuration
+    - name: Load Docker Hub repositories
+      run: |
+        echo "DOCKER_HUB_REPOS=$(jq -c . < $DOCKER_HUB_REPOS_CONFIG_URL)" >> $GITHUB_ENV
+
+    # Checkout the entando-k8s-operator-bundle repository
+    - name: Checkout entando-k8s-operator-bundle
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        
+    # Validate the release tag and branch variables
+    - name: Validate payload
+      run: |
+        # Check if the release tag already exists
+        if [[ $(git tag -l $RELEASE_TAG) ]]
+        then
+            echo "::error :: Tag '$RELEASE_TAG' already exists"
+            exit 1
+        fi
+        
+        # Check if the release branch already exists
+        if [[ "$(git ls-remote | grep refs/heads/$RELEASE_BRANCH)" ]]
+        then
+            echo "::error :: Branch '$RELEASE_BRANCH' already exists"
+            exit 2
+        fi
+       
+    # Create the release branch
+    - name: Create release branch
+      run: |
+        git checkout -b $RELEASE_BRANCH
+        
+    # Update images versions and SHA digests in the values.yaml file
+    - name: Set images versions and sha
+      env: 
+        # Convert the client_payload JSON object to a string and set it as an environment variable
+        CLIENT_PAYLOAD: ${{ toJson(github.event.client_payload) }}
+      run: |
+        for IMAGE in $(echo "$CLIENT_PAYLOAD" | jq -c '.images[]'); do
+          IMAGE_NAME=$(echo $IMAGE | jq -r '.name')
+          NEW_VERSION=$(echo $IMAGE | jq -r '.version')
+          FOUND_IMAGE=false
+          FOUND_VERSION=false
+          for DOCKER_HUB_REPO in $(echo "$DOCKER_HUB_REPOS" | jq -c '.images[]'); do
+            REPO_NAME=$(echo $DOCKER_HUB_REPO | jq -r '.name')
+            REPO_NAMESPACE=$(echo $DOCKER_HUB_REPO | jq -r '.docker_hub_namespace')
+            REPO=$(echo $DOCKER_HUB_REPO | jq -r '.docker_hub_repository')
+            if [[ $IMAGE_NAME == $REPO_NAME ]]
+            then 
+              FOUND_IMAGE=true
+              BASE_URL="https://hub.docker.com/v2/namespaces/$REPO_NAMESPACE/repositories/$REPO/tags?name="$NEW_VERSION"&page_size=1000"
+              echo "Querying docker hub: $BASE_URL"
+              curl -X GET $BASE_URL > result.json
+              COUNT=$(jq .count result.json)
+              # Check if the Docker image version exists on Docker Hub
+              if [[ $COUNT > 0 ]]
+              then
+                for ((i=0;i<COUNT;i++)); do
+                  DOCKER_HUB_VERSION=$(jq .results[$i].name result.json)
+                  if [[ '"'$NEW_VERSION'"' == $DOCKER_HUB_VERSION ]]
+                  then
+                     FOUND_VERSION=true
+                     ORIGINAL_VERSION=$(yq ".operator.relatedImages.$IMAGE_NAME.version" values.yaml)
+                     ORIGINAL_SHA=$(yq ".operator.relatedImages.$IMAGE_NAME.sha256" values.yaml)
+                     SHA=$(jq .results[$i].images[0].digest result.json)
+                     SHA=${SHA//sha256:/}
+                     # Update the version and SHA digest of the Docker image in the values.yaml file
+                     yq -i ".operator.relatedImages.$IMAGE_NAME.version = $DOCKER_HUB_VERSION" values.yaml
+                     yq -i ".operator.relatedImages.$IMAGE_NAME.sha256 = $SHA" values.yaml
+                     # Print the original and updated version and SHA digest of the Docker image
+                     echo "Updating values.yaml"
+                     echo "Image name: $IMAGE_NAME"
+                     echo 'Original data: version="'$ORIGINAL_VERSION'", sha="'$ORIGINAL_SHA'"'
+                     echo 'New data: version="'$NEW_VERSION'", sha='$SHA
+                     echo ""
+                     break
+                  fi
+                done
+              fi
+              # If the Docker image version doesn't exist on Docker Hub, exit with an error
+              if [[ $FOUND_VERSION = false ]]
+              then
+                echo "::error :: Version '$NEW_VERSION' does not exist for '$IMAGE_NAME'"
+                exit 3
+              fi
+            fi
+          done
+          # If the Docker image doesn't exist in the Docker Hub repositories configuration, exit with an error
+          if [[ $FOUND_IMAGE = false ]]
+          then
+            echo "::error :: Image '$IMAGE_NAME' does not exist in '$DOCKER_HUB_REPOS_CONFIG_URL'"
+            exit 4
+          fi
+        done
+        
+    # Commit the changes to Git
+    - name: Commit in branch
+      run: |
+        git config --global user.name 'Entando GitHub Actions'
+        git config --global user.email 'github-actions@entando.com'
+        git remote set-url origin https://x-access-token:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY
+        git add values.yaml
+        git commit -m "Automated values.yaml update"
+        git push --set-upstream origin $RELEASE_BRANCH
