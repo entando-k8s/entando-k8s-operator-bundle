@@ -4,27 +4,43 @@ on:
   repository_dispatch:
     types: [entando-release]
 
+env:
+  # URL of the DockerHub repositories configuration file
+  DOCKER_HUB_REPOS_CONFIG_URL: global-config/docker-hub-repositories.json
+  # GitHub token
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  # Major release version specified in the repository_dispatch payload
+  MAJOR: ${{ github.event.client_payload.major }}
+  # Minor release version specified in the repository_dispatch payload
+  MINOR: ${{ github.event.client_payload.minor }}
+  # Patch release version specified in the repository_dispatch payload
+  PATCH: ${{ github.event.client_payload.patch }}
+  # Suffix release version specified in the repository_dispatch payload
+  SUFFIX: ${{ github.event.client_payload.suffix }}
+
+  # Auxiliary variables that are created based in the repository_dispatch payload
+  # Release version. Example: 7.1
+  RELEASE_VERSION: ${{ github.event.client_payload.major }}.${{ github.event.client_payload.minor }}
+  # Release version with patch. Example: 7.1.4
+  RELEASE_VERSION_PATCH: ${{ github.event.client_payload.major }}.${{ github.event.client_payload.minor }}.${{ github.event.client_payload.patch }}
+  # Base branch. Example: release/7.1
+  BASE_BRANCH: release/${{ github.event.client_payload.major }}.${{ github.event.client_payload.minor }}
+  # Release branch. Example: 7.1.4-rc2
+  RELEASE_BRANCH: ${{ github.event.client_payload.major }}.${{ github.event.client_payload.minor }}.${{ github.event.client_payload.patch }}${{ github.event.client_payload.suffix }}
+  # Release tag. Example: v7.1.4-rc2
+  RELEASE_TAG: v${{ github.event.client_payload.major }}.${{ github.event.client_payload.minor }}.${{ github.event.client_payload.patch }}${{ github.event.client_payload.suffix }}
+
 jobs:
   update-operator-bundle-values:
     name: Update values.yaml
     runs-on: ubuntu-latest
-    env:
-      # URL of the DockerHub repositories configuration file
-      DOCKER_HUB_REPOS_CONFIG_URL: global-config/docker-hub-repositories.json
-      # Release tag specified in the repository_dispatch payload
-      RELEASE_TAG: ${{ github.event.client_payload.release_tag }}
-      # Release branch specified in the repository_dispatch payload
-      RELEASE_BRANCH: ${{ github.event.client_payload.release_branch }}
-      # GitHub token
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
     steps:
+    
     # Checkout the catalyst-infra-templates repository
     - name: Checkout catalyst-infra-templates
       uses: actions/checkout@v3
       with:
         repository: entando/catalyst-infra-templates
-        ref: IT-225-update-values-yaml-workflow
         
     # Load Docker Hub repositories configuration
     - name: Load Docker Hub repositories
@@ -35,11 +51,13 @@ jobs:
     - name: Checkout entando-k8s-operator-bundle
       uses: actions/checkout@v3
       with:
+        ref: ${{ env.BASE_BRANCH }}
         fetch-depth: 0
         
     # Validate the release tag and branch variables
     - name: Validate payload
       run: |
+        echo "Checking if release tag: $RELEASE_TAG already exists"
         # Check if the release tag already exists
         if [[ $(git tag -l $RELEASE_TAG) ]]
         then
@@ -130,4 +148,31 @@ jobs:
         git remote set-url origin https://x-access-token:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY
         git add values.yaml
         git commit -m "Automated values.yaml update"
+        git push --set-upstream origin $RELEASE_BRANCH
+        
+  update-manifest-files:
+    name: Update manifest files
+    runs-on: ubuntu-latest
+    needs: update-operator-bundle-values
+    steps:
+    
+    # Checkout the entando-k8s-operator-bundle repository
+    - name: Checkout entando-k8s-operator-bundle
+      uses: actions/checkout@v3
+      with:
+        ref: ${{ env.RELEASE_BRANCH }}
+        
+    # Generating manifest files
+    - name: Run generate-manifest.sh
+      run: |
+        bash ./generate-manifests.sh --version "${{ env.RELEASE_VERSION_PATCH }}" --mainline "${{ env.RELEASE_VERSION }}"
+        
+    # Commit the changes to Git
+    - name: Commit in branch
+      run: |
+        git config --global user.name 'Entando GitHub Actions'
+        git config --global user.email 'github-actions@entando.com'
+        git remote set-url origin https://x-access-token:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY
+        git add -A
+        git commit -m "Automated manifest files update"
         git push --set-upstream origin $RELEASE_BRANCH
