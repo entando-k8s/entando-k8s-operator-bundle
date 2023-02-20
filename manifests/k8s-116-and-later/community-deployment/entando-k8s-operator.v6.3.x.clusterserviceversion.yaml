@@ -560,7 +560,7 @@ spec:
     - name: entando-de-app-eap-6-3 #6.3.68-fix.3-ENG-3332-PR-335
       image: registry.hub.docker.com/entando/entando-de-app-eap@sha256:8b5657c42b435cb5e22d40b783a5c69afeb63d7c9d14b201ca16fce91f4c06f5
     - name: entando-de-app-eap-6-4 #7.1.4
-      image: registry.hub.docker.com/entando/entando-de-app-eap@sha256:1a1ab9eea4d2fb27faa99becb065ab8eb791fb1222e3a136e7d8fd6fa25854cc
+      image: registry.hub.docker.com/entando/entando-de-app-eap@sha256:e53991769902b01cb289f38ceeb591ae17dcad10848ef442ec97984ef2d409a8
     - name: entando-k8s-app-controller #7.1.3
       image: registry.hub.docker.com/entando/entando-k8s-app-controller@sha256:596b9959e23d3cc46a804f06cb981ff877d612677f1c231b38d85a7d011681a2
     - name: entando-k8s-app-plugin-link-controller #7.1.0
@@ -819,7 +819,7 @@ spec:
                       - name: RELATED_IMAGE_ENTANDO_DE_APP_EAP_6_3 #6.3.68-fix.3-ENG-3332-PR-335
                         value: registry.hub.docker.com/entando/entando-de-app-eap@sha256:8b5657c42b435cb5e22d40b783a5c69afeb63d7c9d14b201ca16fce91f4c06f5
                       - name: RELATED_IMAGE_ENTANDO_DE_APP_EAP_6_4 #7.1.4
-                        value: registry.hub.docker.com/entando/entando-de-app-eap@sha256:1a1ab9eea4d2fb27faa99becb065ab8eb791fb1222e3a136e7d8fd6fa25854cc
+                        value: registry.hub.docker.com/entando/entando-de-app-eap@sha256:e53991769902b01cb289f38ceeb591ae17dcad10848ef442ec97984ef2d409a8
                       - name: RELATED_IMAGE_ENTANDO_K8S_APP_CONTROLLER #7.1.3
                         value: registry.hub.docker.com/entando/entando-k8s-app-controller@sha256:596b9959e23d3cc46a804f06cb981ff877d612677f1c231b38d85a7d011681a2
                       - name: RELATED_IMAGE_ENTANDO_K8S_APP_PLUGIN_LINK_CONTROLLER #7.1.0
