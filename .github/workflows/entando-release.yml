@@ -7,6 +7,11 @@ on:
 env:
   # URL of the DockerHub repositories configuration file
   DOCKER_HUB_REPOS_CONFIG_URL: global-config/docker-hub-repositories.json
+  # The name to be associated with the commit
+  COMMIT_USER_NAME: Entando GitHub Actions
+  # The email address to be associated with the commit
+  COMMIT_USER_EMAIL: github-actions@entando.com
+  
   # GitHub token
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   # Major release version specified in the repository_dispatch payload
@@ -23,10 +28,8 @@ env:
   RELEASE_VERSION: ${{ github.event.client_payload.major }}.${{ github.event.client_payload.minor }}
   # Release version with patch. Example: 7.1.4
   RELEASE_VERSION_PATCH: ${{ github.event.client_payload.major }}.${{ github.event.client_payload.minor }}.${{ github.event.client_payload.patch }}
-  # Base branch. Example: release/7.1
-  BASE_BRANCH: release/${{ github.event.client_payload.major }}.${{ github.event.client_payload.minor }}
-  # Release branch. Example: 7.1.4-rc2
-  RELEASE_BRANCH: ${{ github.event.client_payload.major }}.${{ github.event.client_payload.minor }}.${{ github.event.client_payload.patch }}${{ github.event.client_payload.suffix }}
+  # Release branch. Example: release/7.1
+  RELEASE_BRANCH: release/${{ github.event.client_payload.major }}.${{ github.event.client_payload.minor }}
   # Release tag. Example: v7.1.4-rc2
   RELEASE_TAG: v${{ github.event.client_payload.major }}.${{ github.event.client_payload.minor }}.${{ github.event.client_payload.patch }}${{ github.event.client_payload.suffix }}
 
@@ -36,6 +39,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     
+    # Validate client payload
+    - name: Validate client payload
+      run: |
+        # Check if mandatory fields are present
+        if [[ -z "${{ env.MAJOR }}" ]]
+        then
+            echo "::error :: Mandatory field 'major' not found in client_paylod"
+            exit 1
+        fi
+        if [[ -z "${{ env.MINOR }}" ]]
+        then
+            echo "::error :: Mandatory field 'minor' not found in client_paylod"
+            exit 2
+        fi
+        if [[ -z "${{ env.PATCH }}" ]]
+        then
+            echo "::error :: Mandatory field 'patch' not found in client_paylod"
+            exit 3
+        fi
+        
     # Checkout the catalyst-infra-templates repository
     - name: Checkout catalyst-infra-templates
       uses: actions/checkout@v3
@@ -51,30 +74,18 @@ jobs:
     - name: Checkout entando-k8s-operator-bundle
       uses: actions/checkout@v3
       with:
-        ref: ${{ env.BASE_BRANCH }}
+        ref: ${{ env.RELEASE_BRANCH }}
         fetch-depth: 0
         
-    # Validate the release tag and branch variables
-    - name: Validate payload
+    # Validate the release tag
+    - name: Validate release tag
       run: |
         # Check if the release tag already exists
         if [[ $(git tag -l $RELEASE_TAG) ]]
         then
             echo "::error :: Tag '$RELEASE_TAG' already exists"
-            exit 1
+            exit 4
         fi
-        
-        # Check if the release branch already exists
-        if [[ "$(git ls-remote | grep refs/heads/$RELEASE_BRANCH)" ]]
-        then
-            echo "::error :: Branch '$RELEASE_BRANCH' already exists"
-            exit 2
-        fi
-       
-    # Create the release branch
-    - name: Create release branch
-      run: |
-        git checkout -b $RELEASE_BRANCH
         
     # Update images versions and SHA digests in the values.yaml file
     - name: Set images versions and sha
@@ -127,7 +138,7 @@ jobs:
               if [[ $FOUND_VERSION = false ]]
               then
                 echo "::error :: Version '$NEW_VERSION' does not exist for '$IMAGE_NAME'"
-                exit 3
+                exit 5
               fi
             fi
           done
@@ -135,19 +146,18 @@ jobs:
           if [[ $FOUND_IMAGE = false ]]
           then
             echo "::error :: Image '$IMAGE_NAME' does not exist in '$DOCKER_HUB_REPOS_CONFIG_URL'"
-            exit 4
+            exit 6
           fi
         done
         
     # Commit the changes to Git
     - name: Commit in branch
-      run: |
-        git config --global user.name 'Entando GitHub Actions'
-        git config --global user.email 'github-actions@entando.com'
-        git remote set-url origin https://x-access-token:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY
-        git add values.yaml
-        git commit -m "Automated values.yaml update"
-        git push --set-upstream origin $RELEASE_BRANCH
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_user_name: ${{ env.COMMIT_USER_NAME }}
+        commit_user_email: ${{ env.COMMIT_USER_EMAIL }}
+        commit_message: Automated values.yaml update
+        file_pattern: values.yaml
         
   update-manifest-files:
     name: Update manifest files
@@ -160,18 +170,48 @@ jobs:
       uses: actions/checkout@v3
       with:
         ref: ${{ env.RELEASE_BRANCH }}
+        fetch-depth: 0
         
     # Generating manifest files
     - name: Run generate-manifest.sh
       run: |
         bash ./generate-manifests.sh --version "${{ env.RELEASE_VERSION_PATCH }}" --mainline "${{ env.RELEASE_VERSION }}"
-        
+    
     # Commit the changes to Git
     - name: Commit in branch
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_user_name: ${{ env.COMMIT_USER_NAME }}
+        commit_user_email: ${{ env.COMMIT_USER_EMAIL }}
+        commit_message: Automated manifest files update
+
+  tag-and-release:
+    name: Tag and release
+    runs-on: ubuntu-latest
+    needs: update-manifest-files
+    steps:
+
+    # Checkout the entando-k8s-operator-bundle repository
+    - name: Checkout entando-k8s-operator-bundle
+      uses: actions/checkout@v3
+      with:
+        ref: ${{ env.RELEASE_BRANCH }}
+        fetch-depth: 0
+
+    # Tag entando-k8s-operator-bundle
+    - name: Tag entando-k8s-operator-bundle ${{ env.RELEASE_TAG }}
       run: |
-        git config --global user.name 'Entando GitHub Actions'
-        git config --global user.email 'github-actions@entando.com'
-        git remote set-url origin https://x-access-token:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY
-        git add -A
-        git commit -m "Automated manifest files update"
-        git push --set-upstream origin $RELEASE_BRANCH
+        git tag ${{ env.RELEASE_TAG }} ${{ env.RELEASE_BRANCH }}
+        git push origin ${{ env.RELEASE_TAG }}
+        
+    # Release entando-k8s-operator-bundle
+    - name: Release entando-k8s-operator-bundle ${{ env.RELEASE_TAG }}
+      run: |
+        curl \
+          -X POST \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer ${{ secrets.ENTANDO_BOT_TOKEN }}"\
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          https://api.github.com/repos/${{ github.repository }}/releases \
+          -d '{"tag_name":"${{ env.RELEASE_TAG }}","target_commitish":"${{ env.RELEASE_BRANCH }}","name":"${{ env.RELEASE_TAG }}","body":"Description of the release","draft":false,"prerelease":false,"generate_release_notes":false}'
+        
