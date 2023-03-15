@@ -2,5 +2,5 @@ dependencies:
   - alias: operator
     name: entando-k8s-controller-coordinator
     repository: file://./tmp/entando-k8s-controller-coordinator/charts/entando-k8s-controller-coordinator
-    version: 7.1.1
+    version: 7.2.0-ENG-4685-PR-124
     #condition: bundle.olmDisabled

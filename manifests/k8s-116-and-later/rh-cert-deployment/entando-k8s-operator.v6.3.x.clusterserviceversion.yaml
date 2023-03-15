@@ -22,7 +22,7 @@ metadata:
     description: >-
       Processes EntandoKeycloakServer, EntandoApp and EntandoPlugin custom
       resources and deploys the relevant containers in the Kubernetes cluster.
-    containerImage: registry.hub.docker.com/entando/entando-k8s-controller-coordinator@sha256:1040049faeb21a05971e328de3660a744980ddab9705744dc0a32e1e66f3251f
+    containerImage: registry.hub.docker.com/entando/entando-k8s-controller-coordinator@sha256:da6f2b9dfd27cb26157708dd893b445b9b125a4a93e9b1cbb28bc36916278745
     support: ''
     capabilities: Basic Install
     repository: ''
@@ -724,7 +724,7 @@ spec:
                 imagePullSecrets:
                   - name: entando-pull-secret
                 containers:
-                  - image: registry.hub.docker.com/entando/entando-k8s-controller-coordinator@sha256:1040049faeb21a05971e328de3660a744980ddab9705744dc0a32e1e66f3251f
+                  - image: registry.hub.docker.com/entando/entando-k8s-controller-coordinator@sha256:da6f2b9dfd27cb26157708dd893b445b9b125a4a93e9b1cbb28bc36916278745
                     imagePullPolicy: IfNotPresent
                     name: entando-operator
                     resources:

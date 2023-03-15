@@ -46,6 +46,9 @@ operator:
     entando_de_app_wildfly_6_4:
       sha256: 84ad92ee2b9f9c67a74ac82eb2a95493e6b16207916ffc3ca0c44d52b10d7de2
       version: 7.1.3
+    entando_de_app_tomcat_6_4:
+      sha256: 391662c1901b008695a07a7513aeb408f742d476a7a4536d4c0948810f22e04a
+      version: 7.2.0-ENG-4665-PR-100
     entando_k8s_app_controller:
       sha256: 596b9959e23d3cc46a804f06cb981ff877d612677f1c231b38d85a7d011681a2
       version: 7.1.3
@@ -59,8 +62,8 @@ operator:
       sha256: 4bc6797bb41b3e407b64530c3cff7a78f3fc2c22863caad9c606ccd650310b61
       version: 6.3.11
     entando_k8s_controller_coordinator:
-      sha256: 1040049faeb21a05971e328de3660a744980ddab9705744dc0a32e1e66f3251f
-      version: 7.1.1
+      sha256: da6f2b9dfd27cb26157708dd893b445b9b125a4a93e9b1cbb28bc36916278745
+      version: 7.2.0-ENG-4685-PR-124
     entando_k8s_database_service_controller:
       sha256: 5366bc2d847ca6a4d68eaa516082991a6b4affc802d5b8ea5a0a33bfbdc8aa68
       version: 7.1.1

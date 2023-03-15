@@ -347,14 +347,16 @@ spec:
                   description: >
                     Specifies the standard server base image that this EntandoApp has been packaged in. Valid values
                     are wildfly (https://github.com/entando/entando-docker-base-images/tree/master/entando-wildfly17-base)
+                    or tomcat (https://github.com/entando/entando-app-engine-base/tree/develop/tomcat)
                     or eap (https://github.com/entando/entando-docker-base-images/tree/master/entando-eap72-clustered-base).
                     This property is required to provide the appropriate environment variables to the deployed container.
                     This should be used in conjunction with the 'EntandoApp.spec.customServerImage' property to indicate
                     which base image the custom server image was based on. If no customer server image is specified, this
                     property will result in the deployment of the entando/entando-de-app-eap image for the value 'eap',
-                    and the entando/entando-de-app-wildfly image for the value 'wildfly'.
+                    the entando/entando-de-app-wildfly image for the value 'wildfly' and the entando/entando-de-app-tomcat 
+                    image for the value 'tomcat'.
                   type: string
-                  pattern: '^(wildfly|eap)$'
+                  pattern: '^(wildfly|eap|tomcat)$'
                 customServerImage:
                   description: >
                     The full Docker image URI for the Docker image to be deployed. This is only required in scenarios
@@ -1803,6 +1805,8 @@ data:
     {"version":"6.3.68-fix.3-ENG-3332-PR-335","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-de-app-wildfly"}
   entando-de-app-wildfly-6-4: >-
     {"version":"7.1.3","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-de-app-wildfly"}
+  entando-de-app-tomcat-6-4: >-
+    {"version":"7.2.0-ENG-4665-PR-100","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-de-app-tomcat"}
   entando-k8s-app-controller: >-
     {"version":"7.1.3","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
   entando-k8s-app-plugin-link-controller: >-
@@ -2033,7 +2037,7 @@ spec:
       volumes:
       containers:
         - name: operator
-          image: "entando/entando-k8s-controller-coordinator:7.1.1"
+          image: "entando/entando-k8s-controller-coordinator:7.2.0-ENG-4685-PR-124"
           imagePullPolicy: Always
           volumeMounts:
           env:
@@ -2092,7 +2096,6 @@ spec:
             timeoutSeconds: 3
           resources:
             null
-          terminationGracePeriodSeconds:
 ---
 # Source: entando-k8s-operator-bundle/charts/operator/templates/entando-k8s-service-deployment.yaml
 kind: Deployment
