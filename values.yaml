@@ -83,11 +83,11 @@ operator:
       sha256: 18db1afb892393c1dcf7c36e5a4bbd1d6bc60029014094178ce1acb5dd1f68a4
       version: 6.0.50-fix.1
     entando_keycloak:
-      sha256: 4b5b81a6f233e070a747541ec1fa30cdaeca78feefa1542cb117aaaf2079863c
-      version: 7.1.1
+      sha256: 4da37002eee4f69d30c513f274bd3df7c3b21a7ca8df2d235e998ccb34e9f980
+      version: 7.2.0-ENG-4701-PR-33
     entando_redhat_sso:
-      sha256: b5afae1e933d432ccab84e31a9140f8fd2a51517b95a3a373a29bbe88a62d900
-      version: 7.1.1
+      sha256: 5865ab72dc52bd91a109299e37026f2977eb47b0762b07cef701a192815b1124
+      version: 7.2.0-ENG-4701-PR-33
     mysql_80_centos7:
       sha256: 62c60139c609d69d135815e6ab59cc73933ef476aafbf51d2bdedaed3b950147
       version: 8.0.29
