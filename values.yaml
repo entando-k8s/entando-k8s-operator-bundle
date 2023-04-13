@@ -50,8 +50,8 @@ operator:
       sha256: 35983223723213ddd4927985b4ed72ebfcc3a8f98d559f8ce9d72f5df2dea329
       version: 7.2.0-ENGPM-540-rc1
     entando_k8s_app_controller:
-      sha256: 867ec736ce5bb786137c090ae4197317d1fac6cba5a43c6b9868ef1e9a23eb5a
-      version: 7.2.0-ENGPM-540-rc2
+      sha256: 15f269753df3d693ae5440b0d7512ca5b1c74242f63de2439f9f481bb85e5c6b
+      version: 7.2.0-ENG-4766-PR-85
     entando_k8s_app_plugin_link_controller:
       sha256: cefa956b9368758b9cdfa7b54a51235a0a6859f68fc405e2b16c4f17ee8cf4fe
       version: 7.2.0-ENGPM-540-rc1
