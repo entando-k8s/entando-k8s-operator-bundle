@@ -75,7 +75,7 @@ spec:
         entando.k8s.operator.compliance.mode: set this to "community" if there is no requirement for Red Hat compliance.
         entando.k8s.operator.image.pull.secrets: a comma separated list containing the names of pull secrets that will be linked to all service accounts.
         entando.k8s.operator.disable.pvc.garbage.collection: set this to "false" if you want Persistent Volume Claims to be deleted with the custom resources they are associated with.
-        entando.k8s.operator.impose.default.limits: set this to "false" if there is no need to limit the resource consumption of pods on your cluster.
+        entando.k8s.operator.impose.limits: set this to "true" if there is need to limit the resource consumption of pods on your cluster.
         entando.k8s.operator.request.to.limit.ratio: a decimal number that default limits will be multiplied by to calculate default requests for resources.
         entando.k8s.operator.force.db.password.reset: set this to "true" if you plan to delete Secrets from your namespace but you want to retain the Database they point to.
         entando.k8s.operator.pull.policy.override: specify your preferred pullPolicy for images. The default is Always.
@@ -383,7 +383,7 @@ spec:
           - displayName: Entando App Version
             path: entandoAppVersion
             x-descriptors:
-              - 'urn:alm:descriptor:com.tectonic.ui:select:7.1'
+              - 'urn:alm:descriptor:com.tectonic.ui:select:7.2'
           - displayName: Ingress Host Name
             path: ingressHostName
             x-descriptors:

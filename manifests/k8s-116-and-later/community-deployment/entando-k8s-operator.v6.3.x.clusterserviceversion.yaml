@@ -73,7 +73,7 @@ spec:
         entando.k8s.operator.compliance.mode: set this to "community" if there is no requirement for Red Hat compliance.
         entando.k8s.operator.image.pull.secrets: a comma separated list containing the names of pull secrets that will be linked to all service accounts.
         entando.k8s.operator.disable.pvc.garbage.collection: set this to "false" if you want Persistent Volume Claims to be deleted with the custom resources they are associated with.
-        entando.k8s.operator.impose.default.limits: set this to "false" if there is no need to limit the resource consumption of pods on your cluster.
+        entando.k8s.operator.impose.limits: set this to "true" if there is need to limit the resource consumption of pods on your cluster.
         entando.k8s.operator.request.to.limit.ratio: a decimal number that default limits will be multiplied by to calculate default requests for resources.
         entando.k8s.operator.force.db.password.reset: set this to "true" if you plan to delete Secrets from your namespace but you want to retain the Database they point to.
         entando.k8s.operator.pull.policy.override: specify your preferred pullPolicy for images. The default is Always.
@@ -381,7 +381,7 @@ spec:
           - displayName: Entando App Version
             path: entandoAppVersion
             x-descriptors:
-              - 'urn:alm:descriptor:com.tectonic.ui:select:7.1'
+              - 'urn:alm:descriptor:com.tectonic.ui:select:7.2'
           - displayName: Ingress Host Name
             path: ingressHostName
             x-descriptors:
@@ -564,8 +564,8 @@ spec:
       image: registry.hub.docker.com/entando/entando-de-app-eap@sha256:d630a0d68b094a8cca0be823ed1f79f6ad585d2f54c906678810bb535b53f6ae
     - name: entando-de-app-tomcat-6-4 #7.2.0-ENGPM-540-rc1
       image: registry.hub.docker.com/entando/entando-de-app-tomcat@sha256:35983223723213ddd4927985b4ed72ebfcc3a8f98d559f8ce9d72f5df2dea329
-    - name: entando-k8s-app-controller #7.2.0-ENGPM-540-rc2
-      image: registry.hub.docker.com/entando/entando-k8s-app-controller@sha256:867ec736ce5bb786137c090ae4197317d1fac6cba5a43c6b9868ef1e9a23eb5a
+    - name: entando-k8s-app-controller #7.2.0-ENG-4766-PR-85
+      image: registry.hub.docker.com/entando/entando-k8s-app-controller@sha256:15f269753df3d693ae5440b0d7512ca5b1c74242f63de2439f9f481bb85e5c6b
     - name: entando-k8s-app-plugin-link-controller #7.2.0-ENGPM-540-rc1
       image: registry.hub.docker.com/entando/entando-k8s-app-plugin-link-controller@sha256:cefa956b9368758b9cdfa7b54a51235a0a6859f68fc405e2b16c4f17ee8cf4fe
     - name: entando-k8s-database-service-controller #7.2.0-ENGPM-540-rc1
@@ -825,8 +825,8 @@ spec:
                         value: registry.hub.docker.com/entando/entando-de-app-eap@sha256:d630a0d68b094a8cca0be823ed1f79f6ad585d2f54c906678810bb535b53f6ae
                       - name: RELATED_IMAGE_ENTANDO_DE_APP_TOMCAT_6_4 #7.2.0-ENGPM-540-rc1
                         value: registry.hub.docker.com/entando/entando-de-app-tomcat@sha256:35983223723213ddd4927985b4ed72ebfcc3a8f98d559f8ce9d72f5df2dea329
-                      - name: RELATED_IMAGE_ENTANDO_K8S_APP_CONTROLLER #7.2.0-ENGPM-540-rc2
-                        value: registry.hub.docker.com/entando/entando-k8s-app-controller@sha256:867ec736ce5bb786137c090ae4197317d1fac6cba5a43c6b9868ef1e9a23eb5a
+                      - name: RELATED_IMAGE_ENTANDO_K8S_APP_CONTROLLER #7.2.0-ENG-4766-PR-85
+                        value: registry.hub.docker.com/entando/entando-k8s-app-controller@sha256:15f269753df3d693ae5440b0d7512ca5b1c74242f63de2439f9f481bb85e5c6b
                       - name: RELATED_IMAGE_ENTANDO_K8S_APP_PLUGIN_LINK_CONTROLLER #7.2.0-ENGPM-540-rc1
                         value: registry.hub.docker.com/entando/entando-k8s-app-plugin-link-controller@sha256:cefa956b9368758b9cdfa7b54a51235a0a6859f68fc405e2b16c4f17ee8cf4fe
                       - name: RELATED_IMAGE_ENTANDO_K8S_DATABASE_SERVICE_CONTROLLER #7.2.0-ENGPM-540-rc1
