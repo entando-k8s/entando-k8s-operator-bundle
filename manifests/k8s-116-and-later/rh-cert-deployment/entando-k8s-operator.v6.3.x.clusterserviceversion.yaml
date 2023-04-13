@@ -12,7 +12,7 @@ metadata:
         {"apiVersion":"entando.org/v1","kind":"EntandoDatabaseService","metadata":{"name":"my-entando-database-service","namespace":"my-namespace"},"spec":{"dbms":"postgresql","databaseName":"my_database","createDeployment":true}},
         {"apiVersion":"entando.org/v1","kind":"EntandoKeycloakServer","metadata":{"name":"my-keycloak","namespace":"my-namespace"},"spec":{"standardImage":"redhat-sso", "dbms":"postgresql","replicas":1,"environmentVariables":[]}},
         {"apiVersion":"entando.org/v1","kind":"EntandoPlugin","metadata":{"name":"my-entando-plugin","namespace":"my-namespace"},"spec": {"dbms": "postgresql","healthCheckPath": "/management/health","image": "entando/entando-avatar-plugin:6.0.5","ingressPath": "/avatarPlugin","replicas": 1,"roles": [{"code": "admin","name": "user"},{"code": "user","name": "user"}],"securityLevel": "strict"}},
-        {"apiVersion":"entando.org/v1","kind":"EntandoApp","metadata":{"name":"my-app","namespace":"my-namespace"},"spec":{"dbms":"postgresql","environmentVariables":[],"replicas":1,"standardServerImage":"eap"}},
+        {"apiVersion":"entando.org/v1","kind":"EntandoApp","metadata":{"name":"my-app","namespace":"my-namespace"},"spec":{"dbms":"postgresql","environmentVariables":[],"replicas":1,"standardServerImage":"tomcat"}},
         {"apiVersion":"entando.org/v1","kind":"EntandoAppPluginLink","metadata":{"name":"my-link","namespace":"my-namespace"},"spec":{"entandoAppName":"my-app","entandoPluginName":"my-plugin"}},
         {"apiVersion":"entando.org/v1","kind":"ProvidedCapability","metadata":{"name":"postgresql"},"spec":{"capability":"dbms","implementation":"postgresql","resolutionScopePreference":["Namespace","Dedicated","Cluster"]}}
       ]
@@ -51,7 +51,7 @@ spec:
     deployments as an OpenID Connect provider.
 
     **EntandoApps** for hosting an Entando application. EntandoApps are hosted
-    on Wildfly or JBoss EAP containers, and can also be used to deploy custom
+    on Wildfly or Tomcat or JBoss EAP containers, and can also be used to deploy custom
     EntandoApp containers.
 
     **EntandoPlugins** for deploying microservices to customize or enhance your
@@ -376,6 +376,7 @@ spec:
             path: standardServerImage
             x-descriptors:
               - 'urn:alm:descriptor:com.tectonic.ui:select:wildfly'
+              - 'urn:alm:descriptor:com.tectonic.ui:select:tomcat'
               - 'urn:alm:descriptor:com.tectonic.ui:select:eap'
           - displayName: Entando App Version
             path: entandoAppVersion
@@ -787,8 +788,10 @@ spec:
                         value: registry.hub.docker.com/entando/entando-de-app-eap@sha256:8b5657c42b435cb5e22d40b783a5c69afeb63d7c9d14b201ca16fce91f4c06f5
                       - name: RELATED_IMAGE_ENTANDO_DE_APP_EAP_6_4 #7.2.0-ENGPM-540-rc1
                         value: registry.hub.docker.com/entando/entando-de-app-eap@sha256:d630a0d68b094a8cca0be823ed1f79f6ad585d2f54c906678810bb535b53f6ae
-                      - name: RELATED_IMAGE_ENTANDO_K8S_APP_CONTROLLER #7.2.0-ENGPM-540-rc1
-                        value: registry.hub.docker.com/entando/entando-k8s-app-controller@sha256:7e84d5aa80817eb3bad2fb684e91f5c44edac07c6de9bb15fbdb983f2d24994c
+                      - name: RELATED_IMAGE_ENTANDO_DE_APP_TOMCAT_6_4 #7.2.0-ENGPM-540-rc1
+                        value: registry.hub.docker.com/entando/entando-de-app-tomcat@sha256:35983223723213ddd4927985b4ed72ebfcc3a8f98d559f8ce9d72f5df2dea329
+                      - name: RELATED_IMAGE_ENTANDO_K8S_APP_CONTROLLER #7.2.0-ENGPM-540-rc2
+                        value: registry.hub.docker.com/entando/entando-k8s-app-controller@sha256:867ec736ce5bb786137c090ae4197317d1fac6cba5a43c6b9868ef1e9a23eb5a
                       - name: RELATED_IMAGE_ENTANDO_K8S_APP_PLUGIN_LINK_CONTROLLER #7.2.0-ENGPM-540-rc1
                         value: registry.hub.docker.com/entando/entando-k8s-app-plugin-link-controller@sha256:cefa956b9368758b9cdfa7b54a51235a0a6859f68fc405e2b16c4f17ee8cf4fe
                       - name: RELATED_IMAGE_ENTANDO_K8S_DATABASE_SERVICE_CONTROLLER #7.2.0-ENGPM-540-rc1
