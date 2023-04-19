@@ -20,8 +20,8 @@ operator:
       sha256: 3bc6411823e01931328b4a696b9751750060af51577108bd628981ad71ba54ed
       version: 6.3.93-hotfix.1
     app_builder_6_4:
-      sha256: e53b8aeddd3439d6fc749a09fa4a7244567a304530bc0ee2e8fa766cda41f065
-      version: 7.2.0-ENGPM-540-rc1
+      sha256: 6e34ac273923b2ee224ea372993b7ce8bfe2dda13a5202e1160a7f5ccc910b18
+      version: 7.2.0-ENGPM-540-rc2
     busybox:
       sha256: 14d4f50961544fdb669075c442509f194bdc4c0e344bde06e35dbd55af842a38
       version: latest
@@ -32,26 +32,26 @@ operator:
       sha256: d48eacfe8a123aefac60390b5417da1ec5aab0378c21fadb66b567adde01ce61
       version: 6.3.26-fix.1
     entando_component_manager_6_4:
-      sha256: 9abd0cd7429186dd98dc49ee8f90784bb567bbccdad2a885f0ef9b157ce009d1
-      version: 7.2.0-ENGPM-540-rc1
+      sha256: 7756dc7bd3b3cc5cc741ef8d3437a3f13fa3cc292a0f21b1b9bab2ed40664981
+      version: 7.2.0-ENGPM-540-rc2
     entando_de_app_eap_6_3:
       sha256: 8b5657c42b435cb5e22d40b783a5c69afeb63d7c9d14b201ca16fce91f4c06f5
       version: 6.3.68-fix.3-ENG-3332-PR-335
     entando_de_app_eap_6_4:
-      sha256: d630a0d68b094a8cca0be823ed1f79f6ad585d2f54c906678810bb535b53f6ae
-      version: 7.2.0-ENGPM-540-rc1
+      sha256: d28dbfb09a5a37b5bd05286577851b05e19b7c2e5e5c32d90fd3ad530a4c2cb4
+      version: 7.2.0-ENGPM-540-rc2
     entando_de_app_wildfly_6_3:
       sha256: 71c13bca21b52a8cbad26fe11dac6250a938d3d6fc5aecfe245d604bbc509914
       version: 6.3.68-fix.3-ENG-3332-PR-335
     entando_de_app_wildfly_6_4:
-      sha256: 6e2ef39755583983e030f09b7fc44d84812b0120e8dab4ea404b815f20f9f0d2
-      version: 7.2.0-ENGPM-540-rc1
+      sha256: be8c222912ec50bceaacc7cf86b1de4054d55c49f8c5dbb691d7afe0d3de2b95
+      version: 7.2.0-ENGPM-540-rc2
     entando_de_app_tomcat_6_4:
-      sha256: 35983223723213ddd4927985b4ed72ebfcc3a8f98d559f8ce9d72f5df2dea329
-      version: 7.2.0-ENGPM-540-rc1
+      sha256: 460343d1f3ad28a1b047ebc580c5724485890bace518cb68d802dd243f67ed2a
+      version: 7.2.0-ENGPM-540-rc2
     entando_k8s_app_controller:
-      sha256: 15f269753df3d693ae5440b0d7512ca5b1c74242f63de2439f9f481bb85e5c6b
-      version: 7.2.0-ENG-4766-PR-85
+      sha256: d9477edc22bae6d1683249d1c7759bdcfe64acf5ce6f767c9062fccf88a9fbb4
+      version: 7.2.0-ENGPM-540-rc2
     entando_k8s_app_plugin_link_controller:
       sha256: cefa956b9368758b9cdfa7b54a51235a0a6859f68fc405e2b16c4f17ee8cf4fe
       version: 7.2.0-ENGPM-540-rc1
