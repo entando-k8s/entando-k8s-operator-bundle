@@ -53,7 +53,7 @@ spec:
     deployments as an OpenID Connect provider.
 
     **EntandoApps** for hosting an Entando application. EntandoApps are hosted
-    on Wildfly or JBoss EAP containers, and can also be used to deploy custom
+    on Wildfly or Tomcat or JBoss EAP containers, and can also be used to deploy custom
     EntandoApp containers.
 
     **EntandoPlugins** for deploying microservices to customize or enhance your
@@ -378,6 +378,7 @@ spec:
             path: standardServerImage
             x-descriptors:
               - 'urn:alm:descriptor:com.tectonic.ui:select:wildfly'
+              - 'urn:alm:descriptor:com.tectonic.ui:select:tomcat'
               - 'urn:alm:descriptor:com.tectonic.ui:select:eap'
           - displayName: Entando App Version
             path: entandoAppVersion
@@ -564,6 +565,8 @@ spec:
       image: {{ .Values.bundle.containerRegistry }}/entando/entando-de-app-eap@sha256:{{ .Values.operator.relatedImages.entando_de_app_eap_6_3.sha256 }}
     - name: entando-de-app-eap-6-4 #{{ .Values.operator.relatedImages.entando_de_app_eap_6_4.version }}
       image: {{ .Values.bundle.containerRegistry }}/entando/entando-de-app-eap@sha256:{{ .Values.operator.relatedImages.entando_de_app_eap_6_4.sha256 }}
+    - name: entando-de-app-tomcat-6-4 #{{ .Values.operator.relatedImages.entando_de_app_tomcat_6_4.version }}
+      image: {{ .Values.bundle.containerRegistry }}/entando/entando-de-app-tomcat@sha256:{{ .Values.operator.relatedImages.entando_de_app_tomcat_6_4.sha256 }}
     - name: entando-k8s-app-controller #{{ .Values.operator.relatedImages.entando_k8s_app_controller.version }}
       image: {{ .Values.bundle.containerRegistry }}/entando/entando-k8s-app-controller@sha256:{{ .Values.operator.relatedImages.entando_k8s_app_controller.sha256 }}
     - name: entando-k8s-app-plugin-link-controller #{{ .Values.operator.relatedImages.entando_k8s_app_plugin_link_controller.version }}
@@ -824,6 +827,8 @@ spec:
                         value: {{ .Values.bundle.containerRegistry }}/entando/entando-de-app-eap@sha256:{{ .Values.operator.relatedImages.entando_de_app_eap_6_3.sha256 }}
                       - name: RELATED_IMAGE_ENTANDO_DE_APP_EAP_6_4 #{{ .Values.operator.relatedImages.entando_de_app_eap_6_4.version }}
                         value: {{ .Values.bundle.containerRegistry }}/entando/entando-de-app-eap@sha256:{{ .Values.operator.relatedImages.entando_de_app_eap_6_4.sha256 }}
+                      - name: RELATED_IMAGE_ENTANDO_DE_APP_TOMCAT_6_4 #{{ .Values.operator.relatedImages.entando_de_app_tomcat_6_4.version }}
+                        value: {{ .Values.bundle.containerRegistry }}/entando/entando-de-app-tomcat@sha256:{{ .Values.operator.relatedImages.entando_de_app_tomcat_6_4.sha256 }}
                       - name: RELATED_IMAGE_ENTANDO_K8S_APP_CONTROLLER #{{ .Values.operator.relatedImages.entando_k8s_app_controller.version }}
                         value: {{ .Values.bundle.containerRegistry }}/entando/entando-k8s-app-controller@sha256:{{ .Values.operator.relatedImages.entando_k8s_app_controller.sha256 }}
                       - name: RELATED_IMAGE_ENTANDO_K8S_APP_PLUGIN_LINK_CONTROLLER #{{ .Values.operator.relatedImages.entando_k8s_app_plugin_link_controller.version }}
