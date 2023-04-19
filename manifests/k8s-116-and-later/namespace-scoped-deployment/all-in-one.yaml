@@ -1807,7 +1807,7 @@ data:
   entando-de-app-tomcat-6-4: >-
     {"version":"7.1.5","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando","repository":"entando-de-app-tomcat"}
   entando-k8s-app-controller: >-
-    {"version":"7.1.6-ENG-4776-PR-86","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
+    {"version":"7.1.6","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
   entando-k8s-app-plugin-link-controller: >-
     {"version":"7.1.0","executable-type":"jvm","registry":"registry.hub.docker.com","organization":"entando"}
   entando-k8s-database-service-controller: >-
@@ -2036,7 +2036,7 @@ spec:
       volumes:
       containers:
         - name: operator
-          image: "entando/entando-k8s-controller-coordinator:7.1.6-ENG-4776-PR-128"
+          image: "entando/entando-k8s-controller-coordinator:7.1.6"
           imagePullPolicy: Always
           volumeMounts:
           env:
