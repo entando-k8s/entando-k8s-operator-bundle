@@ -1,5 +1,5 @@
 bundle:
-  version: 7.1.5
+  version: 7.1.6
   olmDisabled: true
   communityOnly: true
   containerRegistry: registry.connect.redhat.com
@@ -32,23 +32,26 @@ operator:
       sha256: d48eacfe8a123aefac60390b5417da1ec5aab0378c21fadb66b567adde01ce61
       version: 6.3.26-fix.1
     entando_component_manager_6_4:
-      sha256: 861ce822529e86dbd0f7c7e08c318e663b47a93083d1ac63c7ea1053edb6aa09
-      version: 7.1.5-ENGPM-535-PR-294
+      sha256: 2944b0471f2272acb112f2b7312c746aea0e6d6a8e8ee9b6ef81545e4d25f411
+      version: 7.1.5
     entando_de_app_eap_6_3:
       sha256: 8b5657c42b435cb5e22d40b783a5c69afeb63d7c9d14b201ca16fce91f4c06f5
       version: 6.3.68-fix.3-ENG-3332-PR-335
     entando_de_app_eap_6_4:
-      sha256: 5244d039fbd7ffc371deecf631cdd21712e2d5dfed4a08698883330effa81006
-      version: 7.1.5-ENG-4695-PR-103
+      sha256: b673aa635498e6893c2194751e528c12787e1ff65d7e01e31969d40d29921be7
+      version: 7.1.5
     entando_de_app_wildfly_6_3:
       sha256: 71c13bca21b52a8cbad26fe11dac6250a938d3d6fc5aecfe245d604bbc509914
       version: 6.3.68-fix.3-ENG-3332-PR-335
     entando_de_app_wildfly_6_4:
-      sha256: 18abd6e0af43268cc4a97f2dba978aa0eee32ac69a34f4b2d3130a45adc7d93a
-      version: 7.1.5-ENG-4695-PR-103
+      sha256: 640ccd5c27b0cc6e45a3f5b219c8c43d3d504325db2758d3e30a3957c6f1de06
+      version: 7.1.5
+    entando_de_app_tomcat_6_4:
+      sha256: faed903163690bc1dd08a8a96cb1e60291fbba369590c1615ab75562afa08ca1
+      version: 7.1.5
     entando_k8s_app_controller:
-      sha256: 596b9959e23d3cc46a804f06cb981ff877d612677f1c231b38d85a7d011681a2
-      version: 7.1.3
+      sha256: 4463c1fde59329c6f7b97685610d3ef8d622b38c754bc4d79cd5d274764ee302
+      version: 7.1.6-ENG-4776-PR-86
     entando_k8s_app_plugin_link_controller:
       sha256: d9e9cdcbf2abec4b0d1253955d4dffd01de284d32f40ac42ec18aa3e94e32db4
       version: 7.1.0
@@ -59,8 +62,8 @@ operator:
       sha256: 4bc6797bb41b3e407b64530c3cff7a78f3fc2c22863caad9c606ccd650310b61
       version: 6.3.11
     entando_k8s_controller_coordinator:
-      sha256: 337d934fc528fe33201c70b3b7959e0c6272220fdcda13317fdbde8700fc40f5
-      version: 7.1.4
+      sha256: c5fa7a2d44d3461a9720a9982c4aa1b64ced7a6f9eb67a551dfa14219d399e3f
+      version: 7.1.6-ENG-4776-PR-128
     entando_k8s_database_service_controller:
       sha256: 5366bc2d847ca6a4d68eaa516082991a6b4affc802d5b8ea5a0a33bfbdc8aa68
       version: 7.1.1
