@@ -11,7 +11,7 @@ metadata:
         {"apiVersion":"entando.org/v1","kind":"EntandoDatabaseService","metadata":{"name":"my-entando-database-service","namespace":"my-namespace"},"spec":{"dbms":"postgresql","databaseName":"my_database","createDeployment":true}},
         {"apiVersion":"entando.org/v1","kind":"EntandoKeycloakServer","metadata":{"name":"my-keycloak","namespace":"my-namespace"},"spec":{"standardImage":"redhat-sso", "dbms":"postgresql","replicas":1,"environmentVariables":[]}},
         {"apiVersion":"entando.org/v1","kind":"EntandoPlugin","metadata":{"name":"my-entando-plugin","namespace":"my-namespace"},"spec": {"dbms": "postgresql","healthCheckPath": "/management/health","image": "entando/entando-avatar-plugin:6.0.5","ingressPath": "/avatarPlugin","replicas": 1,"roles": [{"code": "admin","name": "user"},{"code": "user","name": "user"}],"securityLevel": "strict"}},
-        {"apiVersion":"entando.org/v1","kind":"EntandoApp","metadata":{"name":"my-app","namespace":"my-namespace"},"spec":{"dbms":"postgresql","environmentVariables":[],"replicas":1,"standardServerImage":"eap"}},
+        {"apiVersion":"entando.org/v1","kind":"EntandoApp","metadata":{"name":"my-app","namespace":"my-namespace"},"spec":{"dbms":"postgresql","environmentVariables":[],"replicas":1,"standardServerImage":"tomcat"}},
         {"apiVersion":"entando.org/v1","kind":"EntandoAppPluginLink","metadata":{"name":"my-link","namespace":"my-namespace"},"spec":{"entandoAppName":"my-app","entandoPluginName":"my-plugin"}},
         {"apiVersion":"entando.org/v1","kind":"ProvidedCapability","metadata":{"name":"postgresql"},"spec":{"capability":"dbms","implementation":"postgresql","resolutionScopePreference":["Namespace","Dedicated","Cluster"]}}
       ]
@@ -53,7 +53,7 @@ spec:
     deployments as an OpenID Connect provider.
 
     **EntandoApps** for hosting an Entando application. EntandoApps are hosted
-    on Wildfly or JBoss EAP containers, and can also be used to deploy custom
+    on Wildfly or Tomcat or JBoss EAP containers, and can also be used to deploy custom
     EntandoApp containers.
 
     **EntandoPlugins** for deploying microservices to customize or enhance your
@@ -75,7 +75,7 @@ spec:
         entando.k8s.operator.compliance.mode: set this to "community" if there is no requirement for Red Hat compliance.
         entando.k8s.operator.image.pull.secrets: a comma separated list containing the names of pull secrets that will be linked to all service accounts.
         entando.k8s.operator.disable.pvc.garbage.collection: set this to "false" if you want Persistent Volume Claims to be deleted with the custom resources they are associated with.
-        entando.k8s.operator.impose.default.limits: set this to "false" if there is no need to limit the resource consumption of pods on your cluster.
+        entando.k8s.operator.impose.limits: set this to "true" if there is need to limit the resource consumption of pods on your cluster.
         entando.k8s.operator.request.to.limit.ratio: a decimal number that default limits will be multiplied by to calculate default requests for resources.
         entando.k8s.operator.force.db.password.reset: set this to "true" if you plan to delete Secrets from your namespace but you want to retain the Database they point to.
         entando.k8s.operator.pull.policy.override: specify your preferred pullPolicy for images. The default is Always.
@@ -378,11 +378,12 @@ spec:
             path: standardServerImage
             x-descriptors:
               - 'urn:alm:descriptor:com.tectonic.ui:select:wildfly'
+              - 'urn:alm:descriptor:com.tectonic.ui:select:tomcat'
               - 'urn:alm:descriptor:com.tectonic.ui:select:eap'
           - displayName: Entando App Version
             path: entandoAppVersion
             x-descriptors:
-              - 'urn:alm:descriptor:com.tectonic.ui:select:7.1'
+              - 'urn:alm:descriptor:com.tectonic.ui:select:7.2'
           - displayName: Ingress Host Name
             path: ingressHostName
             x-descriptors:
@@ -564,6 +565,8 @@ spec:
       image: {{ .Values.bundle.containerRegistry }}/entando/entando-de-app-eap@sha256:{{ .Values.operator.relatedImages.entando_de_app_eap_6_3.sha256 }}
     - name: entando-de-app-eap-6-4 #{{ .Values.operator.relatedImages.entando_de_app_eap_6_4.version }}
       image: {{ .Values.bundle.containerRegistry }}/entando/entando-de-app-eap@sha256:{{ .Values.operator.relatedImages.entando_de_app_eap_6_4.sha256 }}
+    - name: entando-de-app-tomcat-6-4 #{{ .Values.operator.relatedImages.entando_de_app_tomcat_6_4.version }}
+      image: {{ .Values.bundle.containerRegistry }}/entando/entando-de-app-tomcat@sha256:{{ .Values.operator.relatedImages.entando_de_app_tomcat_6_4.sha256 }}
     - name: entando-k8s-app-controller #{{ .Values.operator.relatedImages.entando_k8s_app_controller.version }}
       image: {{ .Values.bundle.containerRegistry }}/entando/entando-k8s-app-controller@sha256:{{ .Values.operator.relatedImages.entando_k8s_app_controller.sha256 }}
     - name: entando-k8s-app-plugin-link-controller #{{ .Values.operator.relatedImages.entando_k8s_app_plugin_link_controller.version }}
@@ -824,6 +827,8 @@ spec:
                         value: {{ .Values.bundle.containerRegistry }}/entando/entando-de-app-eap@sha256:{{ .Values.operator.relatedImages.entando_de_app_eap_6_3.sha256 }}
                       - name: RELATED_IMAGE_ENTANDO_DE_APP_EAP_6_4 #{{ .Values.operator.relatedImages.entando_de_app_eap_6_4.version }}
                         value: {{ .Values.bundle.containerRegistry }}/entando/entando-de-app-eap@sha256:{{ .Values.operator.relatedImages.entando_de_app_eap_6_4.sha256 }}
+                      - name: RELATED_IMAGE_ENTANDO_DE_APP_TOMCAT_6_4 #{{ .Values.operator.relatedImages.entando_de_app_tomcat_6_4.version }}
+                        value: {{ .Values.bundle.containerRegistry }}/entando/entando-de-app-tomcat@sha256:{{ .Values.operator.relatedImages.entando_de_app_tomcat_6_4.sha256 }}
                       - name: RELATED_IMAGE_ENTANDO_K8S_APP_CONTROLLER #{{ .Values.operator.relatedImages.entando_k8s_app_controller.version }}
                         value: {{ .Values.bundle.containerRegistry }}/entando/entando-k8s-app-controller@sha256:{{ .Values.operator.relatedImages.entando_k8s_app_controller.sha256 }}
                       - name: RELATED_IMAGE_ENTANDO_K8S_APP_PLUGIN_LINK_CONTROLLER #{{ .Values.operator.relatedImages.entando_k8s_app_plugin_link_controller.version }}
