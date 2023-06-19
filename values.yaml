@@ -1,5 +1,5 @@
 bundle:
-  version: 6.5.1
+  version: 6.5.4
   olmDisabled: true
   communityOnly: true
   containerRegistry: registry.connect.redhat.com
@@ -26,8 +26,8 @@ operator:
       sha256: 3bc6411823e01931328b4a696b9751750060af51577108bd628981ad71ba54ed
       version: 6.3.93-hotfix.1
     app_builder_6_4:
-      sha256: 3bc6411823e01931328b4a696b9751750060af51577108bd628981ad71ba54ed
-      version: 6.3.93-hotfix.1
+      sha256: 8bb59ee6deaaf08ce2c4e78a42b74c8d8d15a9abf304e52bff593489b31755d8
+      version: 6.3.93-hotfix.2
     busybox:
       sha256: 14d4f50961544fdb669075c442509f194bdc4c0e344bde06e35dbd55af842a38
       version: latest
@@ -44,14 +44,14 @@ operator:
       sha256: 71c13bca21b52a8cbad26fe11dac6250a938d3d6fc5aecfe245d604bbc509914
       version: 6.3.68-fix.3-ENG-3332-PR-335
     entando_de_app_eap_6_4:
-      sha256: 72514ae1f71aa8a8b942ac313bf13c60bbdae6263c06dc0d4126f0bdc7e5d5d5
-      version: 6.5.0
+      sha256: a4e6b77c2146ee0791915ffcf9d8fb1f227c69f1083df652e6a4f452cc52ce96
+      version: 6.5.4
     entando_de_app_wildfly_6_3:
       sha256: 8b5657c42b435cb5e22d40b783a5c69afeb63d7c9d14b201ca16fce91f4c06f5
       version: 6.3.68-fix.3-ENG-3332-PR-335
     entando_de_app_wildfly_6_4:
-      sha256: 93c30d7793afc8c1a3f7bbc04e9199cce6d836059edb5b4023d4de6f30214000
-      version: 6.5.0
+      sha256: aa81422f1e1a8bcafbff30dc623f6c8d0c6523e8857cce75d526df806e5ab11b
+      version: 6.5.4
     entando_k8s_app_controller:
       sha256: 1308a2c1e56ecc13e47da5a399c6fb9a28e9adf2d5fde2530331b7c5dda3cca1
       version: 7.0.2
