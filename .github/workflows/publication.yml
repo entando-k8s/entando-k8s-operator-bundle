@@ -1,4 +1,4 @@
-name: Internal Snapshot Publication
+name: PUB
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - 'v*'
 
 env:
-  ENTANDO_OPT_USE_PPL_TAG: "v1.4.0"
+  ENTANDO_OPT_USE_PPL_TAG: "v1.4.2"
   ENTANDO_OPT_DATA_REPO: "${{ secrets.ENTANDO_OPT_DATA_REPO }}"
   ENTANDO_OPT_DATA_REPO_TOKEN: "${{ secrets.ENTANDO_OPT_DATA_REPO_TOKEN }}"
   ENTANDO_OPT_ENVIRONMENT_NAMES: "${{ secrets.ENTANDO_OPT_ENVIRONMENT_NAMES }}"
@@ -48,13 +48,13 @@ jobs:
           ;
           ~/ppl-run generic GENERATE-BUILD-CACHE-KEY "BUILD_CACHE_KEY" --lcd "$LOCAL_CLONE_DIR" >> $GITHUB_ENV
           ~/ppl-run generic GENERATE-BUILD-TARGET-DIR "BUILD_TARGET_DIR" --lcd "$LOCAL_CLONE_DIR" >> $GITHUB_ENV
-      #~ BUILD CACHE
-      #- name: "Cache Build Dir"
-        #id: build-cache
-        #uses: actions/cache@v2
-        #with:
+          #~ BUILD CACHE
+          #- name: "Cache Build Dir"
+          #id: build-cache
+          #uses: actions/cache@v2
+          #with:
           #path: "${{ env.LOCAL_CLONE_DIR}}/${{ env.BUILD_TARGET_DIR }}/"
-          #key: "${{ runner.os }}-enp-build-${{ env.BUILD_CACHE_KEY }}"
+        #key: "${{ runner.os }}-enp-build-${{ env.BUILD_CACHE_KEY }}"
       #~ PUBLISH THE ARTIFACT
       - name: "Publish package"
         run: |
