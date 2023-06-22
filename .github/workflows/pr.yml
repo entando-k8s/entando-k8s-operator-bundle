@@ -12,7 +12,7 @@ on:
       - release/*
 
 env:
-  ENTANDO_OPT_USE_PPL_TAG: "v1.4.0"
+  ENTANDO_OPT_USE_PPL_TAG: "v1.4.2"
   ENTANDO_OPT_DATA_REPO: "${{ secrets.ENTANDO_OPT_DATA_REPO }}"
   ENTANDO_OPT_DATA_REPO_TOKEN: "${{ secrets.ENTANDO_OPT_DATA_REPO_TOKEN }}"
   ENTANDO_OPT_ENVIRONMENT_NAMES: "${{ secrets.ENTANDO_OPT_ENVIRONMENT_NAMES }}"
@@ -28,7 +28,7 @@ jobs:
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # PREPARE
-  
+
   prepare:
     runs-on: ubuntu-latest
     outputs:
@@ -40,8 +40,8 @@ jobs:
         run: |
           ${{ secrets.ENTANDO_OPT_PPL_INSTALL_CMD }}
           ~/ppl-run \
-            .. status-report \
             .. @checkout-branch --lcd "$LOCAL_CLONE_DIR" \
+            .. status-report \
             .. @setup-feature-flags "PR_PREFLIGHT_CHECKS" "BOM_CHECK" "BOM" \
             .. @setup-features-list "SCAN_MATRIX" --prefix "MTX-ENP-,MTX-SCAN-" \
           ;
@@ -54,7 +54,7 @@ jobs:
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # FULL-BUILD
-  
+
   full-build:
     needs: [ 'prepare' ]
     runs-on: ubuntu-latest
@@ -100,7 +100,7 @@ jobs:
       fail-fast: false
       matrix:
         mtx-step: ${{fromJson(needs.prepare.outputs.SCAN_MATRIX)}}
-      
+
     steps:
       #~ CHECKOUT
       - name: "CHECKOUT"
