@@ -38,8 +38,8 @@ operator:
       sha256: d48eacfe8a123aefac60390b5417da1ec5aab0378c21fadb66b567adde01ce61
       version: 6.3.26-fix.1
     entando_component_manager_6_4:
-      sha256: 6dfa8c2c910e0d36feee404fa72fafc81d138607724fc5a017aeea461716ceba
-      version: 7.0.2
+      sha256: f88cd2da5cb48f0c243bc3f5c090a79d5e5b3159bbb0c4a32a67af9b98f08180
+      version: 7.0.3
     entando_de_app_eap_6_3:
       sha256: 71c13bca21b52a8cbad26fe11dac6250a938d3d6fc5aecfe245d604bbc509914
       version: 6.3.68-fix.3-ENG-3332-PR-335
@@ -53,8 +53,8 @@ operator:
       sha256: aa81422f1e1a8bcafbff30dc623f6c8d0c6523e8857cce75d526df806e5ab11b
       version: 6.5.4
     entando_k8s_app_controller:
-      sha256: 1308a2c1e56ecc13e47da5a399c6fb9a28e9adf2d5fde2530331b7c5dda3cca1
-      version: 7.0.2
+      sha256: eb6d1830cebea070763b05ade3fad422afbeed71f0268ac7354754b692fab0f3
+      version: 7.0.3
     entando_k8s_app_plugin_link_controller:
       sha256: bf71073f3e4d6c6815cbdc582a984695b5944cf3c82e603386a96bc0a1b4bd74
       version: 7.0.2
@@ -65,20 +65,20 @@ operator:
       sha256: 4bc6797bb41b3e407b64530c3cff7a78f3fc2c22863caad9c606ccd650310b61
       version: 6.3.11
     entando_k8s_controller_coordinator:
-      sha256: df82dc93785eb41660a1bb4edb88970a5cb791114395ad6cdf0de128fbcf4499
-      version: 7.0.3
+      sha256: 69c0bc840a62128f10f5d3622888f1463ad7532b9ac535dcde9b6290d39b3c1b
+      version: 7.0.4
     entando_k8s_database_service_controller:
       sha256: d6ca8e1c9b1b257bf6234205852557d20605aa6e3e968e1a304360f3db03e78d
       version: 7.0.2
     entando_k8s_dbjob:
-      sha256: 144b206d9643c101914b7e6cc9bd091cf2f4409f145ccb839829fbe2d5569b9f
-      version: 7.0.2
+      sha256: f03fe812d25d5108dd82b173921e04d2b44f40d6699d2f9682ca5b7feb641361
+      version: 7.0.3
     entando_k8s_keycloak_controller:
       sha256: 66d9a78447b51f31fbbc5f0bf76e5de6ec8c39cc96c0d5f396405a8b3df60a74
       version: 6.5.0
     entando_k8s_plugin_controller:
-      sha256: 8fa2a1f44ca9b94797bb5d65d409c58d924cabb60dada6bd2cb1a654adf605e3
-      version: 7.0.2
+      sha256: 756dacec91e4cbd04ec7b4ab7cf20ba633e718557fbff22eecfb85a7dd7231e1
+      version: 7.0.3
     entando_k8s_service:
       sha256: d1e022d6c1eb1f20268372493115fb34066b52245995eee11b77b7c36bc66431
       version: 7.0.2
