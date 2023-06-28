@@ -20,8 +20,8 @@ operator:
       sha256: 3bc6411823e01931328b4a696b9751750060af51577108bd628981ad71ba54ed
       version: 6.3.93-hotfix.1
     app_builder_6_4:
-      sha256: e27f6e58856ca41692437bbc09f1cc3d8f0cf909d038d941127d36952b840d12
-      version: 7.2.2-rc1
+      sha256: 1f2ed47a1ba9a90b79ef70718a40a7ae9d5078f50101a1bf9a67e04fe809c877
+      version: 7.2.2
     busybox:
       sha256: 14d4f50961544fdb669075c442509f194bdc4c0e344bde06e35dbd55af842a38
       version: latest
@@ -38,17 +38,17 @@ operator:
       sha256: 8b5657c42b435cb5e22d40b783a5c69afeb63d7c9d14b201ca16fce91f4c06f5
       version: 6.3.68-fix.3-ENG-3332-PR-335
     entando_de_app_eap_6_4:
-      sha256: 90f3971ab7d487025b25720c1e860f28761e79a685c464dfbbfd5d0783c16968
-      version: 7.2.2-rc1
+      sha256: 2aea6d8918b5580c13ddc73c37d4b33338f7daa44eadb454d44e75eeed0397e6
+      version: 7.2.2
     entando_de_app_wildfly_6_3:
       sha256: 71c13bca21b52a8cbad26fe11dac6250a938d3d6fc5aecfe245d604bbc509914
       version: 6.3.68-fix.3-ENG-3332-PR-335
     entando_de_app_wildfly_6_4:
-      sha256: 346ebcaa2576fee5778f87c5932e3b83178ed73972cc5b6196ef508beceaf380
-      version: 7.2.2-rc1
+      sha256: 40d707b8deb683e025515d980775fe0ddc386912c7b327cc9cf33063bacb9b77
+      version: 7.2.2
     entando_de_app_tomcat_6_4:
-      sha256: 8db580a1b9c43b03356232e6164e8470a610f16af477c06df5451cd2809a02d9
-      version: 7.2.2-rc1
+      sha256: cd0bc80409e7df1fde137ef881218c1f681dab1993d66181bbf17d3b0b8ad471
+      version: 7.2.2
     entando_k8s_app_controller:
       sha256: 3c90051116f39a5f54aceef331006dd36c589061980587edad550cf223ef1353
       version: 7.2.0
