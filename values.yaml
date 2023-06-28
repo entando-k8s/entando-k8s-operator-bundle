@@ -26,8 +26,8 @@ operator:
       sha256: 3bc6411823e01931328b4a696b9751750060af51577108bd628981ad71ba54ed
       version: 6.3.93-hotfix.1
     app_builder_6_4:
-      sha256: 8bb59ee6deaaf08ce2c4e78a42b74c8d8d15a9abf304e52bff593489b31755d8
-      version: 6.3.93-hotfix.2
+      sha256: 47670ae8029a686fb1a0857b3a98f55fc4fe478643c3632b73cc63a404b69611
+      version: 6.5.4
     busybox:
       sha256: 14d4f50961544fdb669075c442509f194bdc4c0e344bde06e35dbd55af842a38
       version: latest
@@ -65,8 +65,8 @@ operator:
       sha256: 4bc6797bb41b3e407b64530c3cff7a78f3fc2c22863caad9c606ccd650310b61
       version: 6.3.11
     entando_k8s_controller_coordinator:
-      sha256: 69c0bc840a62128f10f5d3622888f1463ad7532b9ac535dcde9b6290d39b3c1b
-      version: 7.0.4
+      sha256: c2a436c3d83463c9e97b217eea0d02fbac72cace8134f69dc3f78a253b926349
+      version: 7.0.5
     entando_k8s_database_service_controller:
       sha256: d6ca8e1c9b1b257bf6234205852557d20605aa6e3e968e1a304360f3db03e78d
       version: 7.0.2

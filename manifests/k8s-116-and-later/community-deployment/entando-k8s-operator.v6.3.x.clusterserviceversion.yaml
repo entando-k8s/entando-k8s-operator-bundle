@@ -22,7 +22,7 @@ metadata:
     description: >-
       Processes EntandoKeycloakServer, EntandoApp and EntandoPlugin custom
       resources and deploys the relevant containers in the Kubernetes cluster.
-    containerImage: registry.hub.docker.com/entando/entando-k8s-controller-coordinator@sha256:69c0bc840a62128f10f5d3622888f1463ad7532b9ac535dcde9b6290d39b3c1b
+    containerImage: registry.hub.docker.com/entando/entando-k8s-controller-coordinator@sha256:c2a436c3d83463c9e97b217eea0d02fbac72cace8134f69dc3f78a253b926349
     support: ''
     capabilities: Basic Install
     repository: ''
@@ -551,8 +551,8 @@ spec:
       image: registry.redhat.io/rhel8/postgresql-12@sha256:fa920188f567e51d75aacd723f0964026e42ac060fed392036e8d4b3c7a8129f
     - name: app-builder-6-3 #6.3.93-hotfix.1
       image: registry.hub.docker.com/entando/app-builder@sha256:3bc6411823e01931328b4a696b9751750060af51577108bd628981ad71ba54ed
-    - name: app-builder-6-4 #6.3.93-hotfix.2
-      image: registry.hub.docker.com/entando/app-builder@sha256:8bb59ee6deaaf08ce2c4e78a42b74c8d8d15a9abf304e52bff593489b31755d8
+    - name: app-builder-6-4 #6.5.4
+      image: registry.hub.docker.com/entando/app-builder@sha256:47670ae8029a686fb1a0857b3a98f55fc4fe478643c3632b73cc63a404b69611
     - name: entando-component-manager-6-3 #6.3.26-fix.1
       image: registry.hub.docker.com/entando/entando-component-manager@sha256:d48eacfe8a123aefac60390b5417da1ec5aab0378c21fadb66b567adde01ce61
     - name: entando-component-manager-6-4 #7.0.3
@@ -757,7 +757,7 @@ spec:
                 imagePullSecrets:
                   - name: entando-pull-secret
                 containers:
-                  - image: registry.hub.docker.com/entando/entando-k8s-controller-coordinator@sha256:69c0bc840a62128f10f5d3622888f1463ad7532b9ac535dcde9b6290d39b3c1b
+                  - image: registry.hub.docker.com/entando/entando-k8s-controller-coordinator@sha256:c2a436c3d83463c9e97b217eea0d02fbac72cace8134f69dc3f78a253b926349
                     imagePullPolicy: IfNotPresent
                     name: entando-operator
                     resources:
@@ -808,8 +808,8 @@ spec:
                         value: registry.redhat.io/rhel8/postgresql-12@sha256:fa920188f567e51d75aacd723f0964026e42ac060fed392036e8d4b3c7a8129f
                       - name: RELATED_IMAGE_APP_BUILDER_6_3 #6.3.93-hotfix.1
                         value: registry.hub.docker.com/entando/app-builder@sha256:3bc6411823e01931328b4a696b9751750060af51577108bd628981ad71ba54ed
-                      - name: RELATED_IMAGE_APP_BUILDER_6_4 #6.3.93-hotfix.2
-                        value: registry.hub.docker.com/entando/app-builder@sha256:8bb59ee6deaaf08ce2c4e78a42b74c8d8d15a9abf304e52bff593489b31755d8
+                      - name: RELATED_IMAGE_APP_BUILDER_6_4 #6.5.4
+                        value: registry.hub.docker.com/entando/app-builder@sha256:47670ae8029a686fb1a0857b3a98f55fc4fe478643c3632b73cc63a404b69611
                       - name: RELATED_IMAGE_ENTANDO_COMPONENT_MANAGER_6_3 #6.3.26-fix.1
                         value: registry.hub.docker.com/entando/entando-component-manager@sha256:d48eacfe8a123aefac60390b5417da1ec5aab0378c21fadb66b567adde01ce61
                       - name: RELATED_IMAGE_ENTANDO_COMPONENT_MANAGER_6_4 #7.0.3
