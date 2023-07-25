@@ -24,6 +24,9 @@ spec:
         - name: App
           type: string
           jsonPath: .spec.entandoAppName
+        - name: TenantCode
+          type: string
+          jsonPath: .spec.tenantCode
         - name: Plugin-NS
           type: string
           jsonPath: .spec.entandoPluginNamespace
@@ -56,6 +59,9 @@ spec:
                     The Namespace (EntandoApp.metadata.namespace) of the EntandoPlugin that this EntandoAppPluginLink has to link to.
                     When this property is not specified, it is assumed that the targeted EntandoPlugin is in the same
                     Namespace as this EntandoAppPluginLink
+                  type: string
+                tenantCode:
+                  description: The tenantCode representing the tenant of this EntandoAppPluginLink.
                   type: string
             status:
               type: object
