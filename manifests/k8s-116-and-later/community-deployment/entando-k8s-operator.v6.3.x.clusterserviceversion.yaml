@@ -3,7 +3,7 @@
 apiVersion: operators.coreos.com/v1alpha1
 kind: ClusterServiceVersion
 metadata:
-  name: entando-k8s-operator.v7.2.1
+  name: entando-k8s-operator.v7.3.0
   namespace: placeholder
   annotations:
     alm-examples: >-
@@ -29,7 +29,7 @@ metadata:
 spec:
   displayName: Entando Operator
   maturity: alpha
-  version: 7.2.1
+  version: 7.3.0
   skips: []
   description: >
     ## Entando
@@ -121,7 +121,7 @@ spec:
     matchLabels: { }
   links:
     - name: Documentation
-      url: 'https://developer.entando.com/v7.2/docs/'
+      url: 'https://developer.entando.com/v7.3/docs/'
     - name: Support
       url: 'https://www.entando.com/'
   icon:
@@ -514,7 +514,7 @@ spec:
         displayName: EntandoDeBundle
         kind: EntandoDeBundle
         description: >-
-          The EntandoDeBundle custom resource defines a bundle that can be deployed to the local Hub. See [here](https://developer.entando.com/v7.2/docs/create/pb/publish-simple-bundle.html) for instructions on creating and deploying bundles.
+          The EntandoDeBundle custom resource defines a bundle that can be deployed to the local Hub. See [here](https://developer.entando.com/v7.3/docs/create/pb/publish-simple-bundle.html) for instructions on creating and deploying bundles.
         version: v1
         resources:
         specDescriptors: [ ]
@@ -788,7 +788,7 @@ spec:
                       - name: ENTANDO_DISABLE_KEYCLOAK_SSL_REQUIREMENT
                         value: "true"
                       - name: ENTANDO_K8S_OPERATOR_VERSION
-                        value: 7.2.1
+                        value: 7.3.0
                       - name: ENTANDO_K8S_OPERATOR_DEPLOYMENT_TYPE
                         value: olm
                       - name: OPERATOR_NAME
