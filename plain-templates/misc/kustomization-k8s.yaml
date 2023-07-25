@@ -1,0 +1,242 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+bases:
+    - ../base # relative path to the base folder
+
+namespace: $namespace
+
+patches:
+
+- target:
+      kind: Deployment
+      name: $appName-deployment
+
+  patch: |-
+    - op: replace
+      path: /spec/replicas
+      value: 0
+
+    - op: replace
+      path: /spec/template/spec/containers/0/image
+      value: registry.hub.docker.com/entando/entando-de-app-eap:new-tag
+
+- target:
+      kind: Deployment
+      name: $appName-cm-deployment
+
+  patch: |-
+    - op: replace
+      path: /spec/replicas
+      value: 0
+
+    - op: replace
+      path: /spec/template/spec/containers/0/image
+      value: registry.hub.docker.com/entando/entando-component-manager:new-tag
+
+- target:
+      kind: Deployment
+      name: $appName-ab-deployment
+
+  patch: |-
+    - op: replace
+      path: /spec/replicas
+      value: 0
+
+    - op: replace
+      path: /spec/template/spec/containers/0/image
+      value: registry.hub.docker.com/entando/app-builder:new-tag
+
+- target:
+      kind: Deployment
+      name: default-sso-in-namespace-deployment
+
+  patch: |-
+    - op: replace
+      path: /spec/replicas
+      value: 0
+
+    - op: replace
+      path: /spec/template/spec/containers/0/image
+      value: registry.hub.docker.com/entando/entando-redhat-sso:new-tag
+
+- target:
+      kind: Deployment
+      name: entando-k8s-service
+
+  patch: |-
+    - op: replace
+      path: /spec/replicas
+      value: 0
+
+    - op: replace
+      path: /spec/template/spec/containers/0/image
+      value: registry.hub.docker.com/entando/entando-k8s-service:new-tag
+
+- target:
+      kind: Deployment
+      name: entando-operator
+
+  patch: |-
+    - op: replace
+      path: /spec/replicas
+      value: 0
+
+    - op: replace
+      path: /spec/template/spec/containers/0/image
+      value: registry.hub.docker.com/entando/entando-k8s-controller-coordinator:new-tag
+
+    - op: replace
+      path: /spec/template/spec/containers/0/env/15
+      value:
+       name: RELATED_IMAGE_RHEL8_MYSQL_80
+       value: registry.hub.docker.com/entando/entando-mysql-ubi:new-tag
+
+    - op: replace
+      path: /spec/template/spec/containers/0/env/16
+      value:
+       name: RELATED_IMAGE_RHEL8_POSTGRESQL_12
+       value: registry.hub.docker.com/entando/entando-postgres-ubi:new-tag
+
+    - op: replace
+      path: /spec/template/spec/containers/0/env/17
+      value:
+       name: RELATED_IMAGE_APP_BUILDER_6_3
+       value: registry.hub.docker.com/entando/app-builder:new-tag
+
+    - op: replace
+      path: /spec/template/spec/containers/0/env/18
+      value:
+       name: RELATED_IMAGE_APP_BUILDER_6_4
+       value: registry.hub.docker.com/entando/app-builder:new-tag
+
+    - op: replace
+      path: /spec/template/spec/containers/0/env/19
+      value:
+       name: RELATED_IMAGE_ENTANDO_COMPONENT_MANAGER_6_3
+       value: registry.hub.docker.com/entando/entando-component-manager:new-tag
+
+    - op: replace
+      path: /spec/template/spec/containers/0/env/20
+      value:
+       name: RELATED_IMAGE_ENTANDO_COMPONENT_MANAGER_6_4
+       value: registry.hub.docker.com/entando/entando-component-manager:new-tag
+
+    - op: replace
+      path: /spec/template/spec/containers/0/env/21
+      value:
+       name: RELATED_IMAGE_ENTANDO_DE_APP_EAP_6_3
+       value: registry.hub.docker.com/entando/entando-de-app-eap:new-tag
+
+    - op: replace
+      path: /spec/template/spec/containers/0/env/22
+      value:
+       name: RELATED_IMAGE_ENTANDO_DE_APP_EAP_6_4
+       value: registry.hub.docker.com/entando/entando-de-app-eap:new-tag
+
+    - op: replace
+      path: /spec/template/spec/containers/0/env/23
+      value:
+       name: RELATED_IMAGE_ENTANDO_K8S_APP_CONTROLLER
+       value: registry.hub.docker.com/entando/entando-k8s-app-controller:new-tag
+
+    - op: replace
+      path: /spec/template/spec/containers/0/env/24
+      value:
+       name: RELATED_IMAGE_ENTANDO_K8S_APP_PLUGIN_LINK_CONTROLLER
+       value: registry.hub.docker.com/entando/entando-k8s-app-plugin-link-controller:new-tag
+
+    - op: replace
+      path: /spec/template/spec/containers/0/env/25
+      value:
+       name: RELATED_IMAGE_ENTANDO_K8S_DATABASE_SERVICE_CONTROLLER
+       value: registry.hub.docker.com/entando/entando-k8s-database-service-controller:new-tag
+
+    - op: replace
+      path: /spec/template/spec/containers/0/env/26
+      value:
+       name: RELATED_IMAGE_ENTANDO_K8S_DBJOB
+       value: registry.hub.docker.com/entando/entando-k8s-dbjob:new-tag
+    - op: replace
+      path: /spec/template/spec/containers/0/env/27
+      value:
+       name: RELATED_IMAGE_ENTANDO_K8S_KEYCLOAK_CONTROLLER
+       value: registry.hub.docker.com/entando/entando-k8s-keycloak-controller:new-tag
+
+    - op: replace
+      path: /spec/template/spec/containers/0/env/28
+      value:
+       name: RELATED_IMAGE_ENTANDO_K8S_PLUGIN_CONTROLLER
+       value: registry.hub.docker.com/entando/entando-k8s-plugin-controller:new-tag
+
+    - op: replace
+      path: /spec/template/spec/containers/0/env/29
+      value:
+       name: RELATED_IMAGE_ENTANDO_K8S_SERVICE
+       value: registry.hub.docker.com/entando/entando-k8s-service:new-tag
+
+    - op: replace
+      path: /spec/template/spec/containers/0/env/30
+      value:
+       name: RELATED_IMAGE_ENTANDO_REDHAT_SSO
+       value: registry.hub.docker.com/entando/entando-redhat-sso:new-tag
+
+    - op: replace
+      path: /spec/template/spec/containers/0/env/31
+      value:
+       name: OPERATOR_CONDITION_NAME
+       value: entando-k8s-operator.v7.1.3
+
+- target:
+      kind: Deployment
+      name: entando-operator
+
+  patch: |-
+    - op: replace
+      path: /spec/replicas
+      value: 1
+
+- target:
+      kind: Deployment
+      name: entando-k8s-service
+
+  patch: |-
+    - op: replace
+      path: /spec/replicas
+      value: 1
+
+- target:
+      kind: Deployment
+      name: default-sso-in-namespace-deployment
+
+  patch: |-
+    - op: replace
+      path: /spec/replicas
+      value: 1
+
+- target:
+      kind: Deployment
+      name: $appName-deployment
+
+  patch: |-
+    - op: replace
+      path: /spec/replicas
+      value: 1
+
+- target:
+      kind: Deployment
+      name: $appName-cm-deployment
+
+  patch: |-
+    - op: replace
+      path: /spec/replicas
+      value: 1
+
+- target:
+      kind: Deployment
+      name: $appName-ab-deployment
+
+  patch: |-
+    - op: replace
+      path: /spec/replicas
+      value: 1
+
