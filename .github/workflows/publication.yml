@@ -82,8 +82,9 @@ jobs:
       - name: Build steps
         env:
           ENTANDO_PRJ_VERSION: ${{ steps.meta-bundle.outputs.version }}
+          ENTAND_OPT_MAINLINE_VERSION: "7.2"
         run: |
-          ./generate-manifests.sh --version "${ENTANDO_PRJ_VERSION}" --mainline "$ENTANDO_OPT_MAINLINE_VERSION"
+          ./generate-manifests.sh --version "${ENTANDO_PRJ_VERSION}" --mainline "${ENTANDO_OPT_MAINLINE_VERSION}"
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -124,7 +125,7 @@ jobs:
         run: |
           export MY_VERSION=$(yq eval '.spec.version' manifests/k8s-116-and-later/community-deployment/entando-k8s-operator.v6.3.x.clusterserviceversion.yaml)
           echo "> Found version $MY_VERSION"
-          NEW_BUNDLE_BASE_IMAGE="${BUNDLES}registry.hub.docker.com/$DOCKER_BUNDLE_IMAGE_BASE_NAME"
+          NEW_BUNDLE_BASE_IMAGE="${BUNDLES}registry.hub.docker.com/${DOCKER_BUNDLE_IMAGE_BASE_NAME}"
           NEW_BUNDLE_BASE_IMAGE="${NEW_BUNDLE_BASE_IMAGE}@${DIGEST}"
           BUNDLES="${BUNDLES}${NEW_BUNDLE_BASE_IMAGE}"
           opm index add --bundles "${BUNDLES}" --container-tool docker --binary-image quay.io/operator-framework/opm:latest --generate
