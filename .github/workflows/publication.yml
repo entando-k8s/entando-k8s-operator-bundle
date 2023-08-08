@@ -45,20 +45,6 @@ jobs:
           opm: ${{ env.OPM_VERSION }}
           operator-sdk: ${{ env.OPERATOR-SDK_VERSION }}
 
-      - name: Set environment variables from entando-project
-        run: |
-          while IFS= read -r line; do
-            key=$(echo "$line" | cut -d '=' -f 1)
-            value=$(echo "$line" | cut -d '=' -f 2)
-            echo "$key=$value" >> $GITHUB_ENV
-          done < entando-project
-
-      - name: Build steps
-        env:
-          ENTANDO_OPT_MAINLINE_VERSION: ${{ secrets.ENTANDO_OPT_MAINLINE_VERSION }}
-        run: |
-          ./generate-manifests.sh --version "${ENTANDO_PRJ_VERSION}" --mainline "$ENTANDO_OPT_MAINLINE_VERSION"
-
       - name: Docker meta bundle
         id: meta-bundle
         uses: docker/metadata-action@v4
@@ -92,6 +78,12 @@ jobs:
             type=semver,pattern={{major}}
             type=sha
             type=raw,event=pr,value={{base_ref}}
+
+      - name: Build steps
+        env:
+          ENTANDO_PRJ_VERSION: ${{ steps.meta-bundle.outputs.version }}
+        run: |
+          ./generate-manifests.sh --version "${ENTANDO_PRJ_VERSION}" --mainline "$ENTANDO_OPT_MAINLINE_VERSION"
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -135,8 +127,6 @@ jobs:
           NEW_BUNDLE_BASE_IMAGE="${BUNDLES}registry.hub.docker.com/$DOCKER_BUNDLE_IMAGE_BASE_NAME"
           NEW_BUNDLE_BASE_IMAGE="${NEW_BUNDLE_BASE_IMAGE}@${DIGEST}"
           BUNDLES="${BUNDLES}${NEW_BUNDLE_BASE_IMAGE}"
-          echo "Bundles:"
-          echo "${BUNDLES}"
           opm index add --bundles "${BUNDLES}" --container-tool docker --binary-image quay.io/operator-framework/opm:latest --generate
 
       - name: Build and push operator index image
