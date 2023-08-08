@@ -11,7 +11,7 @@ env:
   PR_CHECKER_PATH: ".github/pr-title-checker-config.json"
 
   OPM_VERSION: "1.20.0"
-  OPERATOR-SDK_VERSION: "1.20.0"
+  OPERATOR-SDK_VERSION: "1.20."
   DOCKER_BUNDLE_IMAGE_BASE_NAME: entandobuilduser/entando-k8s-operator-bundle
   DOCKER_INDEX_IMAGE_BASE_NAME: entandobuilduser/entando-k8s-index
   DOCKER_IMAGE_ARCHITECTURE: linux/amd64,linux/arm64
@@ -42,6 +42,7 @@ jobs:
       - name: Install CLI tools
         uses: redhat-actions/openshift-tools-installer@v1
         with:
+          source: "github"
           opm: ${{ env.OPM_VERSION }}
           operator-sdk: ${{ env.OPERATOR-SDK_VERSION }}
 
