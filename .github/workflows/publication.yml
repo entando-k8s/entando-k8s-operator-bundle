@@ -10,8 +10,8 @@ env:
   ENTANDO_BOT_TOKEN: ${{ secrets.ENTANDO_BOT_TOKEN }}
   PR_CHECKER_PATH: ".github/pr-title-checker-config.json"
 
-  OPM_VERSION: "1.20.0"
-  OPERATOR-SDK_VERSION: "1.20."
+  OPM_VERSION: "v1.20.0"
+  OPERATOR-SDK_VERSION: "v1.20."
   DOCKER_BUNDLE_IMAGE_BASE_NAME: entandobuilduser/entando-k8s-operator-bundle
   DOCKER_INDEX_IMAGE_BASE_NAME: entandobuilduser/entando-k8s-index
   DOCKER_IMAGE_ARCHITECTURE: linux/amd64,linux/arm64
