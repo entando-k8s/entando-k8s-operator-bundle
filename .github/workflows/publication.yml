@@ -45,7 +45,17 @@ jobs:
           opm: ${{ env.OPM_VERSION }}
           operator-sdk: ${{ env.OPERATOR-SDK_VERSION }}
 
+      - name: Set environment variables from entando-project
+        run: |
+          while IFS= read -r line; do
+            key=$(echo "$line" | cut -d '=' -f 1)
+            value=$(echo "$line" | cut -d '=' -f 2)
+            echo "$key=$value" >> $GITHUB_ENV
+          done < entando-project
+
       - name: Build steps
+        env:
+          ENTANDO_OPT_MAINLINE_VERSION: ${{ secrets.ENTANDO_OPT_MAINLINE_VERSION }}
         run: |
           ./generate-manifests.sh --version "${ENTANDO_PRJ_VERSION}" --mainline "$ENTANDO_OPT_MAINLINE_VERSION"
 
