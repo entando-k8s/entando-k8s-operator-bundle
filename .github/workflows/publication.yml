@@ -125,6 +125,8 @@ jobs:
           NEW_BUNDLE_BASE_IMAGE="${BUNDLES}registry.hub.docker.com/$DOCKER_BUNDLE_IMAGE_BASE_NAME"
           NEW_BUNDLE_BASE_IMAGE="${NEW_BUNDLE_BASE_IMAGE}@${DIGEST}"
           BUNDLES="${BUNDLES}${NEW_BUNDLE_BASE_IMAGE}"
+          echo "Bundles:"
+          echo "${BUNDLES}"
           opm index add --bundles "${BUNDLES}" --container-tool docker --binary-image quay.io/operator-framework/opm:latest --generate
 
       - name: Build and push operator index image
