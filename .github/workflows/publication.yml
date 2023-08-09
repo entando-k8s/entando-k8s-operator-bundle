@@ -148,10 +148,10 @@ jobs:
         run: |
           mkdir -p tmp
           echo "> Generating catalog source under ./tmp/catalog-source.yaml"
-          NAME="$(echo "$VERSION" | tr '[:upper:]' '[:lower:]')""
+          NAME="$(echo "$VERSION" | tr '[:upper:]' '[:lower:]')"
           NAME="$(echo "entando-catalog-${NAME}" | sed 's/\./-/g')"
           cat "./plain-templates/misc/catalog-source.yaml" \
             | sed "s/{{NAME}}/${NAME}/" \
             | sed "s/{{DISPLAY-NAME}}/Entando Catalog ${VERSION}/" \
-            | sed "s|{{IMAGE}}|registry.hub.docker.com/${DOCKER_INDEX_IMAGE_BASE_NAME}}@${DIGEST}|" \
+            | sed "s|{{IMAGE}}|registry.hub.docker.com/${DOCKER_INDEX_IMAGE_BASE_NAME}@${DIGEST}|" \
             > ./tmp/catalog-source.yaml
