@@ -131,6 +131,7 @@ jobs:
           opm index add --bundles "${BUNDLES}" --container-tool docker --binary-image quay.io/operator-framework/opm:latest --generate
 
       - name: Build and push operator index image
+        id: build-and-push-index
         uses: docker/build-push-action@v4
         with:
           context: ${{ env.DOCKER_IMAGE_CONTEXT }}
@@ -139,3 +140,18 @@ jobs:
           tags: ${{ steps.meta-index.outputs.tags }}
           labels: ${{ steps.meta-index.outputs.labels }}
           platforms: ${{ env.DOCKER_IMAGE_ARCHITECTURE }}
+
+      - name: Output catalog yaml file
+        env:
+          VERSION: ${{ steps.meta-index.outputs.version }}
+          DIGEST: ${{ steps.build-and-push-index.outputs.digest }}
+        run: |
+          mkdir -p tmp
+          echo "> Generating catalog source under ./tmp/catalog-source.yaml"
+          NAME="$(echo "$VERSION" | tr '[:upper:]' '[:lower:]')""
+          NAME="$(echo "entando-catalog-${NAME}" | sed 's/\./-/g')"
+          cat "./plain-templates/misc/catalog-source.yaml" \
+            | sed "s/{{NAME}}/${NAME}/" \
+            | sed "s/{{DISPLAY-NAME}}/Entando Catalog ${VERSION}/" \
+            | sed "s|{{IMAGE}}|registry.hub.docker.com/${DOCKER_INDEX_IMAGE_BASE_NAME}}@${DIGEST}|" \
+            > ./tmp/catalog-source.yaml
