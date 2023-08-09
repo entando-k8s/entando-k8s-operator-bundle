@@ -155,3 +155,4 @@ jobs:
             | sed "s/{{DISPLAY-NAME}}/Entando Catalog ${VERSION}/" \
             | sed "s|{{IMAGE}}|registry.hub.docker.com/${DOCKER_INDEX_IMAGE_BASE_NAME}@${DIGEST}|" \
             > ./tmp/catalog-source.yaml
+          cat ./tmp/catalog-source.yaml
