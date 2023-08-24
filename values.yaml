@@ -11,19 +11,19 @@ operator:
     - entando-pull-secret
   relatedImages:
     rhel8_mysql_80:
-      sha256: 1def587ff04c2a7736bcd4764c1fb50b0613aa915a3e7aeec5087e2a546275c7
-      version: 8.0.29
+      sha256: 1ec3d943f63b855b3caca61d35e39ad9cd6b42543c7a6732028f78c497a3c3a7
+      version: v8.0.33-IT-409-PR-8-KB-release-2F-8.0
     rhel8_postgresql_12:
-      sha256: 5da64777195aba69c4d5cfaa27a87d376d43c9fb5c0e25afa985c41ea356b050
-      version: 14.1.0
+      sha256: d09b7d940614b408f6b7f6e880a75b9fea4f3f0ce2dcccd6b55189ecf5c1e3db
+      version: 14.1.0-IT-408-PR-10
     app_builder_6_3:
       sha256: 3bc6411823e01931328b4a696b9751750060af51577108bd628981ad71ba54ed
       version: 6.3.93-hotfix.1
     app_builder_6_4:
-      sha256: 462d6b55654c445b1c699bddd691265b5149d79fb09447f3dbb360697dfa6162
-      version: 7.2.1
+      sha256: 4ce12c7277ba7fb4a3111538512ddd1d39bc7f3b7d17b26f6fe4021ec21b547f
+      version: 7.3.0-IT-403-PR-1521
     busybox:
-      sha256: 14d4f50961544fdb669075c442509f194bdc4c0e344bde06e35dbd55af842a38
+      sha256: a1ef5f92be800a97cf5baf89937aafe64bbd285514c4d8fec53f6800f8c4b31f
       version: latest
     entando_avatar_plugin:
       sha256: 3ff5425ca1b27c609614879bf1c8a25df4e6c0c560caa683d272eccd6090cee6
@@ -32,8 +32,8 @@ operator:
       sha256: d48eacfe8a123aefac60390b5417da1ec5aab0378c21fadb66b567adde01ce61
       version: 6.3.26-fix.1
     entando_component_manager_6_4:
-      sha256: 3c5fe7696bbb887d668d3bdca1f5e87dce49b457ff5c3fcdc4e3b97fb6a9a430
-      version: 7.2.1
+      sha256: f7ac841dd526844dd6d07c73ae35a2c03294a5d2edf8403ff1c587b3f946ab09
+      version: 7.3.0-IT-442-PR-352
     entando_de_app_eap_6_3:
       sha256: 8b5657c42b435cb5e22d40b783a5c69afeb63d7c9d14b201ca16fce91f4c06f5
       version: 6.3.68-fix.3-ENG-3332-PR-335
