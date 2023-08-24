@@ -10,7 +10,7 @@ operator:
     - redhat-registry
     - entando-pull-secret
   relatedImages:
-        rhel8_mysql_80:
+    rhel8_mysql_80:
       sha256: 1ec3d943f63b855b3caca61d35e39ad9cd6b42543c7a6732028f78c497a3c3a7
       version: v8.0.33-IT-409-PR-8-KB-release-2F-8.0
     rhel8_postgresql_12:
