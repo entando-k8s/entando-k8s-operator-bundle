@@ -3,6 +3,9 @@ kind: CatalogSource
 metadata:
   name: {{NAME}}
   namespace: openshift-marketplace
+  labels:
+    operatorframework.io/arch.amd64: supported
+    operatorframework.io/arch.arm64: supported
 spec:
   displayName: {{DISPLAY-NAME}}
   image: {{IMAGE}}
@@ -10,3 +13,4 @@ spec:
   updateStrategy:
     registryPoll:
       interval: 5m
+labs:
