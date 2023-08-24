@@ -10,6 +10,18 @@ operator:
     - redhat-registry
     - entando-pull-secret
   relatedImages:
+bundle:
+  version: 7.3.0
+  olmDisabled: true
+  communityOnly: true
+  containerRegistry: registry.connect.redhat.com
+operator:
+  generateClusterRoles: false
+  namespacePlaceholder: entando-cluster-operator
+  imagePullSecrets:
+    - redhat-registry
+    - entando-pull-secret
+  relatedImages:
     rhel8_mysql_80:
       sha256: 1ec3d943f63b855b3caca61d35e39ad9cd6b42543c7a6732028f78c497a3c3a7
       version: v8.0.33-IT-409-PR-8-KB-release-2F-8.0
@@ -40,36 +52,57 @@ operator:
     entando_de_app_eap_6_4:
       sha256: 05901d8560c372b6616df9db83b6e2d481681a7fd34568ec7a96513de41d7496
       version: 7.2.1
+    entando_de_app_wildfly_6_3:
+      sha256: 71c13bca21b52a8cbad26fe11dac6250a938d3d6fc5aecfe245d604bbc509914
+      version: 6.3.68-fix.3-ENG-3332-PR-335
+    entando_de_app_wildfly_6_4:
+      sha256: 6afb110660ba0e175c5c5d2bb2de987cea14227c6db2bb36f06ef520242408dc
+      version: 7.2.1
+    entando_de_app_tomcat_6_4:
+      sha256: d20dff3e25d11bddf23c6ac7a08d45c0745c3ac9f2be18fb7b4654264b99414f
+      version: 7.3.0-IT-410-PR-189
+    entando_k8s_app_controller:
+      sha256: 2784239a7d62a2cd98b3b3c0ac22e9efc5758ea00764fff2e099cf2ed6219102
+      version: 7.2.0-IT-442-PR-90
+    entando_k8s_app_plugin_link_controller:
+      sha256: 28e732a0da2ac74cae470423f6aafb025ffd1d8821cea3668445fc098720858a
+      version: 7.3.0-IT-442-PR-54
+    entando_k8s_cluster_infrastructure_controller:
+      sha256: 86dbea6696349d7b2393e12bacef4d1acec2dd3f8551e397fa26c92706a18dd3
+      version: 6.3.7
+    entando_k8s_composite_app_controller:
+      sha256: 4bc6797bb41b3e407b64530c3cff7a78f3fc2c22863caad9c606ccd650310b61
+      version: 6.3.11
     entando_k8s_controller_coordinator:
       sha256: e5d38d61aa6176b65cad9df4dadcff4e760e2f3897842811eeb492dcc11a3aef
       version: 7.2.0
     entando_k8s_database_service_controller:
-      sha256: 9205f0eed6c4ceea643e87db5398a155a001112b7d6f2bc772aed98f3ceda416
-      version: 7.2.0
+      sha256: 9ca7d91f73882257c1efb2fd775b65e398599a177b2c4094d81c82bb1cedabf2
+      version: 7.2.0-IT-442-PR-48
     entando_k8s_dbjob:
-      sha256: d05ee184e833fd7e614c62700ae6816a29da8f70ec836c84f96c2a00a791a29a
-      version: 7.1.1
+      sha256: d7e8582ea8146aeca0f66b0149be712f749123cec984c7cad2534569b8b0c171
+      version: 7.2.0-IT-442-PR-46
     entando_k8s_keycloak_controller:
-      sha256: e321fac37d1002336a76b5ec76641bb4a077214140a81c41b0c52f5a1f28192b
-      version: 7.2.0
+      sha256: 3d2c90b246013e64640c33637c3847049f327ab02c35719f7ccbe26b42f7a9d7
+      version: 7.2.0-IT-442-PR-72
     entando_k8s_plugin_controller:
-      sha256: 64a3c9d71ab0d40dbec12e741b3b1875a969da08a517e97d8314642fbee2b839
-      version: 7.2.0
+      sha256: eca9b3f39cf4e24ad7485f506610bd8d1a63dc19aab8f70de876f2387fc0c8e0
+      version: 7.3.0-IT-442-PR-83
     entando_k8s_service:
-      sha256: f90e82c4625624a5af12c0522356daca5ffb91abd07c88bb81b2aa0e8d027fb2
-      version: 7.1.2
+      sha256: 1ef8042ea5cafec2807c322363a82bf17f349c13cda7a600763533e3ec869db3
+      version: 7.3.0-ENG-5087-PR-80
     entando_process_driven_plugin:
       sha256: 18db1afb892393c1dcf7c36e5a4bbd1d6bc60029014094178ce1acb5dd1f68a4
       version: 6.0.50-fix.1
     entando_keycloak:
-      sha256: 5964ebb828497e8e459878dcd7115904b7113cad962b5d61e1e93e84826ca004
-      version: 7.2.0
+      sha256: e1e01bcafd0b850106a7897a81e32966147f72bcbeb26c1b91c7c0650ca2fbea
+      version: 7.2.0-IT-406-PR-39
     entando_redhat_sso:
       sha256: e8c9e9e193a6dbc9ea171497b5b6768f442f31e465d67e961eb7553bdcaddf18
       version: 7.2.0
     mysql_80_centos7:
-      sha256: 62c60139c609d69d135815e6ab59cc73933ef476aafbf51d2bdedaed3b950147
-      version: 8.0.29
+      sha256: f944e3cc69c9e30c7d59c9727610e28eec8152e26518c181ccf3de45306de490
+      version: v8.0.33-IT-409-PR-8-KB-release-2F-8.0
     postgresql_12_centos7:
-      sha256: 62c4a020c772a0107b1d64302e3022ea413dbeba72b061acae41f98f4230337f
-      version: 14.1.0
+      sha256: a1c47871c354f630047edbc45b93784ae4d5817e57f2a69223daf7141cfc84b3
+      version: 14.1.0-IT-408-PR-10
