@@ -152,7 +152,7 @@ jobs:
           echo "> Generating catalog source under ./tmp/catalog-source.yaml"
           NAME="$(echo "$VERSION" | tr '[:upper:]' '[:lower:]')"
           NAME="$(echo "entando-catalog-${NAME}" | sed 's/\./-/g')"
-          DIGEST="$(crane digest ${DOCKER_INDEX_IMAGE_BASE_NAME}:${VERSION}"
+          DIGEST="$(crane digest ${DOCKER_INDEX_IMAGE_BASE_NAME}:${VERSION})"
           echo "This is the digest: ${DIGEST}"
           cat "./plain-templates/misc/catalog-source.yaml" \
             | sed "s/{{NAME}}/${NAME}/" \
