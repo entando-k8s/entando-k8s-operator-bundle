@@ -141,15 +141,19 @@ jobs:
           labels: ${{ steps.meta-index.outputs.labels }}
           platforms: ${{ env.DOCKER_IMAGE_ARCHITECTURE }}
 
+      - name: Installing crane
+        uses: imjasonh/setup-crane@v0.1
+
       - name: Output catalog yaml file
         env:
           VERSION: ${{ steps.meta-index.outputs.version }}
-          DIGEST: ${{ steps.build-and-push-index.outputs.digest }}
         run: |
           mkdir -p tmp
           echo "> Generating catalog source under ./tmp/catalog-source.yaml"
           NAME="$(echo "$VERSION" | tr '[:upper:]' '[:lower:]')"
           NAME="$(echo "entando-catalog-${NAME}" | sed 's/\./-/g')"
+          DIGEST="$(crane digest ${DOCKER_INDEX_IMAGE_BASE_NAME}:${VERSION}"
+          echo "This is the digest: ${DIGEST}"
           cat "./plain-templates/misc/catalog-source.yaml" \
             | sed "s/{{NAME}}/${NAME}/" \
             | sed "s/{{DISPLAY-NAME}}/Entando Catalog ${VERSION}/" \
