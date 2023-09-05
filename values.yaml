@@ -44,8 +44,8 @@ operator:
       sha256: d48eacfe8a123aefac60390b5417da1ec5aab0378c21fadb66b567adde01ce61
       version: 6.3.26-fix.1
     entando_component_manager_6_4:
-      sha256: d34c39362c61091acbc08e3a226999bdcfb6be5e8e4cdb2ed7d36946e193e430
-      version: 7.3.0-IT-442-PR-364
+      sha256: 1099b227b548c358164584ae2a6062410226778a7f8443444084225d906fd4a0
+      version: 7.3.0-ENG-5170-PR-369
     entando_de_app_eap_6_3:
       sha256: 8b5657c42b435cb5e22d40b783a5c69afeb63d7c9d14b201ca16fce91f4c06f5
       version: 6.3.68-fix.3-ENG-3332-PR-335
@@ -59,8 +59,8 @@ operator:
       sha256: 6afb110660ba0e175c5c5d2bb2de987cea14227c6db2bb36f06ef520242408dc
       version: 7.2.1
     entando_de_app_tomcat_6_4:
-      sha256: d20dff3e25d11bddf23c6ac7a08d45c0745c3ac9f2be18fb7b4654264b99414f
-      version: 7.3.0-IT-410-PR-189
+      sha256: 18d0ce708ae9c372871b0633a25ba5585dd743a13fef8c51a72ec0d50c0a8ca0
+      version: 7.3.0-ENG-5010-PR-195
     entando_k8s_app_controller:
       sha256: a3db370c1d1a46728eab5c577dc38d2afababb9bbb62e0eaa951dece3d3369f0
       version: sha-2cafdf0
