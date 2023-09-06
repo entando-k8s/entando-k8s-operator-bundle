@@ -552,8 +552,8 @@ spec:
       image: registry.hub.docker.com/entando/entando-postgres-rocky@sha256:d09b7d940614b408f6b7f6e880a75b9fea4f3f0ce2dcccd6b55189ecf5c1e3db
     - name: app-builder-6-3 #6.3.93-hotfix.1
       image: registry.hub.docker.com/entando/app-builder@sha256:3bc6411823e01931328b4a696b9751750060af51577108bd628981ad71ba54ed
-    - name: app-builder-6-4 #7.3.0-IT-403-PR-1521
-      image: registry.hub.docker.com/entando/app-builder@sha256:4ce12c7277ba7fb4a3111538512ddd1d39bc7f3b7d17b26f6fe4021ec21b547f
+    - name: app-builder-6-4 #7.3.0-ENG-5100-PR-1529
+      image: registry.hub.docker.com/entando/app-builder@sha256:118cf1c5a9c7e4b6451dcfc7c1ef3ab6c2e6e2380e4a160637918452688f8cd5
     - name: entando-component-manager-6-3 #6.3.26-fix.1
       image: registry.hub.docker.com/entando/entando-component-manager@sha256:d48eacfe8a123aefac60390b5417da1ec5aab0378c21fadb66b567adde01ce61
     - name: entando-component-manager-6-4 #7.3.0-ENG-5170-PR-369
@@ -813,8 +813,8 @@ spec:
                         value: registry.hub.docker.com/entando/entando-postgres-ubi@sha256:d09b7d940614b408f6b7f6e880a75b9fea4f3f0ce2dcccd6b55189ecf5c1e3db
                       - name: RELATED_IMAGE_APP_BUILDER_6_3 #6.3.93-hotfix.1
                         value: registry.hub.docker.com/entando/app-builder@sha256:3bc6411823e01931328b4a696b9751750060af51577108bd628981ad71ba54ed
-                      - name: RELATED_IMAGE_APP_BUILDER_6_4 #7.3.0-IT-403-PR-1521
-                        value: registry.hub.docker.com/entando/app-builder@sha256:4ce12c7277ba7fb4a3111538512ddd1d39bc7f3b7d17b26f6fe4021ec21b547f
+                      - name: RELATED_IMAGE_APP_BUILDER_6_4 #7.3.0-ENG-5100-PR-1529
+                        value: registry.hub.docker.com/entando/app-builder@sha256:118cf1c5a9c7e4b6451dcfc7c1ef3ab6c2e6e2380e4a160637918452688f8cd5
                       - name: RELATED_IMAGE_ENTANDO_COMPONENT_MANAGER_6_3 #6.3.26-fix.1
                         value: registry.hub.docker.com/entando/entando-component-manager@sha256:d48eacfe8a123aefac60390b5417da1ec5aab0378c21fadb66b567adde01ce61
                       - name: RELATED_IMAGE_ENTANDO_COMPONENT_MANAGER_6_4 #7.3.0-ENG-5170-PR-369
