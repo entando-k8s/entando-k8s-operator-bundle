@@ -383,7 +383,7 @@ spec:
           - displayName: Entando App Version
             path: entandoAppVersion
             x-descriptors:
-              - 'urn:alm:descriptor:com.tectonic.ui:select:7.2'
+              - 'urn:alm:descriptor:com.tectonic.ui:select:7.3'
           - displayName: Ingress Host Name
             path: ingressHostName
             x-descriptors:
