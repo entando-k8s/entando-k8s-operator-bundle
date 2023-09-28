@@ -38,7 +38,7 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v3
-        
+
       - name: Install CLI tools
         uses: redhat-actions/openshift-tools-installer@v1
         with:
@@ -82,7 +82,7 @@ jobs:
       - name: Build steps
         env:
           ENTANDO_PRJ_VERSION: ${{ steps.meta-bundle.outputs.version }}
-          ENTANDO_OPT_MAINLINE_VERSION: "7.2"
+          ENTANDO_OPT_MAINLINE_VERSION: "7.3"
         run: |
           ./generate-manifests.sh --version "${ENTANDO_PRJ_VERSION}" --mainline "${ENTANDO_OPT_MAINLINE_VERSION}"
 
