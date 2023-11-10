@@ -22,7 +22,7 @@ metadata:
     description: >-
       Processes EntandoKeycloakServer, EntandoApp and EntandoPlugin custom
       resources and deploys the relevant containers in the Kubernetes cluster.
-    containerImage: registry.hub.docker.com/entando/entando-k8s-controller-coordinator@sha256:86edaefb152555d012f0159a035527cbe1a79eadca036acc9f2d8dc39e08848b
+    containerImage: registry.hub.docker.com/entando/entando-k8s-controller-coordinator@sha256:332ef068ed21cb43aaa38dfde655d8ecf637a467952ac77330e5a26c642381a2
     support: ''
     capabilities: Basic Install
     repository: ''
@@ -725,7 +725,7 @@ spec:
                 imagePullSecrets:
                   - name: entando-pull-secret
                 containers:
-                  - image: registry.hub.docker.com/entando/entando-k8s-controller-coordinator@sha256:86edaefb152555d012f0159a035527cbe1a79eadca036acc9f2d8dc39e08848b
+                  - image: registry.hub.docker.com/entando/entando-k8s-controller-coordinator@sha256:332ef068ed21cb43aaa38dfde655d8ecf637a467952ac77330e5a26c642381a2
                     imagePullPolicy: IfNotPresent
                     name: entando-operator
                     resources:
@@ -778,32 +778,32 @@ spec:
                         value: registry.hub.docker.com/entando/entando-postgres-ubi@sha256:c384d5e5cb2a5803fab69df4c1f13392fb3e3e3b75a16a9b06d80473ccc10f33
                       - name: RELATED_IMAGE_APP_BUILDER_6_3 #6.3.93-hotfix.1
                         value: registry.hub.docker.com/entando/app-builder@sha256:3bc6411823e01931328b4a696b9751750060af51577108bd628981ad71ba54ed
-                      - name: RELATED_IMAGE_APP_BUILDER_6_4 #7.3.0-rc1
-                        value: registry.hub.docker.com/entando/app-builder@sha256:0d9e0dc226444ed0648959a331c31ec180e348200aeb6671636d6e7e1e6c4b57
+                      - name: RELATED_IMAGE_APP_BUILDER_6_4 #7.3.0-rc2
+                        value: registry.hub.docker.com/entando/app-builder@sha256:b08889e2521affb9c1a5e8259b940320ebbfdafee2e76ef2e2700be61ea77151
                       - name: RELATED_IMAGE_ENTANDO_COMPONENT_MANAGER_6_3 #6.3.26-fix.1
                         value: registry.hub.docker.com/entando/entando-component-manager@sha256:d48eacfe8a123aefac60390b5417da1ec5aab0378c21fadb66b567adde01ce61
-                      - name: RELATED_IMAGE_ENTANDO_COMPONENT_MANAGER_6_4 #7.3.0-rc1
-                        value: registry.hub.docker.com/entando/entando-component-manager@sha256:151ce281f655c5f4508e2b5dc76b8a9da2b2e57ed225a9bab93b1eb6f1282570
+                      - name: RELATED_IMAGE_ENTANDO_COMPONENT_MANAGER_6_4 #7.3.0-rc2
+                        value: registry.hub.docker.com/entando/entando-component-manager@sha256:c6c77d5b67be6118ea3b5e40dea7ad53a18579694cd6192107976c54c7611ead
                       - name: RELATED_IMAGE_ENTANDO_DE_APP_EAP_6_3 #6.3.68-fix.3-ENG-3332-PR-335
                         value: registry.hub.docker.com/entando/entando-de-app-eap@sha256:8b5657c42b435cb5e22d40b783a5c69afeb63d7c9d14b201ca16fce91f4c06f5
-                      - name: RELATED_IMAGE_ENTANDO_DE_APP_EAP_6_4 #7.3.0-rc1
-                        value: registry.hub.docker.com/entando/entando-de-app-eap@sha256:91f27430ac8100f109bfcac10be53889c443e72220518d2a59da9114aebe9200
-                      - name: RELATED_IMAGE_ENTANDO_DE_APP_TOMCAT_6_4 #7.3.0-rc1
-                        value: registry.hub.docker.com/entando/entando-de-app-tomcat@sha256:700e78aebb672349700bb4a73b750b3ac8d14dd571572366444c0d6f48463586
-                      - name: RELATED_IMAGE_ENTANDO_K8S_APP_CONTROLLER #7.3.0-rc1
-                        value: registry.hub.docker.com/entando/entando-k8s-app-controller@sha256:9a000dbe958fa5992ceb80b6d1ea70efc74b91a97ebb632e4603b7e8bde3f2f7
-                      - name: RELATED_IMAGE_ENTANDO_K8S_APP_PLUGIN_LINK_CONTROLLER #7.3.0-rc1
-                        value: registry.hub.docker.com/entando/entando-k8s-app-plugin-link-controller@sha256:a9edd63e3c3f98d3bc7dee487c4011c46915e835d0210bd323fa4f7c4fdeb1e1
-                      - name: RELATED_IMAGE_ENTANDO_K8S_DATABASE_SERVICE_CONTROLLER #7.3.0-rc1
-                        value: registry.hub.docker.com/entando/entando-k8s-database-service-controller@sha256:cc7d398ac3637258cc95f0720c874c1b240f0d29f623ae72665b405b4561bedf
-                      - name: RELATED_IMAGE_ENTANDO_K8S_DBJOB #7.3.0-rc1
-                        value: registry.hub.docker.com/entando/entando-k8s-dbjob@sha256:dcee6d837ad06dbc706dff9200e6c7e96519de73ed49413274a772a30fa0d21b
-                      - name: RELATED_IMAGE_ENTANDO_K8S_KEYCLOAK_CONTROLLER #7.3.0-rc1
-                        value: registry.hub.docker.com/entando/entando-k8s-keycloak-controller@sha256:146fc4ed17e9a6e9109518fe3a6ef72b4d4f741a68ff309969dc0ae815da8e56
-                      - name: RELATED_IMAGE_ENTANDO_K8S_PLUGIN_CONTROLLER #7.3.0-rc1
-                        value: registry.hub.docker.com/entando/entando-k8s-plugin-controller@sha256:2ac8b59a4531094e75b4fdc12d3f9d0a6729a83de5ca0001da8e470b9f3cc6ab
-                      - name: RELATED_IMAGE_ENTANDO_K8S_SERVICE #7.3.0-rc1
-                        value: registry.hub.docker.com/entando/entando-k8s-service@sha256:6580c0b6f82419b91882acc27bb7115f5ac783d801b4743ca329f39962cfd2e5
+                      - name: RELATED_IMAGE_ENTANDO_DE_APP_EAP_6_4 #7.3.0-rc2
+                        value: registry.hub.docker.com/entando/entando-de-app-eap@sha256:1d01df3cc478fd0c29015990982e080a4f0495f5f595400ff010fce9b13940f3
+                      - name: RELATED_IMAGE_ENTANDO_DE_APP_TOMCAT_6_4 #7.3.0-rc2
+                        value: registry.hub.docker.com/entando/entando-de-app-tomcat@sha256:76e82263bd56544a9ee8585fb8a0f93824bb07ca891c2ea58d8468397d4c7552
+                      - name: RELATED_IMAGE_ENTANDO_K8S_APP_CONTROLLER #7.3.0
+                        value: registry.hub.docker.com/entando/entando-k8s-app-controller@sha256:ef1a6cba29ada42b465b4ae7542dae8571f8c4b0c209cb68604dff9539ef86eb
+                      - name: RELATED_IMAGE_ENTANDO_K8S_APP_PLUGIN_LINK_CONTROLLER #7.3.0
+                        value: registry.hub.docker.com/entando/entando-k8s-app-plugin-link-controller@sha256:16d8a4cf2cbf55d9d743dda36763f6d9dd84b88312027f6cd9962d48c2587078
+                      - name: RELATED_IMAGE_ENTANDO_K8S_DATABASE_SERVICE_CONTROLLER #7.3.0
+                        value: registry.hub.docker.com/entando/entando-k8s-database-service-controller@sha256:2b04bcf75e5c3f662c7cad51e7a770d9706ffef02b7167603a98cdaa40ddb52d
+                      - name: RELATED_IMAGE_ENTANDO_K8S_DBJOB #7.3.0
+                        value: registry.hub.docker.com/entando/entando-k8s-dbjob@sha256:27fb97213726408615190eddaace0f1f50d11fb877080b69475032d4cec6ca04
+                      - name: RELATED_IMAGE_ENTANDO_K8S_KEYCLOAK_CONTROLLER #7.3.0
+                        value: registry.hub.docker.com/entando/entando-k8s-keycloak-controller@sha256:33a9ce7ce8eaab0923e0af3107ba6a40068d10f597042f27dbbffeb4ee6ce041
+                      - name: RELATED_IMAGE_ENTANDO_K8S_PLUGIN_CONTROLLER #7.3.0
+                        value: registry.hub.docker.com/entando/entando-k8s-plugin-controller@sha256:d28ef449f1cb7aad32c3e846f4cc52b0c69296a966c177bac9171e2f53baca03
+                      - name: RELATED_IMAGE_ENTANDO_K8S_SERVICE #7.3.0-rc2
+                        value: registry.hub.docker.com/entando/entando-k8s-service@sha256:f4dc4d5193a30ac1c33e1c5b238f901ac22b46d91d05555e3b07f7f44d96de6f
                       - name: RELATED_IMAGE_ENTANDO_REDHAT_SSO #7.3.0-rc1
                         value: registry.hub.docker.com/entando/entando-redhat-sso@sha256:f18510593a1d463ab0e316f318f7cb2e6e946641f43581782f868f696501add4
                     startupProbe:
@@ -848,7 +848,7 @@ spec:
                 imagePullSecrets:
                   - name: entando-pull-secret
                 containers:
-                  - image: registry.hub.docker.com/entando/entando-k8s-service@sha256:6580c0b6f82419b91882acc27bb7115f5ac783d801b4743ca329f39962cfd2e5
+                  - image: registry.hub.docker.com/entando/entando-k8s-service@sha256:f4dc4d5193a30ac1c33e1c5b238f901ac22b46d91d05555e3b07f7f44d96de6f
                     imagePullPolicy: IfNotPresent
                     name: entando-k8s-service
                     ports:
