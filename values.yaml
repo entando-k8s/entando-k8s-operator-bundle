@@ -23,17 +23,17 @@ operator:
     - entando-pull-secret
   relatedImages:
     rhel8_mysql_80:
-      sha256: 91af4ae7bad73fb2e1872622e229d696daff9adb41d5d0d51c31eca3391cfa9c
-      version: 8.0.33-rc1
+      sha256: 9af1569799dcd85699fce8cbc53b6f778267a98405bbd042f55be7faef728b5d
+      version: 8.0.33
     rhel8_postgresql_12:
-      sha256: c384d5e5cb2a5803fab69df4c1f13392fb3e3e3b75a16a9b06d80473ccc10f33
-      version: v14.8-rc1
+      sha256: 1143ab73187edba8bc449cf57a58f249a478a91cfd27e071b85ae0c1b2d32e2a
+      version: v14.8
     app_builder_6_3:
       sha256: 3bc6411823e01931328b4a696b9751750060af51577108bd628981ad71ba54ed
       version: 6.3.93-hotfix.1
     app_builder_6_4:
-      sha256: b08889e2521affb9c1a5e8259b940320ebbfdafee2e76ef2e2700be61ea77151
-      version: 7.3.0-rc2
+      sha256: 846613e924540077c5f0ebbac2215a40818f819fa53f9f0815e6aa26543cda55
+      version: 7.3.0
     busybox:
       sha256: a1ef5f92be800a97cf5baf89937aafe64bbd285514c4d8fec53f6800f8c4b31f
       version: latest
@@ -44,23 +44,23 @@ operator:
       sha256: d48eacfe8a123aefac60390b5417da1ec5aab0378c21fadb66b567adde01ce61
       version: 6.3.26-fix.1
     entando_component_manager_6_4:
-      sha256: c6c77d5b67be6118ea3b5e40dea7ad53a18579694cd6192107976c54c7611ead
-      version: 7.3.0-rc2
+      sha256: e85f20772718f45d26e962ccdfeeff07d0dcc4c78ad04c7e8f5cde14dca17312
+      version: 7.3.0
     entando_de_app_eap_6_3:
       sha256: 8b5657c42b435cb5e22d40b783a5c69afeb63d7c9d14b201ca16fce91f4c06f5
       version: 6.3.68-fix.3-ENG-3332-PR-335
     entando_de_app_eap_6_4:
-      sha256: 137d62f6a57a4c619173dda70f70ebb4667cf16c1444f8262fea0a3bd47f5698
-      version: 7.3.0-rc2-fix-ENG-4970
+      sha256: f3e2c103445f7d21f4f2e53032e14bea6389cecca8ea4b6a181fba569e985401
+      version: 7.3.0
     entando_de_app_wildfly_6_3:
       sha256: 71c13bca21b52a8cbad26fe11dac6250a938d3d6fc5aecfe245d604bbc509914
       version: 6.3.68-fix.3-ENG-3332-PR-335
     entando_de_app_wildfly_6_4:
-      sha256: d63998fc70d6dd9bd80c3982ef41afb1f58bc0ad959aa292ad8eee78de16470d
-      version: 7.3.0-rc2-fix-ENG-4970
+      sha256: dcf5d4e67189e4b810bd78e31953ce4dbe897d442feb2754fec8b29934221269
+      version: 7.3.0
     entando_de_app_tomcat_6_4:
-      sha256: 930c5b1269a558c48b898e03a94876ca45247da6de83677f3f6560a330568597
-      version: 7.3.0-rc2-fix-ENG-4970
+      sha256: 2734dfae019b5e514d5c0cee3fec50850bd1ec7515628998fde6e1832e098273
+      version: 7.3.0
     entando_k8s_app_controller:
       sha256: ef1a6cba29ada42b465b4ae7542dae8571f8c4b0c209cb68604dff9539ef86eb
       version: 7.3.0
@@ -89,20 +89,20 @@ operator:
       sha256: d28ef449f1cb7aad32c3e846f4cc52b0c69296a966c177bac9171e2f53baca03
       version: 7.3.0
     entando_k8s_service:
-      sha256: f4dc4d5193a30ac1c33e1c5b238f901ac22b46d91d05555e3b07f7f44d96de6f
-      version: 7.3.0-rc2
+      sha256: 42af4d77c95201a2f9325c412b0d434dd2da023094757d432424e3b3af66a138
+      version: 7.3.0
     entando_process_driven_plugin:
       sha256: 18db1afb892393c1dcf7c36e5a4bbd1d6bc60029014094178ce1acb5dd1f68a4
       version: 6.0.50-fix.1
     entando_keycloak:
-      sha256: 4b0c0f9530d406d61d8ba5028b3af682a0fef0bc7ed508ad8d1f74c63df110ad
-      version: 7.3.0-rc1
+      sha256: cab6cded577c41a187bfc4981a5d59421be14b0067d63a9ad952d02c72532894
+      version: 7.3.0
     entando_redhat_sso:
-      sha256: f18510593a1d463ab0e316f318f7cb2e6e946641f43581782f868f696501add4
-      version: 7.3.0-rc1
+      sha256: 3b663d67e54b34818f55dcb30a7d7a4d55e91c9bbfa6cdb2860756db88195aae
+      version: 7.3.0
     mysql_80_centos7:
-      sha256: 808a8b61e7f1b9eac9c879645a3de3c2efc0f5ed4474a4c5afd6a1af00cc156f
-      version: 8.0.33-rc1
+      sha256: e9d8cbd7b5bbf2982b5167e1a45866d2348a00d98dbeb2effeaf5d26179e4685
+      version: 8.0.33
     postgresql_12_centos7:
-      sha256: cf19076bb9eb7f2ad0861e7e35242529ccd50bff45d9d2af70b8658103010118
-      version: v14.8-rc1
+      sha256: eef845b29cf889aa983d38e1c1e7b4412bfe3e3a500640cf9f7369b9e97ac702
+      version: v14.8
