@@ -44,8 +44,8 @@ operator:
       sha256: d48eacfe8a123aefac60390b5417da1ec5aab0378c21fadb66b567adde01ce61
       version: 6.3.26-fix.1
     entando_component_manager_6_4:
-      sha256: e85f20772718f45d26e962ccdfeeff07d0dcc4c78ad04c7e8f5cde14dca17312
-      version: 7.3.0
+      sha256: 8167f58ae9faf8be3ed478c8888f2e3f1219b3524d70620e01ceed8950d543ce
+      version: 7.3.0-fix.2
     entando_de_app_eap_6_3:
       sha256: 8b5657c42b435cb5e22d40b783a5c69afeb63d7c9d14b201ca16fce91f4c06f5
       version: 6.3.68-fix.3-ENG-3332-PR-335

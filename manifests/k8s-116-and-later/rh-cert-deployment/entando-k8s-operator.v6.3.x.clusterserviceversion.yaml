@@ -782,8 +782,8 @@ spec:
                         value: registry.hub.docker.com/entando/app-builder@sha256:2656afc1d02dbed73229e32c80669a8a51650bfe71f07b41dcccabf669034862
                       - name: RELATED_IMAGE_ENTANDO_COMPONENT_MANAGER_6_3 #6.3.26-fix.1
                         value: registry.hub.docker.com/entando/entando-component-manager@sha256:d48eacfe8a123aefac60390b5417da1ec5aab0378c21fadb66b567adde01ce61
-                      - name: RELATED_IMAGE_ENTANDO_COMPONENT_MANAGER_6_4 #7.3.0
-                        value: registry.hub.docker.com/entando/entando-component-manager@sha256:e85f20772718f45d26e962ccdfeeff07d0dcc4c78ad04c7e8f5cde14dca17312
+                      - name: RELATED_IMAGE_ENTANDO_COMPONENT_MANAGER_6_4 #7.3.0-fix.2
+                        value: registry.hub.docker.com/entando/entando-component-manager@sha256:8167f58ae9faf8be3ed478c8888f2e3f1219b3524d70620e01ceed8950d543ce
                       - name: RELATED_IMAGE_ENTANDO_DE_APP_EAP_6_3 #6.3.68-fix.3-ENG-3332-PR-335
                         value: registry.hub.docker.com/entando/entando-de-app-eap@sha256:8b5657c42b435cb5e22d40b783a5c69afeb63d7c9d14b201ca16fce91f4c06f5
                       - name: RELATED_IMAGE_ENTANDO_DE_APP_EAP_6_4 #7.3.0
