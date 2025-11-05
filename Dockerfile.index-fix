@@ -1,0 +1,13 @@
+FROM registry.hub.docker.com/entando/entando-k8s-index:7.3.0-fix.1
+
+USER 0
+
+# Create a writable directory for the database and set proper permissions for OpenShift
+RUN mkdir -p /tmp/registry && \
+    chmod -R 777 /tmp/registry && \
+    if [ -d /database ]; then chmod -R g+rwx /database; fi && \
+    if [ -f /bundles.db ]; then chmod g+rw /bundles.db; fi && \
+    if [ -d /configs ]; then chmod -R g+rwx /configs; fi
+
+USER 1001
+WORKDIR /tmp/registry
