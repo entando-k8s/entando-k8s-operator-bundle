@@ -14,6 +14,8 @@ export OS=$(uname | awk '{print tolower($0)}')
 curl -sLO "$ENTANDO_OPT_OPM_CLI_URL"
 tar xvfz "$ENTANDO_OPT_OPM_CLI_PKG"
 chmod +x opm && mv opm /usr/local/bin/
+rm -f "$ENTANDO_OPT_OPM_CLI_PKG"  # Clean up tar.gz file
+
 
 opm version
 

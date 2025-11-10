@@ -62,8 +62,8 @@ operator:
       sha256: 4bc6797bb41b3e407b64530c3cff7a78f3fc2c22863caad9c606ccd650310b61
       version: 6.3.11
     entando_k8s_controller_coordinator:
-      sha256: 782c6f9aa809723204acc8cf3180fe595cd53b97316b95e5a63513c74e1425f1
-      version: 7.3.0-fix.1
+      sha256: 6ca1efca79a10a1b2ca46b61b20b8dd4782b6855cc70fe3ede72a9901cc7a340
+      version: v7.3.0-fix.1-ESB-780-PR-143
     entando_k8s_database_service_controller:
       sha256: 186bbcd0e9104ee93af3a015a40a7cc309e1e2603946103945613187d1b6c797
       version: 7.3.0-fix.1

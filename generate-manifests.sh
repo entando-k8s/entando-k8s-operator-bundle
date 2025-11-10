@@ -61,11 +61,22 @@ CONTROLLER_COORDINATOR_VERSION="$(
       | xargs
 )"
 
+if [ -z "$CONTROLLER_COORDINATOR_VERSION" ]; then
+  echo "> Unable to extract the controller coordinator version"
+else
+  echo "> Found version: $CONTROLLER_COORDINATOR_VERSION"
+fi
+
+# Strip 'v' prefix early, before determining base branch
+if [ "${CONTROLLER_COORDINATOR_VERSION:0:1}" == 'v' ]; then
+  CONTROLLER_COORDINATOR_VERSION="${CONTROLLER_COORDINATOR_VERSION:1}"
+fi
+
 if [ -z "$BASE_BRANCH_OVERRIDE" ]; then
   if [[ "$CONTROLLER_COORDINATOR_VERSION" = "${MAINLINE_VERSION}."* ]]; then
     BASE_BRANCH="develop"
   else
-    MAJ_MIN=$(sed -E 's/^([0-9]*\.[0-9]*)\..*$/\1/' <<<"$CONTROLLER_COORDINATOR_VERSION")
+    MAJ_MIN=$(sed -E 's/^([0-9]*\.[0-9]*\.[0-9]*).*$/\1/' <<<"$CONTROLLER_COORDINATOR_VERSION")
     BASE_BRANCH="release/$MAJ_MIN"
   fi
 
@@ -76,16 +87,6 @@ else
 fi
 
 BASE_BRANCH="$(_encode-branch "$BASE_BRANCH")"
-
-if [ -z "$CONTROLLER_COORDINATOR_VERSION" ]; then
-  echo "> Unable to extract the controller coordinator version"
-else
-  echo "> Found version: $CONTROLLER_COORDINATOR_VERSION"
-fi
-
-if [ "${CONTROLLER_COORDINATOR_VERSION:0:1}" == 'v' ]; then
-  CONTROLLER_COORDINATOR_VERSION="${CONTROLLER_COORDINATOR_VERSION:1}"
-fi
 
 HELM_MAJOR_VERSION="$(helm version | sed -E 's/.*:"v+([0-9]*).*/\1/')"
 
@@ -121,7 +122,10 @@ else
   _sed_i() { sed -i "$@"; }
 fi
 
-_sed_i "s/version: .*/version: $CONTROLLER_COORDINATOR_VERSION/" requirements.yaml
+# Extract Helm-compatible version (strip everything after the first +)
+HELM_COMPATIBLE_VERSION="${CONTROLLER_COORDINATOR_VERSION%%+*}"
+
+_sed_i "s/version: .*/version: $HELM_COMPATIBLE_VERSION/" requirements.yaml
 
 echo "> Cloning the contoller coordinator"
 
