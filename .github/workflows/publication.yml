@@ -10,7 +10,7 @@ env:
   ENTANDO_BOT_TOKEN: ${{ secrets.ENTANDO_BOT_TOKEN }}
   PR_CHECKER_PATH: ".github/pr-title-checker-config.json"
 
-  OPM_VERSION: "4"
+  OPM_VERSION: "4.7"
   OPERATOR-SDK_VERSION: "4"
   DOCKER_BUNDLE_IMAGE_BASE_NAME: entandobuilduser/entando-k8s-operator-bundle
   DOCKER_INDEX_IMAGE_BASE_NAME: entandobuilduser/entando-k8s-index
@@ -82,7 +82,7 @@ jobs:
       - name: Build steps
         env:
           ENTANDO_PRJ_VERSION: ${{ steps.meta-bundle.outputs.version }}
-          ENTANDO_OPT_MAINLINE_VERSION: "7.3"
+          ENTANDO_OPT_MAINLINE_VERSION: "develop"
         run: |
           ./generate-manifests.sh --version "${ENTANDO_PRJ_VERSION}" --mainline "${ENTANDO_OPT_MAINLINE_VERSION}"
 
