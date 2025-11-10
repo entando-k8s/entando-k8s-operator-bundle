@@ -63,12 +63,29 @@ NEW_BUNDLE_BASE_IMAGE="$($OPM_CONTAINER_TOOL inspect --format='{{index .RepoDige
 BUNDLES="${BUNDLES}${NEW_BUNDLE_BASE_IMAGE}"
 echo "$BUNDLES"
 
+INDEX_URL_TEMP="${INDEX_URL}-temp"
+
 opm index add \
   --bundles "${BUNDLES}" \
-  --tag "$INDEX_URL" \
-  --container-tool "$OPM_CONTAINER_TOOL"
+  --tag "$INDEX_URL_TEMP" \
+  --container-tool "$OPM_CONTAINER_TOOL" \
+  --permissive \
+  --mode semver
 
 [ "$?" != 0 ] && { echo "### Error building the operator bundle index" 1>&2; exit 1; }
+
+echo "> Building OpenShift-compatible index image with tag: $INDEX_URL"
+
+# Use Dockerfile.index-fix with dynamic FROM line
+sed "s|^FROM .*|FROM ${INDEX_URL_TEMP}|" Dockerfile.index-fix > Dockerfile.index-openshift.tmp
+
+"$OPM_CONTAINER_TOOL" build -f Dockerfile.index-openshift.tmp -t "$INDEX_URL" .
+
+[ "$?" != 0 ] && { echo "### Error building OpenShift-compatible index" 1>&2; exit 1; }
+
+# Clean up temporary Dockerfile and temp image
+rm -f Dockerfile.index-openshift.tmp
+"$OPM_CONTAINER_TOOL" rmi "$INDEX_URL_TEMP" 2>/dev/null || true
 
 "$OPM_CONTAINER_TOOL" push "$INDEX_URL"
 
