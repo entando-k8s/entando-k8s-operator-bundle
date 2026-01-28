@@ -1,5 +1,5 @@
 bundle:
-  version: 7.3.1-fix.1
+  version: 7.5.0-SNAPSHOT
   olmDisabled: true
   communityOnly: true
   containerRegistry: registry.connect.redhat.com
@@ -32,8 +32,8 @@ operator:
       sha256: d48eacfe8a123aefac60390b5417da1ec5aab0378c21fadb66b567adde01ce61
       version: 6.3.26-fix.1
     entando_component_manager_6_4:
-      sha256: 80df08f8fa3868330d1a3646c63b644539dd3029a626fceb61dd0286ef590389
-      version: 7.3.1-fix.3
+      sha256: 8434d0684908cb832ea78808f04dd7cd861a5c105a409ae88962f88cdda3748b
+      version: 7.5.0-ESB-847-PR424
     entando_de_app_eap_6_3:
       sha256: 8b5657c42b435cb5e22d40b783a5c69afeb63d7c9d14b201ca16fce91f4c06f5
       version: 6.3.68-fix.3-ENG-3332-PR-335
@@ -50,8 +50,8 @@ operator:
       sha256: b14aa4e6b7960611349c76c23652e9aea715231222d6fdcf140c3ed9d4a98839
       version: 7.3.0-fix.3
     entando_k8s_app_controller:
-      sha256: 20097f7ed06e89a4dceb07ce3b16d1c7ee860b514144a7e9cc4f3c217c11f7ef
-      version: 7.3.0-fix.2
+      sha256: 1062d9e9257c0a530670f06d07e7059bf845c5a86da1066705bebc6ec553d5a4
+      version: 7.5.0-ESB-916-PR110
     entando_k8s_app_plugin_link_controller:
       sha256: 24e0030f743b4d295be8edce9b7145fdb06938d91ed74500c3b5d32bd495fd84
       version: 7.3.0-fix.2
@@ -74,11 +74,11 @@ operator:
       sha256: 589693cbd97d24f4eefa9426e20ef4aba700e6af003eceb20eb046846aa0c892
       version: 7.3.0-fix.2
     entando_k8s_plugin_controller:
-      sha256: 4271d41381bf4a0fa6bb5c19ba394087df223e46866969185212bad2677877b2
-      version: 7.3.0-fix.2
+      sha256: 28f5664f47b5ccd5a02ad5c15b187642954fb62170f02fed7dd56a4edd748a2e
+      version: 7.5.0-ESB-916-PR96
     entando_k8s_service:
-      sha256: 0c5f2b6c95f53961ab42af2943d19f67470359280d5b63567ae9ca247c6435e4
-      version: 7.3.0-fix.1
+      sha256: 0ad5f3655e271c5cb32b44f8d0413a1888ecea3cf96ce32bc22cce26baa2fefa
+      version: 7.5.0-ESB-848-PR101
     entando_process_driven_plugin:
       sha256: 18db1afb892393c1dcf7c36e5a4bbd1d6bc60029014094178ce1acb5dd1f68a4
       version: 6.0.50-fix.1
