@@ -20,8 +20,8 @@ operator:
       sha256: 3bc6411823e01931328b4a696b9751750060af51577108bd628981ad71ba54ed
       version: 6.3.93-hotfix.1
     app_builder_6_4:
-      sha256: 882a186744b1ec8d37570f4bddd6a93aaf801a012bd3462f8670f2cf9214fd55
-      version: v7.5.0-ESB-1012-PR-1612-KB-release-2F-7.5
+      sha256: 2fe013e9810ffe176fbb145fe009cfb46a7b3d1a5e34b110cf784f7fc7aa3ba4
+      version: v7.5.0-ESB-1041-PR-1613-BB-release-2F-7.5
     busybox:
       sha256: a1ef5f92be800a97cf5baf89937aafe64bbd285514c4d8fec53f6800f8c4b31f
       version: latest
@@ -47,8 +47,8 @@ operator:
       sha256: dcf5d4e67189e4b810bd78e31953ce4dbe897d442feb2754fec8b29934221269
       version: 7.3.0
     entando_de_app_tomcat_6_4:
-      sha256: 141d10ad98bea401c8d74c39aa8867ad475b526246398d08483e576872425799
-      version: 7.5.0-ESB-1012-PR331
+      sha256: caec4022f9ebcbf2dd83143da137f3ff4d160ab6d3060e6e53067763f264ff20
+      version: 7.5.0-ESB-1041-PR333
     entando_k8s_app_controller:
       sha256: 0d7e3d749f83a8787265122facb538f40dba6bdeda507594984110ddd5d96f28
       version: 7.5.0
