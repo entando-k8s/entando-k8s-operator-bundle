@@ -47,7 +47,7 @@ operator:
       sha256: dcf5d4e67189e4b810bd78e31953ce4dbe897d442feb2754fec8b29934221269
       version: 7.3.0
     entando_de_app_tomcat_6_4:
-      sha256: caec4022f9ebcbf2dd83143da137f3ff4d160ab6d3060e6e53067763f264ff20
+      sha256: 25fc310f23a063d05f8bae2cb1ed7b11acc20e26520407964b2731442a60d3bd
       version: 7.5.0-ESB-1041-PR333
     entando_k8s_app_controller:
       sha256: 0d7e3d749f83a8787265122facb538f40dba6bdeda507594984110ddd5d96f28
