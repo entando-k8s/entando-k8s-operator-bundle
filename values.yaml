@@ -1,5 +1,5 @@
 bundle:
-  version: 7.5.0
+  version: 7.5.1
   olmDisabled: true
   communityOnly: true
   containerRegistry: registry.connect.redhat.com
@@ -47,11 +47,11 @@ operator:
       sha256: dcf5d4e67189e4b810bd78e31953ce4dbe897d442feb2754fec8b29934221269
       version: 7.3.0
     entando_de_app_tomcat_6_4:
-      sha256: 1de22c8c34e82cfa6e07c94a2f73c5a2609e4740079c19eb84b83c26685cb8c1
-      version: 7.5.0
+      sha256: db31516f9498227c162c1f1752a339f2c0bf5d69c02cf696665634e124136e9c
+      version: 7.5.1
     entando_k8s_app_controller:
-      sha256: 0d7e3d749f83a8787265122facb538f40dba6bdeda507594984110ddd5d96f28
-      version: 7.5.0
+      sha256: a8cf09907e80197e421fba5821822f5ebbda98ac8bdfe97222fd89d1a930f928
+      version: 7.5.1
     entando_k8s_app_plugin_link_controller:
       sha256: 160e4a2c32c475ab8f6222a9609de64e0c4ec934154b0a724070b9b52d1d334e
       version: 7.5.0

@@ -34,7 +34,7 @@ function retrieveSha256 {
   esac
 }
 
-export MY_VERSION=$(yq eval '.spec.version' manifests/k8s-116-and-later/community-deployment/entando-k8s-operator.v6.3.x.clusterserviceversion.yaml)
+export MY_VERSION=$(yq -r '.spec.version' manifests/k8s-116-and-later/community-deployment/entando-k8s-operator.v6.3.x.clusterserviceversion.yaml)
 
 echo "> Found version $MY_VERSION"
 [ -z "$REGISTRY" ] && REGISTRY="registry.hub.docker.com"
