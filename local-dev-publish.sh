@@ -34,7 +34,7 @@ function retrieveSha256 {
   esac
 }
 
-export MY_VERSION=$(yq eval '.spec.version' manifests/k8s-116-and-later/community-deployment/entando-k8s-operator.v6.3.x.clusterserviceversion.yaml)
+export MY_VERSION=$(yq -r '.spec.version' manifests/k8s-116-and-later/community-deployment/entando-k8s-operator.v6.3.x.clusterserviceversion.yaml)
 
 echo "> Found version $MY_VERSION"
 [ -z "$REGISTRY" ] && REGISTRY="registry.hub.docker.com"
@@ -46,6 +46,45 @@ echo "> Found version $MY_VERSION"
 #  BUNDLES="${BUNDLES}${REGISTRY}/${REGISTRY_ORG}/entando-k8s-operator-bundle:${V},"
 #done
 
+# ~~~ ALREADY PUBLISHED CHECK ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# MY_VERSION comes from the generated CSV, so forgetting to bump bundle.version in
+# values.yaml republishes a version that is already out there. catalog.yaml and
+# entando-releases pin the index image by digest, so overwriting a released tag
+# leaves the digest customers install from untagged and makes the tag serve
+# different content than what was shipped. Set FORCE=1 to overwrite on purpose.
+
+# 0 = published, 1 = not published, 2 = no tool available to tell
+function isPublished {
+  if command -v crane >/dev/null 2>&1; then
+    crane manifest "$1" >/dev/null 2>&1
+  elif [ "$OPM_CONTAINER_TOOL" = "docker" ]; then
+    docker manifest inspect "$1" >/dev/null 2>&1
+  else
+    return 2
+  fi
+}
+
+if [ "$FORCE" = "1" ]; then
+  echo "> FORCE=1, skipping the already-published check"
+else
+  for IMAGE_NAME in "entando-k8s-operator-bundle" "entando-k8s-index"; do
+    IMAGE="${REGISTRY}/${REGISTRY_ORG}/${IMAGE_NAME}:${MY_VERSION}"
+    isPublished "$IMAGE"
+    case "$?" in
+      0)
+        echo "### $IMAGE is already published" 1>&2
+        echo "### Bump bundle.version in values.yaml, re-run ./generate-manifests.sh," 1>&2
+        echo "### or set FORCE=1 to overwrite it on purpose." 1>&2
+        exit 1
+        ;;
+      2)
+        echo "> WARNING: neither crane nor docker available, cannot check whether" 1>&2
+        echo ">          $MY_VERSION is already published" 1>&2
+        break
+        ;;
+    esac
+  done
+fi
 
 echo "> Build operator bundle image"
 docker build . -f "Dockerfile.community" -t "${REGISTRY}/$REGISTRY_ORG/entando-k8s-operator-bundle:${MY_VERSION}"

@@ -632,6 +632,7 @@ spec:
                 - apps
               resources:
                 - deployments
+                - deployments/scale
               verbs:
                 - '*'
             - apiGroups:
@@ -705,6 +706,7 @@ spec:
                 - apps
               resources:
                 - deployments
+                - deployments/scale
               verbs:
                 - '*'
             - apiGroups:

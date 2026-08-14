@@ -10,6 +10,13 @@
 #This script should ideally be executed when releasing the Entando Operator so that we can ensure that
 #all the different deployments and quickstarts using the Operator use exactly the same combination of image versions
 
+# The order of the resources in the generated files comes from the glob expansion in
+# writeClusterResourceToFile, which is sorted using the collation of the current locale. UTF-8
+# locales ignore the "-" when collating, so entando-crd-viewer-clusterrole.yaml sorts among the
+# CRDs instead of before them, and the output differs from machine to machine. Force the C
+# collation so every run - laptop or CI - produces byte-identical manifests.
+export LC_ALL=C
+
 mkdir -p tmp
 
 echo "> Extracting the contoller coordinator from ./values.yaml"

@@ -1,0 +1,17 @@
+# The repository root IS the helm chart root (see ./Chart.yaml), so anything a
+# build step drops here is loaded as a chart file. Helm refuses to load a chart
+# directory containing a file larger than 5MB.
+
+# CLI archives downloaded into the repo root by .ent/enp-prereq.sh
+*.tar.gz
+opm
+operator-sdk*
+
+# Build scratch: tmp/ holds the cloned controller-coordinator, out/ the rendered
+# templates. Neither is part of the chart.
+tmp/
+out/
+
+# NOTE: do not add *.tgz here. charts/ holds the controller-coordinator subchart
+# fetched by `helm dep update`; ignoring it silently drops the operator
+# Deployment from the generated manifests instead of failing.
