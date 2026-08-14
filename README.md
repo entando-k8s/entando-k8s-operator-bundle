@@ -79,6 +79,15 @@ Reads the version from the CSV generated in step 2, pushes
 `entandobuilduser/entando-k8s-operator-bundle:<version>` and `entandobuilduser/entando-k8s-index:<version>`,
 and writes `./tmp/catalog-source.yaml` with the index image pinned by digest.
 
+The script refuses to run when either tag is already published — overwriting a released tag leaves the digest
+recorded in `catalog.yaml` and `entando-releases` untagged, and makes the tag serve content that was never
+shipped under that version. If the version is already out there, bump `bundle.version` and go back to step 2.
+To overwrite deliberately:
+
+```bash
+FORCE=1 OPM_CONTAINER_TOOL=docker ./local-dev-publish.sh
+```
+
 Override the target when testing:
 
 ```bash
