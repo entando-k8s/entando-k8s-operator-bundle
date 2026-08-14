@@ -11,6 +11,8 @@
 .mtj.tmp/
 tmp/
 out/
+# controller-coordinator subchart fetched by `helm dep update`
+/charts/
 
 # Package Files #
 *.jar

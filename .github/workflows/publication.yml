@@ -1,162 +1,109 @@
 name: PUB
 
+# Release verification - this workflow builds and pushes NOTHING.
+#
+# The bundle and index images are built and pushed from the release engineer's
+# machine (./generate-manifests.sh then ./local-dev-publish.sh) because
+# catalog.yaml has to record the index image digest BEFORE the tag is created,
+# and because the index image is not reproducible: rebuilding it here would
+# publish a different digest under the same tag than the one shipped to
+# customers in catalog.yaml and entando-releases/manifest.
+#
+# So the tag is where the release is frozen and verified, not produced.
+
 on:
   push:
     tags:
       - 'v*'
 
 env:
-  PPL_TEMPLATE_VERSION: "v2.0.0"
-  ENTANDO_BOT_TOKEN: ${{ secrets.ENTANDO_BOT_TOKEN }}
-  PR_CHECKER_PATH: ".github/pr-title-checker-config.json"
-
-  OPM_VERSION: "4"
-  OPERATOR-SDK_VERSION: "4"
-  DOCKER_BUNDLE_IMAGE_BASE_NAME: entandobuilduser/entando-k8s-operator-bundle
-  DOCKER_INDEX_IMAGE_BASE_NAME: entandobuilduser/entando-k8s-index
-  DOCKER_IMAGE_ARCHITECTURE: linux/amd64,linux/arm64
-  DOCKER_IMAGE_CONTEXT: .
-  DOCKER_BUNDLE_IMAGE_FILE: Dockerfile.community
-  DOCKER_INDEX_IMAGE_FILE: index.Dockerfile
-  DOCKER_IMAGE_PUSH: true
+  # Keep aligned with the helm version used to generate the committed manifests.
+  HELM_VERSION: "v3.19.0"
+  MAINLINE_VERSION: "7.5"
 
 jobs:
-
-  check-pr:
+  verify-release:
     runs-on: ubuntu-latest
     steps:
-      - uses: thehanimo/pr-title-checker@v1.3.7
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          pass_on_octokit_error: false
-          configuration_path: ${{ env.PR_CHECKER_PATH }}
-
-  publication:
-    runs-on: ubuntu-latest
-
-    steps:
-
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Install CLI tools
-        uses: redhat-actions/openshift-tools-installer@v1
+      - name: Install helm
+        uses: azure/setup-helm@v4
         with:
-          opm: ${{ env.OPM_VERSION }}
-          operator-sdk: ${{ env.OPERATOR-SDK_VERSION }}
+          version: ${{ env.HELM_VERSION }}
 
-      - name: Docker meta bundle
-        id: meta-bundle
-        uses: docker/metadata-action@v4
-        with:
-          images: |
-            ${{ env.DOCKER_BUNDLE_IMAGE_BASE_NAME }}
-          tags: |
-            type=schedule
-            type=ref,event=branch
-            type=ref,event=pr,value={{base_ref}}
-            type=ref,event=tag
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=semver,pattern={{major}}
-            type=sha
-            type=raw,event=pr,value={{base_ref}}
-
-      - name: Docker meta index
-        id: meta-index
-        uses: docker/metadata-action@v4
-        with:
-          images: |
-            ${{ env.DOCKER_INDEX_IMAGE_BASE_NAME }}
-          tags: |
-            type=schedule
-            type=ref,event=branch
-            type=ref,event=pr,value={{base_ref}}
-            type=ref,event=tag
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=semver,pattern={{major}}
-            type=sha
-            type=raw,event=pr,value={{base_ref}}
-
-      - name: Build steps
-        env:
-          ENTANDO_PRJ_VERSION: ${{ steps.meta-bundle.outputs.version }}
-          ENTANDO_OPT_MAINLINE_VERSION: "7.3"
+      - name: Resolve the version from the tag
         run: |
-          ./generate-manifests.sh --version "${ENTANDO_PRJ_VERSION}" --mainline "${ENTANDO_OPT_MAINLINE_VERSION}"
+          VERSION="${GITHUB_REF_NAME#v}"
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+          echo "> Verifying release $VERSION"
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+      - name: Regenerate the manifests at the tagged commit
+        run: ./generate-manifests.sh --version "$VERSION" --mainline "$MAINLINE_VERSION"
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-        with:
-          platforms: ${{ env.DOCKER_IMAGE_ARCHITECTURE }}
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.ENTANDO_OPT_DOCKER_USERNAME }}
-          password: ${{ secrets.ENTANDO_OPT_DOCKER_PASSWORD }}
-
-      - name: Build and push operator bundle image
-        id: build-and-push-bundle
-        uses: docker/build-push-action@v4
-        with:
-          context: ${{ env.DOCKER_IMAGE_CONTEXT }}
-          file: ${{ env.DOCKER_BUNDLE_IMAGE_FILE }}
-          push: ${{ env.DOCKER_IMAGE_PUSH }}
-          tags: ${{ steps.meta-bundle.outputs.tags }}
-          labels: ${{ steps.meta-bundle.outputs.labels }}
-          platforms: ${{ env.DOCKER_IMAGE_ARCHITECTURE }}
-
-      - name: Bundle validation
-        env:
-          TAGS: ${{ steps.meta.outputs.tags }}
+      - name: Verify the tagged tree matches the generator output
         run: |
-          for tag in $TAGS; do
-            operator-sdk bundle validate "$tag"
-          done
+          # a diff in values.yaml means bundle.version does not match the tag;
+          # a diff in manifests/ means the committed manifests are stale
+          if ! git diff --exit-code -- manifests/ values.yaml requirements.yaml; then
+            echo "::error::The tree tagged $GITHUB_REF_NAME is not what generate-manifests.sh produces. entando-releases clones this tag and would ship these files as-is."
+            exit 1
+          fi
 
-      - name: Build Dockerfile for operator index image
-        env:
-          DIGEST: ${{ steps.build-and-push-bundle.outputs.digest }}
+      - name: Verify catalog.yaml
         run: |
-          export MY_VERSION=$(yq eval '.spec.version' manifests/k8s-116-and-later/community-deployment/entando-k8s-operator.v6.3.x.clusterserviceversion.yaml)
-          echo "> Found version $MY_VERSION"
-          NEW_BUNDLE_BASE_IMAGE="${BUNDLES}registry.hub.docker.com/${DOCKER_BUNDLE_IMAGE_BASE_NAME}"
-          NEW_BUNDLE_BASE_IMAGE="${NEW_BUNDLE_BASE_IMAGE}@${DIGEST}"
-          BUNDLES="${BUNDLES}${NEW_BUNDLE_BASE_IMAGE}"
-          opm index add --bundles "${BUNDLES}" --container-tool docker --binary-image quay.io/operator-framework/opm:latest --generate
+          IMAGE="$(sed -nE 's/^[[:space:]]*image:[[:space:]]*(.*)$/\1/p' catalog.yaml | head -1)"
+          echo "> catalog.yaml index image: $IMAGE"
+          case "$IMAGE" in
+            *@sha256:*) ;;
+            *) echo "::error::catalog.yaml must pin the index image by digest, found: $IMAGE"; exit 1 ;;
+          esac
+          echo "CATALOG_IMAGE=$IMAGE" >> "$GITHUB_ENV"
 
-      - name: Build and push operator index image
-        id: build-and-push-index
-        uses: docker/build-push-action@v4
-        with:
-          context: ${{ env.DOCKER_IMAGE_CONTEXT }}
-          file: ${{ env.DOCKER_INDEX_IMAGE_FILE }}
-          push: ${{ env.DOCKER_IMAGE_PUSH }}
-          tags: ${{ steps.meta-index.outputs.tags }}
-          labels: ${{ steps.meta-index.outputs.labels }}
-          platforms: ${{ env.DOCKER_IMAGE_ARCHITECTURE }}
+          # the naming convention only applies to clean release tags
+          if [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            EXPECTED_NAME="entando-catalog-${VERSION//./-}"
+            ACTUAL_NAME="$(sed -nE 's/^[[:space:]]*name:[[:space:]]*(.*)$/\1/p' catalog.yaml | head -1)"
+            if [ "$ACTUAL_NAME" != "$EXPECTED_NAME" ]; then
+              echo "::error::catalog.yaml CatalogSource is named \"$ACTUAL_NAME\", expected \"$EXPECTED_NAME\" for tag $GITHUB_REF_NAME"
+              exit 1
+            fi
+          else
+            echo "::notice::pre-release tag, skipping the catalog.yaml naming check"
+          fi
 
-      - name: Installing crane
+      - name: Install crane
         uses: imjasonh/setup-crane@v0.1
 
-      - name: Output catalog yaml file
-        env:
-          VERSION: ${{ steps.meta-index.outputs.version }}
+      - name: Verify the pinned index image is pullable
         run: |
-          mkdir -p tmp
-          echo "> Generating catalog source under ./tmp/catalog-source.yaml"
-          NAME="$(echo "$VERSION" | tr '[:upper:]' '[:lower:]')"
-          NAME="$(echo "entando-catalog-${NAME}" | sed 's/\./-/g')"
-          DIGEST="$(crane digest ${DOCKER_INDEX_IMAGE_BASE_NAME}:${VERSION})"
-          echo "This is the digest: ${DIGEST}"
-          cat "./plain-templates/misc/catalog-source.yaml" \
-            | sed "s/{{NAME}}/${NAME}/" \
-            | sed "s/{{DISPLAY-NAME}}/Entando Catalog ${VERSION}/" \
-            | sed "s|{{IMAGE}}|registry.hub.docker.com/${DOCKER_INDEX_IMAGE_BASE_NAME}@${DIGEST}|" \
-            > ./tmp/catalog-source.yaml
-          cat ./tmp/catalog-source.yaml
+          crane manifest "$CATALOG_IMAGE" > /dev/null || {
+            echo "::error::The index image pinned in catalog.yaml cannot be pulled: $CATALOG_IMAGE - was local-dev-publish.sh run before tagging?"
+            exit 1
+          }
+
+      - name: Release summary
+        run: |
+          {
+            echo "### Release $VERSION verified"
+            echo ""
+            echo "| check | result |"
+            echo "|---|---|"
+            echo "| tagged tree vs generate-manifests.sh | identical |"
+            echo "| catalog.yaml | digest-pinned, name matches tag |"
+            echo "| index image | pullable |"
+            echo ""
+            echo "Values for \`entando-releases/manifest\`:"
+            echo ""
+            echo '```sh'
+            echo "OPERATOR_BUNDLE_VERSION=\"$GITHUB_REF_NAME\""
+            echo "OKD_CATALOG_IMAGE=\"$CATALOG_IMAGE\""
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload the catalog source
+        uses: actions/upload-artifact@v4
+        with:
+          name: catalog-source-${{ env.VERSION }}
+          path: catalog.yaml

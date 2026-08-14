@@ -1,0 +1,56 @@
+name: MANIFESTS-CHECK
+
+# Guards the invariant that entando-releases depends on: the committed
+# manifests/ must be exactly what generate-manifests.sh produces from the
+# values.yaml in the same commit. entando-releases clones this repo at a tag and
+# copies manifests/k8s-116-and-later/ straight out of the working tree, so a
+# stale commit here ships stale deployment specs downstream.
+#
+# This job never commits anything - it only fails the PR when the two diverge.
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+    branches:
+      - develop
+      - release/*
+
+env:
+  # Keep aligned with the helm version used to generate the committed manifests,
+  # otherwise formatting differences show up as false positives.
+  HELM_VERSION: "v3.19.0"
+  MAINLINE_VERSION: "7.5"
+
+jobs:
+  manifests-are-current:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install helm
+        uses: azure/setup-helm@v4
+        with:
+          version: ${{ env.HELM_VERSION }}
+
+      - name: Regenerate the manifests from values.yaml
+        run: ./generate-manifests.sh --mainline "$MAINLINE_VERSION"
+
+      - name: Verify the committed manifests match the generated ones
+        run: |
+          if ! git diff --exit-code -- manifests/ values.yaml requirements.yaml; then
+            {
+              echo "### Manifests are out of date"
+              echo ""
+              echo 'The committed `manifests/` are not what `generate-manifests.sh` produces'
+              echo 'from the `values.yaml` in this branch (diff above).'
+              echo ""
+              echo 'Fix: run `./generate-manifests.sh` locally and commit the result.'
+            } >> "$GITHUB_STEP_SUMMARY"
+            echo "::error::Committed manifests do not match generate-manifests.sh output"
+            exit 1
+          fi
+          echo "Committed manifests are up to date." >> "$GITHUB_STEP_SUMMARY"
