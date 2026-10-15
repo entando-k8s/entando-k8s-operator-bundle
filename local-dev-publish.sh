@@ -104,9 +104,15 @@ echo "$BUNDLES"
 
 INDEX_URL_TEMP="${INDEX_URL}-temp"
 
+# opm >= 1.19 defaults to quay.io/operator-framework/opm:latest, which is distroless (no /bin/sh),
+# so the RUN step in Dockerfile.index-fix fails on it. Pin the Alpine-based image that opm <= 1.18
+# used by default, which every published index image so far has been built on.
+OPM_BINARY_IMAGE="quay.io/operator-framework/upstream-opm-builder:latest"
+
 opm index add \
   --bundles "${BUNDLES}" \
   --tag "$INDEX_URL_TEMP" \
+  --binary-image "$OPM_BINARY_IMAGE" \
   --container-tool "$OPM_CONTAINER_TOOL" \
   --permissive \
   --mode semver
