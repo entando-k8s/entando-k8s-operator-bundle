@@ -21,7 +21,7 @@ on:
 env:
   # Keep aligned with the helm version used to generate the committed manifests,
   # otherwise formatting differences show up as false positives.
-  HELM_VERSION: "v3.19.0"
+  HELM_VERSION: "v4.2.2"
   MAINLINE_VERSION: "7.5"
 
 jobs:
