@@ -1,5 +1,5 @@
 bundle:
-  version: 7.5.3-test
+  version: 7.5.3
   olmDisabled: true
   communityOnly: true
   containerRegistry: registry.connect.redhat.com
@@ -47,8 +47,8 @@ operator:
       sha256: dcf5d4e67189e4b810bd78e31953ce4dbe897d442feb2754fec8b29934221269
       version: 7.3.0
     entando_de_app_tomcat_6_4:
-      sha256: 59317bfccb79b8981331a4d5f685f155272c33c2f7384cf157ffc536f61bbda4
-      version: 7.5.3-ESB-1293-PR377
+      sha256: 82e9f7cdd8644b95a5a398816fba2ac1c7f8778694a8dcbbc73d079db2668f62
+      version: 7.5.3
     entando_k8s_app_controller:
       sha256: 2a5b553344286148ccd48c516be3ce33bcfcd0fc6181d13f32d813665e105e4b
       version: 7.5.2
@@ -83,10 +83,10 @@ operator:
       sha256: 18db1afb892393c1dcf7c36e5a4bbd1d6bc60029014094178ce1acb5dd1f68a4
       version: 6.0.50-fix.1
     entando_keycloak:
-      sha256: 2b9a92954c3ab497745d8521836359663561b0a47fb63d3ec50041574d104f53
+      sha256: 25118ce3dd0cfc4d88d82198db67aa6a04d42d1e0a92e4cccb539e13e45cd82c
       version: 7.5.1
     entando_redhat_sso:
-      sha256: 1db93b4b5b916072b7a7bde6ec9f1d65aae4c1fddee426f24eb45905cb05858a
+      sha256: 017718d47a07125ffa84118232c7124b45bd006a7d0a5c857b26bc6c31c85f71
       version: 7.5.1
     mysql_80_centos7:
       sha256: e9d8cbd7b5bbf2982b5167e1a45866d2348a00d98dbeb2effeaf5d26179e4685
