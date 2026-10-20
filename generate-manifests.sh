@@ -94,13 +94,29 @@ if [ "${CONTROLLER_COORDINATOR_VERSION:0:1}" == 'v' ]; then
   CONTROLLER_COORDINATOR_VERSION="${CONTROLLER_COORDINATOR_VERSION:1}"
 fi
 
-HELM_MAJOR_VERSION="$(helm version | sed -E 's/.*:"v+([0-9]*).*/\1/')"
+HELM_MAJOR_VERSION="$(helm version | grep -oE ':"v[0-9]+' | head -1 | cut -c4-)"
 
 if [ -n "$BUNDLE_VERSION_OVERRIDE" ]; then
   cp values.yaml tmp/
   cat tmp/values.yaml | sed -E 's/^  version: ([0-9A-Za-z.]*).*/  version: '$BUNDLE_VERSION_OVERRIDE'/' > values.yaml
   cat "values.yaml"
 fi
+
+# Helm 4 keeps the trailing newline of each rendered template while Helm 3 trimmed it, so Helm 4
+# leaves a blank line before every "---" and at the end of the output. Drop those blank lines so
+# that Helm 3 and Helm 4 produce byte-identical manifests (Helm 3 output passes through unchanged).
+_strip_blank_before_separator() {
+  awk '/^$/ { blank++; next }
+       /^---$/ { blank = 0 }
+       { while (blank > 0) { print ""; blank-- } print }'
+}
+
+_strip_blank_before_separator_in_files() {
+  local f
+  for f in "$@"; do
+    _strip_blank_before_separator < "$f" > "$f.tmp" && mv "$f.tmp" "$f"
+  done
+}
 
 case "$HELM_MAJOR_VERSION" in
   2)
@@ -110,9 +126,9 @@ case "$HELM_MAJOR_VERSION" in
         exit 9
       }
     };;
-  3)
+  3|4)
     _helm_template() {
-      helm template "$@" || {
+      (set -o pipefail; helm template "$@" | _strip_blank_before_separator) || {
         echo "<!> Error detected during during helm template <!>"
         exit 9
       }
@@ -245,6 +261,8 @@ mkdir out
 pwd
 
 _helm_template entando --set bundle.containerRegistry=registry.hub.docker.com,bundle.communityOnly=true,bundle.olmDisabled=false ./ --output-dir=out
+_strip_blank_before_separator_in_files ./out/entando-k8s-operator-bundle/templates/*.yaml
 mv -f ./out/entando-k8s-operator-bundle/templates/*.yaml ./manifests/k8s-116-and-later/community-deployment/
 _helm_template entando --set bundle.containerRegistry=registry.hub.docker.com,bundle.communityOnly=false,bundle.olmDisabled=false ./ --output-dir=out
+_strip_blank_before_separator_in_files ./out/entando-k8s-operator-bundle/templates/*.yaml
 mv -f ./out/entando-k8s-operator-bundle/templates/*.yaml ./manifests/k8s-116-and-later/rh-cert-deployment/
