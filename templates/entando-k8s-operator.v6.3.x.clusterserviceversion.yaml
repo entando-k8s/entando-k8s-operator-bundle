@@ -608,10 +608,16 @@ spec:
             - apiGroups:
                 - ''
               resources:
-                - pods/exec
                 - pods/log
               verbs:
                 - get
+            - apiGroups:
+                - ''
+              resources:
+                - pods/exec
+              verbs:
+                - get
+                - create
             - apiGroups:
                 - ''
               resources:
@@ -686,10 +692,16 @@ spec:
             - apiGroups:
                 - ''
               resources:
-                - pods/exec
                 - pods/log
               verbs:
                 - get
+            - apiGroups:
+                - ''
+              resources:
+                - pods/exec
+              verbs:
+                - get
+                - create
             - apiGroups:
                 - ''
               resources:
